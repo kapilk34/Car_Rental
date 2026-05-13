@@ -30,7 +30,7 @@ const Layout = () => {
   if (isLoading || !token || !user || !isOwner) {
     return (
         <div className="flex justify-center items-center h-screen w-full">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-orange-500"></div>
         </div>
     )
   }

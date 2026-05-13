@@ -40,7 +40,7 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-50 w-full border-b border-gray-200 backdrop-blur-lg transition-all duration-300 ${
+      className={`sticky top-0 z-50 w-full border-b border-orange-100 backdrop-blur-lg transition-all duration-300 ${
         location.pathname === "/"
           ? "bg-white/80"
           : "bg-white/90 shadow-sm"
@@ -51,7 +51,7 @@ const NavBar = () => {
           <img src="https://gvu57hqxi3.ufs.sh/f/FOd38ztMu1UwdyMcIgZp70jYMIdGQuW8qnyl5fzmKCVhtATS" className="h-14 w-auto" alt="DriveSphere Logo"/>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-gray-900">
-              Drive<span className="text-blue-800">Sphere</span>
+              Drive<span className="text-orange-600">Sphere</span>
             </h1>
           </div>
         </Link>
@@ -62,23 +62,23 @@ const NavBar = () => {
             <Link
               key={index}
               to={link.path}
-              className={`relative text-[15px] font-medium transition-all duration-300 hover:text-blue-600 ${
+              className={`relative text-[15px] font-medium transition-all duration-300 hover:text-orange-600 ${
                 location.pathname === link.path
-                  ? "text-blue-600"
+                  ? "text-orange-600"
                   : "text-gray-700"
               }`}
             >
               {link.name}
 
               {location.pathname === link.path && (
-                <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-blue-600 rounded-full"></span>
+                <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-orange-600 rounded-full"></span>
               )}
             </Link>
           ))}
         </div>
 
         <div className="hidden lg:flex items-center gap-5">
-          <div className="flex items-center gap-3 px-4 py-2 bg-gray-100 border border-gray-200 rounded-full w-64 focus-within:border-blue-500 focus-within:bg-white transition-all">
+          <div className="flex items-center gap-3 px-4 py-2 bg-gray-100 border border-gray-200 rounded-full w-64 focus-within:border-orange-500 focus-within:bg-white transition-all">
             <img
               src={assets.search_icon}
               alt="search"
@@ -97,7 +97,7 @@ const NavBar = () => {
               onClick={() =>
                 isOwner ? navigate("/owner") : changeRole()
               }
-              className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-all"
+              className="text-sm font-medium text-gray-700 hover:text-orange-600 transition-all"
             >
               {isOwner ? "Dashboard" : "List Cars"}
             </button>
@@ -107,7 +107,7 @@ const NavBar = () => {
             onClick={() => {
               user ? logout() : setShowLogin(true);
             }}
-            className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+            className="px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300"
           >
             {user ? "Logout" : "Login"}
           </button>
@@ -154,7 +154,7 @@ const NavBar = () => {
                 onClick={() => setOpen(false)}
                 className={`text-lg font-medium transition-all ${
                   location.pathname === link.path
-                    ? "text-blue-600"
+                    ? "text-orange-600"
                     : "text-gray-700"
                 }`}
               >
@@ -169,7 +169,7 @@ const NavBar = () => {
               onClick={() =>
                 isOwner ? navigate("/owner") : changeRole()
               }
-              className="w-full py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:border-blue-600 hover:text-blue-600 transition-all"
+              className="w-full py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:border-orange-600 hover:text-orange-600 transition-all"
             >
               {isOwner ? "Go to Dashboard" : "List Your Cars"}
             </button>
@@ -180,7 +180,7 @@ const NavBar = () => {
             onClick={() => {
               user ? logout() : setShowLogin(true);
             }}
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all"
+            className="w-full py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-semibold transition-all"
           >
             {user ? "Logout" : "Login"}
           </button>

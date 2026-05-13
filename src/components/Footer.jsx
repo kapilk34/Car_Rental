@@ -9,13 +9,13 @@ const Footer = () => {
           
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-semibold mb-4 border-b-2 border-red-600 inline-block pb-1">CarRent Pro</h3>
+            <h3 className="text-2xl font-semibold mb-4 border-b-2 border-orange-500 inline-block pb-1">CarRent Pro</h3>
             <p className="text-sm text-gray-300 mb-4">
               Your trusted partner for premium car rentals at affordable prices.
             </p>
             <div className="flex space-x-4">
               {[FaFacebook, FaTwitter, FaInstagram, FaLinkedin].map((Icon, i) => (
-                <a key={i} href="#" aria-label="social link" className="hover:text-red-500 transition duration-300">
+                <a key={i} href="#" aria-label="social link" className="hover:text-orange-500 transition duration-300">
                   <Icon size={20} />
                 </a>
               ))}
@@ -24,11 +24,11 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 border-b-2 border-red-600 inline-block pb-1">Quick Links</h3>
+            <h3 className="text-xl font-semibold mb-4 border-b-2 border-orange-500 inline-block pb-1">Quick Links</h3>
             <ul className="space-y-2 text-sm text-gray-300">
               {["Home", "Vehicles", "About Us", "FAQ", "Contact"].map((text, i) => (
                 <li key={i}>
-                  <a href="#" className="hover:text-red-500 transition duration-300">{text}</a>
+                  <a href="#" className="hover:text-orange-500 transition duration-300">{text}</a>
                 </li>
               ))}
             </ul>
@@ -36,11 +36,11 @@ const Footer = () => {
 
           {/* Rental Info */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 border-b-2 border-red-600 inline-block pb-1">Rentals</h3>
+            <h3 className="text-xl font-semibold mb-4 border-b-2 border-orange-500 inline-block pb-1">Rentals</h3>
             <ul className="space-y-2 text-sm text-gray-300">
               {["Book a Car", "Special Offers", "Locations", "Terms & Conditions", "Privacy Policy"].map((text, i) => (
                 <li key={i}>
-                  <a href="#" className="hover:text-red-500 transition duration-300">{text}</a>
+                  <a href="#" className="hover:text-orange-500 transition duration-300">{text}</a>
                 </li>
               ))}
             </ul>
@@ -48,7 +48,7 @@ const Footer = () => {
 
           {/* Contact + Newsletter */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 border-b-2 border-red-600 inline-block pb-1">Contact Us</h3>
+            <h3 className="text-xl font-semibold mb-4 border-b-2 border-orange-500 inline-block pb-1">Contact Us</h3>
             <ul className="text-sm text-gray-300 space-y-2 mb-5">
               <li><span className="mr-2">📞</span> +1 (123) 456-7890</li>
               <li><span className="mr-2">✉️</span> contact@carrentpro.com</li>
@@ -60,11 +60,11 @@ const Footer = () => {
                 <input
                   type="email"
                   placeholder="Your Email"
-                  className="w-full px-3 py-2 rounded-l bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full px-3 py-2 rounded-l bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 <button
                   type="submit"
-                  className="bg-red-600 hover:bg-red-700 text-sm px-4 py-2 rounded-r text-white transition duration-300"
+                  className="bg-orange-600 hover:bg-orange-700 text-sm px-4 py-2 rounded-r text-white transition duration-300"
                 >
                   Subscribe
                 </button>

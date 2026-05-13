@@ -40,7 +40,7 @@ const RunningStackCards = () => {
     <div className="w-full overflow-hidden py-16 bg-gradient-to-b from-white to-gray-100">
       {/* Heading */}
       <div className="text-center mb-12">
-        <p className="text-blue-800 font-semibold uppercase tracking-[4px]">
+        <p className="text-orange-600 font-semibold uppercase tracking-[4px]\">
           Premium Brands
         </p>
 

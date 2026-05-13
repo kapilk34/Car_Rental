@@ -99,7 +99,7 @@ const Login = () => {
                 Full Name
               </label>
 
-              <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-100 transition-all">
+              <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-100 transition-all">
                 <User size={18} className="text-gray-400" />
 
                 <input
@@ -120,7 +120,7 @@ const Login = () => {
               Email Address
             </label>
 
-            <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-100 transition-all">
+            <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-100 transition-all">
               <Mail size={18} className="text-gray-400" />
 
               <input
@@ -140,7 +140,7 @@ const Login = () => {
               Password
             </label>
 
-            <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-100 transition-all">
+            <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-100 transition-all">
               <Lock size={18} className="text-gray-400" />
 
               <input
@@ -159,7 +159,7 @@ const Login = () => {
             <div className="flex justify-end mb-6">
               <button
                 type="button"
-                className="text-sm text-blue-600 hover:text-blue-800 transition font-medium"
+                className="text-sm text-orange-600 hover:text-orange-800 transition font-medium"
               >
                 Forgot Password?
               </button>
@@ -169,7 +169,7 @@ const Login = () => {
           {/* Main Button */}
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-sm shadow-lg hover:scale-[1.02] hover:shadow-blue-200 transition-all duration-300"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-sm shadow-lg hover:scale-[1.02] hover:shadow-orange-200 transition-all duration-300"
           >
             {state === "register" ? "Create Account" : "Login"}
           </button>
@@ -210,7 +210,7 @@ const Login = () => {
               onClick={() =>
                 setState(state === "login" ? "register" : "login")
               }
-              className="ml-2 text-blue-600 font-semibold cursor-pointer hover:text-blue-800 transition"
+              className="ml-2 text-orange-600 font-semibold cursor-pointer hover:text-orange-800 transition"
             >
               {state === "login" ? "Sign Up" : "Login"}
             </span>

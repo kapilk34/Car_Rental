@@ -3,7 +3,7 @@ import { assets } from '../assets/assets'
 
 const Banner = () => {
   return (
-    <div className='relative flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-8 md:py-12 bg-gradient-to-r from-[#05558F] to-[#0A9CFF] rounded-2xl overflow-hidden shadow-lg max-w-7xl mx-auto'>
+    <div className='relative flex flex-col md:flex-row items-center justify-between px-6 md:px-12 py-8 md:py-12 bg-gradient-to-r from-orange-500 to-orange-400 rounded-2xl overflow-hidden shadow-lg max-w-7xl mx-auto'>
       {/* Content */}
       <div className='text-white z-10 md:w-1/2 mb-8 md:mb-0'>
         <h2 className='text-3xl md:text-4xl font-bold mb-4'>Own a Luxury Car?</h2>

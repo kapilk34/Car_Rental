@@ -21,19 +21,19 @@ const FeaturedSection = () => {
     }
 
     return (
-        <div ref={sectionRef} className='relative overflow-hidden py-24 px-4 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-br from-slate-50 via-white to-blue-50/30'>
+        <div ref={sectionRef} className='relative overflow-hidden py-24 px-4 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-br from-slate-50 via-white to-orange-50/30'>
 
             {/* Animated Background Elements */}
-            <div className='absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-3xl opacity-20 animate-pulse'></div>
-            <div className='absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-indigo-400 to-pink-400 rounded-full blur-3xl opacity-20 animate-pulse delay-1000'></div>
-            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-3xl opacity-10'></div>
+            <div className='absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-full blur-3xl opacity-20 animate-pulse'></div>
+            <div className='absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-orange-300 to-red-400 rounded-full blur-3xl opacity-20 animate-pulse delay-1000'></div>
+            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-orange-400 to-orange-500 rounded-full blur-3xl opacity-10'></div>
             
             {/* Floating particles effect */}
             <div className='absolute inset-0 overflow-hidden pointer-events-none'>
                 {[...Array(20)].map((_, i) => (
                     <div
                         key={i}
-                        className='absolute bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full opacity-20 animate-float'
+                        className='absolute bg-gradient-to-r from-orange-400 to-orange-300 rounded-full opacity-20 animate-float'
                         style={{
                             width: `${Math.random() * 6 + 2}px`,
                             height: `${Math.random() * 6 + 2}px`,
@@ -60,27 +60,27 @@ const FeaturedSection = () => {
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 w-full'>
                     {[
                         {
-                            bgGradient: "from-blue-500 to-cyan-500",
+                            bgGradient: "from-orange-500 to-orange-400",
                             title: "Luxury Cars",
                             description: "Drive premium luxury vehicles with modern comfort, advanced technology, and stylish interiors.",
-                            color: "blue"
+                            color: "orange"
                         },
                         {
-                            bgGradient: "from-indigo-500 to-purple-500",
+                            bgGradient: "from-orange-600 to-orange-500",
                             title: "Multiple Locations",
                             description: "Pick up and drop off your car conveniently from multiple locations across the city.",
-                            color: "indigo"
+                            color: "orange"
                         },
                         {
-                            bgGradient: "from-purple-500 to-pink-500",
+                            bgGradient: "from-orange-400 to-yellow-500",
                             title: "Safe & Secure",
                             description: "Enjoy fully insured rides with professional support and secure booking experience.",
-                            color: "purple"
+                            color: "orange"
                         }
                     ].map((feature, idx) => (
                         <div
                             key={idx}
-                            className='group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-blue-200 cursor-pointer overflow-hidden'
+                            className='group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-orange-200 cursor-pointer overflow-hidden'
                         >
                             {/* Animated gradient border */}
                             <div className={`absolute inset-0 bg-gradient-to-r ${feature.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`} />

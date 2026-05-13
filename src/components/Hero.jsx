@@ -1,39 +1,99 @@
-import React from 'react';
-import { useState } from 'react';
-import { assets, cityList } from '../assets/assets';
+import React from "react";
+import { FaArrowRight, FaPlayCircle } from "react-icons/fa";
 
-const Hero = () => {
-  const [pickUpLocation, setPickUpLocation] = useState('');
-  const [pickupDate, setPickupDate] = useState('');
-  const [returnDate, setReturnDate] = useState('');
-  const today = new Date().toISOString().split('T')[0];
-  
+const HelloSection = () => {
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center gap-12 bg-gradient-to-b from-gray-50 to-gray-100 text-center px-4 py-12 relative overflow-hidden'>
-      {/* Decorative elements */}
-      <div className='absolute -top-20 -right-20 w-64 h-64 rounded-full bg-blue-100 opacity-20 blur-3xl'></div>
-      <div className='absolute bottom-0 left-0 w-80 h-80 rounded-full bg-blue-200 opacity-10 blur-3xl'></div>
-      
-      <div className='space-y-4 max-w-3xl relative z-10'>
-        <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900'>
-          <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800'>
-            Luxury Cars
-          </span> on Rent
-        </h1>
-        <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-          Experience premium comfort and style with our exclusive collection of luxury vehicles
-        </p>
-      </div>
+    <section className="w-full bg-white py-20 px-6 md:px-14 overflow-hidden">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
+        
+        {/* Left Content */}
+        <div className="space-y-8">
+          
+          {/* Small Badge */}
+          <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-semibold">
+            🚗 Premium Car Rental Experience
+          </div>
 
-      <div className='mt-8 w-full max-w-4xl flex justify-center relative z-10'>
-        <img 
-          src={assets.main_car} 
-          alt='luxury car' 
-          className='max-h-96 object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105' 
-        />
-      </div>
-    </div>
-  )
-}
+          {/* Heading */}
+          <h1 className="text-5xl md:text-6xl font-black leading-tight text-gray-900">
+            Hello,
+            <br />
+            Ready To Drive Your
+            <span className="text-orange-500"> Dream Car?</span>
+          </h1>
 
-export default Hero;
+          {/* Description */}
+          <p className="text-gray-600 text-lg leading-relaxed max-w-xl">
+            Rent luxury, sports, and everyday cars with ease. 
+            Fast booking, affordable pricing, and premium comfort 
+            for every journey you take.
+          </p>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-5">
+            <button className="group bg-orange-500 hover:bg-orange-600 text-white px-7 py-4 rounded-2xl font-semibold flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-orange-300">
+              Explore Cars
+              <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
+            </button>
+
+            <button className="flex items-center gap-3 text-gray-800 font-semibold hover:text-orange-500 transition-all">
+              <FaPlayCircle className="text-3xl" />
+              Watch Video
+            </button>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-6 pt-8">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">500+</h2>
+              <p className="text-gray-500 mt-1">Cars Available</p>
+            </div>
+
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">20k+</h2>
+              <p className="text-gray-500 mt-1">Happy Clients</p>
+            </div>
+
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">120+</h2>
+              <p className="text-gray-500 mt-1">Pickup Locations</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Image Section */}
+        <div className="relative flex items-center justify-center">
+          
+          {/* Background Glow */}
+          <div className="absolute w-[450px] h-[450px] bg-orange-100 rounded-full blur-3xl opacity-60"></div>
+
+          {/* Car Card */}
+          <div className="relative bg-gradient-to-br from-orange-50 to-white border border-orange-100 rounded-[40px] p-8 shadow-2xl backdrop-blur-md">
+            
+            <img
+              src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1400&auto=format&fit=crop"
+              alt="Luxury Car"
+              className="w-full max-w-xl object-cover rounded-3xl"
+            />
+
+            {/* Floating Card */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-2xl px-6 py-4 flex items-center gap-5 border border-gray-100">
+              <div>
+                <p className="text-gray-500 text-sm">Starting From</p>
+                <h3 className="text-2xl font-bold text-orange-500">
+                  ₹2,499/day
+                </h3>
+              </div>
+
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold transition-all">
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HelloSection;
