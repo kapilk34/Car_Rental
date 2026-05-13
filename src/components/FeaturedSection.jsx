@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import Title from './Title'
 import { assets } from '../assets/assets'
 import CarCard from './CarCard'
@@ -9,129 +9,240 @@ const FeaturedSection = () => {
     const navigate = useNavigate()
     const { cars, fetchCars } = useAppContext()
     const sectionRef = useRef(null)
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+    const [isHovering, setIsHovering] = useState(false)
 
     useEffect(() => {
         fetchCars()
     }, [])
 
-    // Smooth scroll to cars section
     const scrollToCars = () => {
         navigate('/cars')
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
-    return (
-        <div ref={sectionRef} className='relative overflow-hidden py-24 px-4 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-br from-slate-50 via-white to-orange-50/30'>
+    const handleMouseMove = useCallback((e, cardRef) => {
+        if (!cardRef.current) return
+        const rect = cardRef.current.getBoundingClientRect()
+        const x = ((e.clientX - rect.left) / rect.width) * 100
+        const y = ((e.clientY - rect.top) / rect.height) * 100
+        cardRef.current.style.setProperty('--mouse-x', `${x}%`)
+        cardRef.current.style.setProperty('--mouse-y', `${y}%`)
+    }, [])
 
-            {/* Animated Background Elements */}
-            <div className='absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-full blur-3xl opacity-20 animate-pulse'></div>
-            <div className='absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-orange-300 to-red-400 rounded-full blur-3xl opacity-20 animate-pulse delay-1000'></div>
-            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-orange-400 to-orange-500 rounded-full blur-3xl opacity-10'></div>
-            
-            {/* Floating particles effect */}
+    const handleSectionMouseMove = useCallback((e) => {
+        if (!sectionRef.current) return
+        const rect = sectionRef.current.getBoundingClientRect()
+        setMousePosition({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        })
+    }, [])
+
+    const features = [
+        {
+            icon: (
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+            ),
+            title: "Luxury Fleet",
+            description: "Premium vehicles with cutting-edge technology, plush interiors, and unparalleled comfort for the discerning traveler.",
+            gradient: "from-orange-500 via-amber-500 to-yellow-500",
+            accent: "orange"
+        },
+        {
+            icon: (
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            ),
+            title: "Global Network",
+            description: "Seamless pick-up and drop-off across 500+ locations worldwide with real-time availability and instant booking.",
+            gradient: "from-orange-600 via-amber-500 to-yellow-400",
+            accent: "amber"
+        },
+        {
+            icon: (
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+            ),
+            title: "Concierge Security",
+            description: "Fully insured rides with 24/7 premium support, encrypted payments, and white-glove service standards.",
+            gradient: "from-amber-500 via-orange-500 to-red-400",
+            accent: "orange"
+        }
+    ]
+
+    return (
+        <div 
+            ref={sectionRef}
+            onMouseMove={handleSectionMouseMove}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            className='relative overflow-hidden w-full min-h-screen py-32 px-4 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-br from-slate-50 via-white to-orange-50/40'
+        >
+            {/* Ambient cursor-following glow - light mode */}
+            <div 
+                className='pointer-events-none absolute w-[600px] h-[600px] rounded-full blur-[120px] transition-opacity duration-700'
+                style={{
+                    background: 'radial-gradient(circle, rgba(251,146,60,0.15) 0%, rgba(234,88,12,0.05) 50%, transparent 70%)',
+                    left: mousePosition.x - 300,
+                    top: mousePosition.y - 300,
+                    opacity: isHovering ? 0.3 : 0
+                }}
+            />
+
+            {/* Soft Background Orbs - light mode */}
+            <div className='absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-gradient-to-br from-orange-300/30 to-amber-200/20 rounded-full blur-[100px] animate-pulse' />
+            <div className='absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-gradient-to-tl from-orange-200/20 to-amber-300/15 rounded-full blur-[120px] animate-pulse delay-1000' />
+            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-orange-100/30 to-amber-100/20 rounded-full blur-[150px]' />
+
+            {/* Floating particles - light mode */}
             <div className='absolute inset-0 overflow-hidden pointer-events-none'>
-                {[...Array(20)].map((_, i) => (
+                {[...Array(30)].map((_, i) => (
                     <div
                         key={i}
-                        className='absolute bg-gradient-to-r from-orange-400 to-orange-300 rounded-full opacity-20 animate-float'
+                        className='absolute rounded-full opacity-40'
                         style={{
-                            width: `${Math.random() * 6 + 2}px`,
-                            height: `${Math.random() * 6 + 2}px`,
+                            width: `${Math.random() * 4 + 2}px`,
+                            height: `${Math.random() * 4 + 2}px`,
                             top: `${Math.random() * 100}%`,
                             left: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 5}s`,
-                            animationDuration: `${Math.random() * 10 + 5}s`
+                            background: `radial-gradient(circle, rgba(251,146,60,${Math.random() * 0.4 + 0.3}) 0%, transparent 70%)`,
+                            animationDelay: `${Math.random() * 8}s`,
+                            animationDuration: `${Math.random() * 15 + 10}s`,
+                            animation: `float ${Math.random() * 15 + 10}s ease-in-out infinite, pulse ${Math.random() * 4 + 3}s ease-in-out infinite`
                         }}
                     />
                 ))}
             </div>
 
-            {/* Top Section */}
-            <div className='flex flex-col items-center text-center relative z-10 max-w-7xl mx-auto'>
-                <div className='max-w-4xl'>
+            {/* Content Container */}
+            <div className='relative z-10 max-w-7xl mx-auto w-full'>
+                
+                {/* Header */}
+                <div className='flex flex-col items-center text-center mb-24'>
+                    <div className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-200/50 backdrop-blur-sm mb-8 hover:bg-orange-100/50 transition-all duration-500 cursor-default group'>
+                        <span className='w-2 h-2 rounded-full bg-orange-500 animate-pulse' />
+                        <span className='text-sm font-medium text-orange-600 tracking-wide uppercase group-hover:text-orange-700 transition-colors'>
+                            Premium Collection
+                        </span>
+                    </div>
+                    
                     <Title
                         title="Featured Cars"
                         subtitle="Explore our exclusive selection of luxury and premium vehicles designed for comfort, elegance, and unforgettable journeys."
                         align="center"
+                        className="max-w-4xl"
                     />
+                    
+                    <div className='mt-8 w-24 h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent' />
                 </div>
 
-                {/* Feature Cards with Enhanced Design */}
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 w-full'>
-                    {[
-                        {
-                            bgGradient: "from-orange-500 to-orange-400",
-                            title: "Luxury Cars",
-                            description: "Drive premium luxury vehicles with modern comfort, advanced technology, and stylish interiors.",
-                            color: "orange"
-                        },
-                        {
-                            bgGradient: "from-orange-600 to-orange-500",
-                            title: "Multiple Locations",
-                            description: "Pick up and drop off your car conveniently from multiple locations across the city.",
-                            color: "orange"
-                        },
-                        {
-                            bgGradient: "from-orange-400 to-yellow-500",
-                            title: "Safe & Secure",
-                            description: "Enjoy fully insured rides with professional support and secure booking experience.",
-                            color: "orange"
-                        }
-                    ].map((feature, idx) => (
-                        <div
-                            key={idx}
-                            className='group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-orange-200 cursor-pointer overflow-hidden'
-                        >
-                            {/* Animated gradient border */}
-                            <div className={`absolute inset-0 bg-gradient-to-r ${feature.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`} />
-                            
-                            <div className='relative z-10'>
-                                <h3 className='text-2xl font-bold text-gray-800 mb-3 group-hover:text-white transition-colors duration-300'>
-                                    {feature.title}
-                                </h3>
+                {/* Premium Feature Cards - Light Mode */}
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 w-full'>
+                    {features.map((feature, idx) => {
+                        const cardRef = useRef(null)
+                        
+                        return (
+                            <div
+                                key={idx}
+                                ref={cardRef}
+                                onMouseMove={(e) => handleMouseMove(e, cardRef)}
+                                className='group relative'
+                                style={{ perspective: '1000px' }}
+                            >
+                                <div 
+                                    className='relative h-full rounded-3xl border border-gray-200/60 bg-white/80 backdrop-blur-xl p-8 lg:p-10 overflow-hidden transition-all duration-500 hover:border-orange-300/50 hover:bg-white hover:shadow-[0_8px_40px_rgba(251,146,60,0.12)] hover:-translate-y-2'
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        transition: 'transform 0.1s ease-out, box-shadow 0.5s ease, border-color 0.5s ease, background-color 0.5s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-8px) rotateX(5deg) rotateY(-5deg)'
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0) rotateX(0) rotateY(0)'
+                                    }}
+                                >
+                                    {/* Cursor-reactive spotlight overlay */}
+                                    <div 
+                                        className='pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500'
+                                        style={{
+                                            background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(251,146,60,0.08), transparent 40%)`
+                                        }}
+                                    />
 
-                                <p className='text-gray-600 leading-relaxed group-hover:text-white/90 transition-colors duration-300'>
-                                    {feature.description}
-                                </p>
+                                    {/* Gradient border glow on hover */}
+                                    <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.06] transition-opacity duration-700 blur-xl`} />
+
+                                    {/* Content */}
+                                    <div className='relative z-10'>
+                                        {/* Icon */}
+                                        <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-md`}>
+                                            <div className='text-white drop-shadow-sm'>
+                                                {feature.icon}
+                                            </div>
+                                        </div>
+
+                                        <h3 className='text-2xl lg:text-3xl font-bold text-gray-800 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-600 group-hover:to-amber-600 transition-all duration-500'>
+                                            {feature.title}
+                                        </h3>
+
+                                        <p className='text-gray-500 leading-relaxed group-hover:text-gray-600 transition-colors duration-500'>
+                                            {feature.description}
+                                        </p>
+
+                                        {/* Animated arrow */}
+                                        <div className='mt-8 flex items-center gap-2 text-orange-500 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500'>
+                                            <span className='text-sm font-medium'>Learn more</span>
+                                            <svg className='w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    {/* Corner accent */}
+                                    <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.05] transition-opacity duration-700 rounded-bl-full`} />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
+                </div>
+
+                {/* CTA Section */}
+                <div className='mt-24 text-center'>
+                    <button
+                        onClick={scrollToCars}
+                        className='group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold text-lg shadow-[0_4px_20px_rgba(251,146,60,0.3)] hover:shadow-[0_8px_40px_rgba(251,146,60,0.4)] hover:scale-105 active:scale-95 transition-all duration-500 overflow-hidden'
+                    >
+                        <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000' />
+                        
+                        <span className='relative z-10'>Explore All Vehicles</span>
+                        <svg className='relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </button>
+                    
+                    <p className='mt-4 text-sm text-gray-400'>
+                        Browse 200+ premium vehicles available for instant booking
+                    </p>
                 </div>
             </div>
-            
-            {/* Add custom animations */}
+
             <style jsx>{`
-                @keyframes fade-in-up {
-                    from {
-                        opacity: 0;
-                        transform: translateY(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                
                 @keyframes float {
-                    0%, 100% {
-                        transform: translateY(0px);
-                    }
-                    50% {
-                        transform: translateY(-20px);
-                    }
+                    0%, 100% { transform: translateY(0px) translateX(0px); }
+                    25% { transform: translateY(-20px) translateX(10px); }
+                    50% { transform: translateY(-10px) translateX(-10px); }
+                    75% { transform: translateY(-30px) translateX(5px); }
                 }
-                
-                .animate-fade-in-up {
-                    animation: fade-in-up 0.6s ease-out forwards;
-                    opacity: 0;
-                }
-                
-                .animate-float {
-                    animation: float 3s ease-in-out infinite;
-                }
-                
-                .delay-1000 {
-                    animation-delay: 1s;
+                @keyframes pulse {
+                    0%, 100% { opacity: 0.3; }
+                    50% { opacity: 0.6; }
                 }
             `}</style>
         </div>

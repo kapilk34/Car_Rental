@@ -73,7 +73,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright & Payments */}
         <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
           <p>© {new Date().getFullYear()} CarRent Pro. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
