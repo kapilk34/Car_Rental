@@ -1,10 +1,14 @@
 import React from 'react'
 import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
+import { Heart } from 'lucide-react'
+import { useAppContext } from '../context/AppContext'
 
 const CarCard = ({ car }) => {
     const currency = import.meta.env.VITE_CURRENCY
     const navigate = useNavigate();
+    const { wishlist, toggleWishlist } = useAppContext();
+    const isWishlisted = wishlist.includes(car._id);
 
 
     return (
@@ -12,11 +16,23 @@ const CarCard = ({ car }) => {
             <div className='relative h-48 overflow-hidden'>
                 <img src={car.image} alt='Car Image' className='w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105'/>
 
-                {car.isAvailable && (
+                {(car.isAvailable || car.isAvaliable) && (
                     <p className='absolute top-4 left-4 bg-primary/90 text-white text-xs px-2.5 py-1 rounded-full'>
                         Available Now
                     </p>
                 )}
+
+                <button
+                    type='button'
+                    aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        toggleWishlist(car._id);
+                    }}
+                    className='absolute top-4 right-4 h-9 w-9 rounded-full bg-white/90 text-primary shadow flex items-center justify-center hover:bg-white transition'
+                >
+                    <Heart size={18} fill={isWishlisted ? 'currentColor' : 'none'} />
+                </button>
 
                 <div className='absolute bottom-4 right-4 bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg'>
                     <span className='font-semibold'>

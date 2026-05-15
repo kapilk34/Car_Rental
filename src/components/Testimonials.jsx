@@ -72,10 +72,10 @@ const App = () => {
                 }
             `}</style>
 
-            <div className="bg-gray-100 py-8">
+            <div className="bg-gray-100 py-6">
                 <div className="marquee-row w-full mx-auto max-w-7xl overflow-hidden relative">
                     <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent"></div>
-                    <div className="marquee-inner flex min-w-[200%] pt-10 pb-5">
+                    <div className="marquee-inner flex min-w-[200%] pt-6 pb-4">
                         {[...cardsData, ...cardsData].map((card, index) => (
                             <CreateCard key={`top-${index}`} card={card} />
                         ))}
@@ -83,9 +83,9 @@ const App = () => {
                     <div className="absolute right-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent"></div>
                 </div>
 
-                <div className="marquee-row w-full mx-auto max-w-7xl overflow-hidden relative mt-10">
+                <div className="marquee-row w-full mx-auto max-w-7xl overflow-hidden relative mt-5">
                     <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent"></div>
-                    <div className="marquee-inner marquee-reverse flex min-w-[200%] pt-10 pb-5">
+                    <div className="marquee-inner marquee-reverse flex min-w-[200%] pt-6 pb-4">
                         {[...cardsData, ...cardsData].map((card, index) => (
                             <CreateCard key={`bottom-${index}`} card={card} />
                         ))}

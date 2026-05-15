@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Title from "../components/Title";
-import CarCard from "../components/CarCard"; // ✅ Import the component
+import CarCard from "../components/CarCard";
 import { assets } from "../assets/assets";
 import { useAppContext } from '../context/AppContext';
 
@@ -18,8 +18,9 @@ const Cars = () => {
       setFilteredCars(cars);
     } else {
       const filtered = cars.filter(car =>
-        car.make.toLowerCase().includes(input.toLowerCase()) ||
-        car.model.toLowerCase().includes(input.toLowerCase())
+        car.brand?.toLowerCase().includes(input.toLowerCase()) ||
+        car.model?.toLowerCase().includes(input.toLowerCase()) ||
+        car.category?.toLowerCase().includes(input.toLowerCase())
       );
       setFilteredCars(filtered);
     }

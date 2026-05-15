@@ -19,6 +19,7 @@ export const AppProvider = ({ children }) => {
   const [pickUpDate, setPickUpDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
   const [cars, setCars] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   // Function to check the user is logged in
   const fetchUser = async () => {
@@ -28,15 +29,18 @@ export const AppProvider = ({ children }) => {
       if (data.success) {
         setUser(data.user);
         setIsOwner(data.user.role === 'owner');
+        return data.user;
       } else {
         setUser(null);
         setIsOwner(false);
         navigate('/');
+        return null;
       }
     } catch (error) {
       setUser(null);
       setIsOwner(false);
       toast.error(error.message);
+      return null;
     } finally {
       setIsLoading(false);
     }
@@ -69,6 +73,24 @@ export const AppProvider = ({ children }) => {
     navigate('/');
   };
 
+  const toggleWishlist = (carId) => {
+    if (!user) {
+      setShowLogin(true);
+      toast.error('Please login to manage your wishlist');
+      return;
+    }
+
+    setWishlist((current) => {
+      const next = current.includes(carId)
+        ? current.filter((id) => id !== carId)
+        : [...current, carId];
+
+      localStorage.setItem(`wishlist-${user._id}`, JSON.stringify(next));
+      toast.success(current.includes(carId) ? 'Removed from wishlist' : 'Added to wishlist');
+      return next;
+    });
+  };
+
   // useEffect to retrieve the token from localStorage
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -88,6 +110,15 @@ export const AppProvider = ({ children }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (user?._id) {
+      const savedWishlist = JSON.parse(localStorage.getItem(`wishlist-${user._id}`) || '[]');
+      setWishlist(savedWishlist);
+    } else {
+      setWishlist([]);
+    }
+  }, [user?._id]);
+
   const value = {
     navigate,
     currency,
@@ -106,6 +137,8 @@ export const AppProvider = ({ children }) => {
     fetchCars,
     cars,
     setCars,
+    wishlist,
+    toggleWishlist,
     pickUpDate,
     setPickUpDate,
     returnDate,

@@ -37,9 +37,9 @@ const carBrands = [
 
 const RunningStackCards = () => {
   return (
-    <div className="w-full overflow-hidden py-16 bg-gradient-to-b from-white to-gray-100">
+    <div className="w-full overflow-hidden py-10 md:py-12 bg-gradient-to-b from-white to-gray-100">
       {/* Heading */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <p className="text-orange-600 font-semibold uppercase tracking-[4px]\">
           Premium Brands
         </p>
@@ -57,7 +57,7 @@ const RunningStackCards = () => {
               key={index}
               className="group min-w-[220px] h-[140px] bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-lg transition-all duration-500 flex flex-col items-center justify-center"
             >
-              <div className="w-20 h-20 flex items-center justify-center">
+                <div className="w-16 h-16 flex items-center justify-center">
                 <img
                   src={brand.logo}
                   alt={brand.name}
@@ -65,7 +65,7 @@ const RunningStackCards = () => {
                 />
               </div>
 
-              <p className="mt-4 text-lg font-semibold text-gray-700">
+              <p className="mt-3 text-lg font-semibold text-gray-700">
                 {brand.name}
               </p>
             </div>

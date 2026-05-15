@@ -12,7 +12,6 @@ const Layout = () => {
   useEffect(() => {
     if (isLoading) return;
 
-    // Check if user is authenticated and is an owner
     if (!token || !user) {
       toast.error('Please login first')
       navigate('/')
@@ -26,7 +25,6 @@ const Layout = () => {
     }
   }, [token, isOwner, navigate, user, isLoading])
 
-  // Show loading or prevent rendering until auth check is complete
   if (isLoading || !token || !user || !isOwner) {
     return (
         <div className="flex justify-center items-center h-screen w-full">

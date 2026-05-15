@@ -3,16 +3,43 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import Loader from '../components/Loader'
 import { useAppContext } from '../context/AppContext'
+import toast from 'react-hot-toast'
+import { Heart } from 'lucide-react'
 
 const CarDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [car, setCar] = useState(null)
-  const { cars, fetchCars } = useAppContext()
+  const [pickupDate, setPickupDate] = useState('')
+  const [returnDate, setReturnDate] = useState('')
+  const { axios, cars, fetchCars, token, setShowLogin, wishlist, toggleWishlist } = useAppContext()
   const currency = import.meta.env.VITE_CURRENCY
+  const isWishlisted = wishlist.includes(id)
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
+    if (!token) {
+      setShowLogin(true)
+      toast.error('Please login to book a car')
+      return
+    }
+
+    try {
+      const { data } = await axios.post('/api/bookings/create', {
+        car: id,
+        pickupDate,
+        returnDate,
+      })
+
+      if (data.success) {
+        toast.success(data.message || 'Booking created successfully')
+        navigate('/dashboard')
+      } else {
+        toast.error(data.message || 'Unable to create booking')
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Unable to create booking')
+    }
   }
 
   useEffect(() => {
@@ -51,6 +78,15 @@ const CarDetails = () => {
               <h1 className='text-3xl font-bold'>{car.brand} {car.model}</h1>
               <p className='text-gray-500 text-lg'>{car.category} • {car.year}</p>
             </div>
+
+            <button
+              type='button'
+              onClick={() => toggleWishlist(car._id)}
+              className='inline-flex items-center gap-2 rounded-lg border border-borderColor px-4 py-2 text-sm font-medium text-gray-700 hover:border-primary hover:text-primary transition'
+            >
+              <Heart size={18} fill={isWishlisted ? 'currentColor' : 'none'} />
+              {isWishlisted ? 'Saved to Wishlist' : 'Add to Wishlist'}
+            </button>
 
             <hr className='border-borderColor my-6' />
 
@@ -107,12 +143,12 @@ const CarDetails = () => {
 
           <div className='flex flex-col gap-2'>
             <label htmlFor='pickup-date'>Pickup Date</label>
-            <input type="date" className='border border-borderColor px-3 py-2 rounded-lg' required id='pickup-date' min={new Date().toISOString().split('T')[0]}/>
+            <input value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} type="date" className='border border-borderColor px-3 py-2 rounded-lg' required id='pickup-date' min={new Date().toISOString().split('T')[0]}/>
           </div>
 
           <div className='flex flex-col gap-2'>
             <label htmlFor='return-date'>Return Date</label>
-            <input type="date" className='border border-borderColor px-3 py-2 rounded-lg' required id='return-date'/>
+            <input value={returnDate} onChange={(e) => setReturnDate(e.target.value)} type="date" className='border border-borderColor px-3 py-2 rounded-lg' required id='return-date' min={pickupDate || new Date().toISOString().split('T')[0]}/>
           </div>
 
           <button className="w-full bg-primary hover:bg-primary-dark transition-all py-3 font-medium text-white rounded-xl cursor-pointer">Book Now</button>

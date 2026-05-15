@@ -66,7 +66,7 @@ const FeaturedSection = () => {
             onMouseMove={handleSectionMouseMove}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            className='relative overflow-hidden w-full py-28 px-1 md:px-8 lg:px-16 xl:px-20 bg-gradient-to-br from-slate-50 via-white to-orange-50/40'
+            className='relative overflow-hidden w-full py-14 md:py-16 px-1 md:px-8 lg:px-16 xl:px-20 bg-gradient-to-br from-slate-50 via-white to-orange-50/40'
         >
             {/* Ambient cursor-following glow - light mode */}
             <div 
@@ -116,7 +116,7 @@ const FeaturedSection = () => {
                         className="max-w-4xl"
                     />
                     
-                    <div className='mt-8 w-24 h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent' />
+                    <div className='mt-5 w-24 h-px bg-gradient-to-r from-transparent via-orange-400/50 to-transparent' />
                 </div>
 
                 {/* Premium Feature Cards - Light Mode */}
@@ -184,7 +184,7 @@ const FeaturedSection = () => {
                 </div>
 
                 {/* CTA Section */}
-                <div className='mt-24 text-center'>
+                <div className='mt-10 text-center'>
                     <button
                         onClick={scrollToCars}
                         className='group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold text-lg shadow-[0_4px_20px_rgba(251,146,60,0.3)] hover:shadow-[0_8px_40px_rgba(251,146,60,0.4)] hover:scale-105 active:scale-95 transition-all duration-500 overflow-hidden'

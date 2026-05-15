@@ -207,7 +207,6 @@ const AddCar = () => {
           type="submit"
           className="flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary text-white rounded-md font-medium w-max cursor-pointer"
         >
-          <FiCheck className="text-lg" />
           List Your Car
         </button>
       </form>

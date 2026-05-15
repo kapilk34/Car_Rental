@@ -93,7 +93,7 @@ const Dashboard = () => {
         <>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <Title
-              title="User Dashboard"
+              title="Admin Dashboard"
               subTitle="Track bookings, cars, revenue, and customer activities in real-time."
             />
 

@@ -3,7 +3,7 @@ import { FaArrowRight, FaPlayCircle } from "react-icons/fa";
 
 const HelloSection = () => {
   return (
-    <section className="w-full bg-white py-20 px-6 md:px-14 overflow-hidden">
+    <section className="w-full bg-white py-12 md:py-16 px-6 md:px-14 overflow-hidden">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
         
         {/* Left Content */}
@@ -43,7 +43,7 @@ const HelloSection = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-6 pt-8">
+          <div className="grid grid-cols-3 gap-6 pt-4">
             <div>
               <h2 className="text-3xl font-bold text-gray-900">500+</h2>
               <p className="text-gray-500 mt-1">Cars Available</p>

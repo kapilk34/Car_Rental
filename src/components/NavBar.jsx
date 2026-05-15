@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { assets, menuLinks } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
-import toast from "react-hot-toast";
 
 const NavBar = () => {
   const {
@@ -10,33 +9,12 @@ const NavBar = () => {
     user,
     logout,
     isOwner,
-    axios,
-    setIsOwner,
-    fetchUser,
   } = useAppContext();
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-
-  const changeRole = async () => {
-    try {
-      const { data } = await axios.post("api/owner/change-role");
-
-      if (data.success) {
-        setIsOwner(true);
-        await fetchUser();
-
-        toast.success(data.message);
-        navigate("/owner");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
 
   return (
     <nav
@@ -95,11 +73,11 @@ const NavBar = () => {
           {user && (
             <button
               onClick={() =>
-                isOwner ? navigate("/owner") : changeRole()
+                navigate(isOwner ? "/owner" : "/dashboard")
               }
               className="text-sm font-medium text-gray-700 hover:text-orange-600 transition-all"
             >
-              {isOwner ? "Dashboard" : "List Cars"}
+              Dashboard
             </button>
           )}
 
@@ -167,11 +145,11 @@ const NavBar = () => {
           {user && (
             <button
               onClick={() =>
-                isOwner ? navigate("/owner") : changeRole()
+                navigate(isOwner ? "/owner" : "/dashboard")
               }
               className="w-full py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:border-orange-600 hover:text-orange-600 transition-all"
             >
-              {isOwner ? "Go to Dashboard" : "List Your Cars"}
+              Go to Dashboard
             </button>
           )}
 

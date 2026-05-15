@@ -31,9 +31,9 @@ const Login = () => {
         axios.defaults.headers.common["Authorization"] = data.token;
         localStorage.setItem("token", data.token);
         setToken(data.token);
-        await fetchUser();
+        const loggedInUser = await fetchUser();
         toast.success(data.message || "Logged in successfully!");
-        navigate("/");
+        navigate(loggedInUser?.role === "owner" ? "/owner" : "/dashboard");
         setShowLogin(false);
       } else {
         toast.error(data.message || "Something went wrong!");

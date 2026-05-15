@@ -15,11 +15,10 @@ const Sidebar = () => {
   const handleImageChange = (file) => {
     if (file) {
       setImage(file);
-      setPreview(URL.createObjectURL(file)); // temporary preview
+      setPreview(URL.createObjectURL(file)); 
     }
   };
 
-  // 🔹 FIX: make this async
   const updateImage = async () => {
     try {
       const formData = new FormData();
@@ -30,7 +29,7 @@ const Sidebar = () => {
       if (data.success) {
         fetchUser();
         toast.success(data.message);
-        setImage(null); // clear image after upload
+        setImage(null);
       } else {
         toast.error(data.message);
       }
