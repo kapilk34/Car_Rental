@@ -91,10 +91,9 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <Title
-              title="Admin Dashboard"
+              title="User Dashboard"
               subTitle="Track bookings, cars, revenue, and customer activities in real-time."
             />
 
@@ -109,9 +108,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
-
             {DashboardCards.map((card, index) => (
               <div
                 key={index}
@@ -145,10 +142,7 @@ const Dashboard = () => {
 
           {/* Main Section */}
           <div className="grid lg:grid-cols-3 gap-6 mt-8">
-
-            {/* Recent Bookings */}
             <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h1 className="text-xl font-semibold text-gray-800">
@@ -219,17 +213,14 @@ const Dashboard = () => {
 
             {/* Revenue Card */}
             <div className="bg-gradient-to-br from-primary to-orange-500 rounded-3xl p-8 text-white shadow-lg">
-
               <p className="text-sm opacity-80">
                 Current Month Revenue
               </p>
-
               <h1 className="text-5xl font-bold mt-4">
                 {currency}{data.monthlyRevenue}
               </h1>
 
               <div className="mt-8 space-y-3">
-
                 <div className="flex items-center justify-between">
                   <p className="text-sm opacity-80">
                     Total Bookings
