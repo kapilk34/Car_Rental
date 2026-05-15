@@ -28,22 +28,11 @@ const Login = () => {
       );
 
       if (data.success) {
-        // Set authorization header FIRST before any state changes
         axios.defaults.headers.common["Authorization"] = data.token;
-        
-        // Save token to localStorage
         localStorage.setItem("token", data.token);
-        
-        // Update token state
         setToken(data.token);
-        
-        // Fetch user data before navigation to ensure dashboard button appears
         await fetchUser();
-        
-        // Show success message
         toast.success(data.message || "Logged in successfully!");
-        
-        // Navigate to home and close login modal
         navigate("/");
         setShowLogin(false);
       } else {
@@ -60,8 +49,6 @@ const Login = () => {
   // Google Login
   const handleGoogleLogin = () => {
     toast.success("Google Login Coming Soon 🚀");
-
-    // Future Google Auth Logic Here
   };
 
   return (

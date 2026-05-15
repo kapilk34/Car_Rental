@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import Title from "../../components/owners/Title"
-
-// ✅ Using react-icons instead of png files
 import { FiUpload, FiCheck } from "react-icons/fi"
 
 const AddCar = () => {
