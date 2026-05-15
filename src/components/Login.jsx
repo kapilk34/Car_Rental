@@ -12,8 +12,6 @@ const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const API_BASE = "http://localhost:5000/api";
-
   // Login / Register
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -25,21 +23,27 @@ const Login = () => {
           : { email, password };
 
       const { data } = await axios.post(
-        `${API_BASE}/user/${state}`,
+        `/api/user/${state}`,
         payload
       );
 
       if (data.success) {
-        setToken(data.token);
-
+        // Set authorization header FIRST before any state changes
         axios.defaults.headers.common["Authorization"] = data.token;
-
+        
+        // Save token to localStorage
         localStorage.setItem("token", data.token);
-
+        
+        // Update token state
+        setToken(data.token);
+        
+        // Fetch user data before navigation to ensure dashboard button appears
         await fetchUser();
-
+        
+        // Show success message
         toast.success(data.message || "Logged in successfully!");
-
+        
+        // Navigate to home and close login modal
         navigate("/");
         setShowLogin(false);
       } else {

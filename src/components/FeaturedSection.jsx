@@ -41,34 +41,18 @@ const FeaturedSection = () => {
 
     const features = [
         {
-            icon: (
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                </svg>
-            ),
             title: "Luxury Fleet",
             description: "Premium vehicles with cutting-edge technology, plush interiors, and unparalleled comfort for the discerning traveler.",
             gradient: "from-orange-500 via-amber-500 to-yellow-500",
             accent: "orange"
         },
         {
-            icon: (
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-            ),
             title: "Global Network",
             description: "Seamless pick-up and drop-off across 500+ locations worldwide with real-time availability and instant booking.",
             gradient: "from-orange-600 via-amber-500 to-yellow-400",
             accent: "amber"
         },
         {
-            icon: (
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-            ),
             title: "Concierge Security",
             description: "Fully insured rides with 24/7 premium support, encrypted payments, and white-glove service standards.",
             gradient: "from-amber-500 via-orange-500 to-red-400",
@@ -82,7 +66,7 @@ const FeaturedSection = () => {
             onMouseMove={handleSectionMouseMove}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            className='relative overflow-hidden w-full min-h-screen py-32 px-4 md:px-8 lg:px-16 xl:px-24 bg-gradient-to-br from-slate-50 via-white to-orange-50/40'
+            className='relative overflow-hidden w-full py-28 px-1 md:px-8 lg:px-16 xl:px-20 bg-gradient-to-br from-slate-50 via-white to-orange-50/40'
         >
             {/* Ambient cursor-following glow - light mode */}
             <div 
@@ -124,14 +108,7 @@ const FeaturedSection = () => {
             <div className='relative z-10 max-w-7xl mx-auto w-full'>
                 
                 {/* Header */}
-                <div className='flex flex-col items-center text-center mb-24'>
-                    <div className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-200/50 backdrop-blur-sm mb-8 hover:bg-orange-100/50 transition-all duration-500 cursor-default group'>
-                        <span className='w-2 h-2 rounded-full bg-orange-500 animate-pulse' />
-                        <span className='text-sm font-medium text-orange-600 tracking-wide uppercase group-hover:text-orange-700 transition-colors'>
-                            Premium Collection
-                        </span>
-                    </div>
-                    
+                <div className='flex flex-col items-center text-center mb-8'>
                     <Title
                         title="Featured Cars"
                         subtitle="Explore our exclusive selection of luxury and premium vehicles designed for comfort, elegance, and unforgettable journeys."
@@ -181,13 +158,6 @@ const FeaturedSection = () => {
 
                                     {/* Content */}
                                     <div className='relative z-10'>
-                                        {/* Icon */}
-                                        <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-md`}>
-                                            <div className='text-white drop-shadow-sm'>
-                                                {feature.icon}
-                                            </div>
-                                        </div>
-
                                         <h3 className='text-2xl lg:text-3xl font-bold text-gray-800 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-600 group-hover:to-amber-600 transition-all duration-500'>
                                             {feature.title}
                                         </h3>
