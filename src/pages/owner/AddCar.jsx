@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import Title from "../../components/owners/Title"
 import { FiUpload, FiCheck } from "react-icons/fi"
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const AddCar = () => {
   const currency = import.meta.env.VITE_CURRENCY
 
   const [image, setImage] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [car, setCar] = useState({
     brand: '',
     model: '',
@@ -21,9 +24,44 @@ const AddCar = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
-    console.log("Car details submitted:", car)
-    console.log("Car image:", image)
-    // TODO: Add API call to backend here
+    
+    if (!image) {
+      toast.error("Please upload a car image")
+      return
+    }
+
+    try {
+      setLoading(true)
+      const formData = new FormData()
+      formData.append('image', image)
+      formData.append('carData', JSON.stringify(car))
+
+      const { data } = await axios.post('api/owner/add-car', formData)
+
+      if (data.success) {
+        toast.success('Car added successfully!')
+        setImage(null)
+        setCar({
+          brand: '',
+          model: '',
+          year: '',
+          pricePerDay: 0,
+          category: '',
+          transmission: '',
+          fuel_type: '',
+          seating_capacity: 0,
+          location: '',
+          description: '',
+        })
+      } else {
+        toast.error(data.message || 'Failed to add car')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      toast.error(error.response?.data?.message || 'Error adding car')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -205,9 +243,11 @@ const AddCar = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary text-white rounded-md font-medium w-max cursor-pointer"
+          disabled={loading}
+          className="flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary text-white rounded-md font-medium w-max cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          List Your Car
+          {loading ? 'Adding Car...' : 'List Your Car'}
+          {!loading && <FiCheck />}
         </button>
       </form>
     </div>

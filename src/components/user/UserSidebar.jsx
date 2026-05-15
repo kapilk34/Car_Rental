@@ -19,7 +19,7 @@ const UserSidebar = () => {
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-borderColor bg-white px-4 py-5 md:flex md:flex-col">
       <button onClick={() => navigate('/')} className="flex items-center gap-3 text-left">
-        <img src={assets.logo} alt="DriveSphere" className="h-10 w-10" />
+        <img src="https://gvu57hqxi3.ufs.sh/f/FOd38ztMu1UwdyMcIgZp70jYMIdGQuW8qnyl5fzmKCVhtATS" alt="DriveSphere" className="h-10 w-10" />
         <div>
           <p className="text-lg font-bold text-gray-900">
             Drive<span className="text-primary">Sphere</span>
