@@ -5,12 +5,14 @@ import UserMobileNav from '../../components/user/UserMobileNav';
 
 const UserLayout = () => {
   return (
-    <div className="min-h-screen bg-light">
-      <div className="flex min-h-screen">
+    <div className="h-screen overflow-hidden bg-light flex flex-col">
+      <div className="flex flex-1 overflow-hidden">
         <UserSidebar />
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 overflow-y-auto">
           <UserMobileNav />
-          <Outlet />
+          <div className="p-4 md:p-8">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

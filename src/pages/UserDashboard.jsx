@@ -29,7 +29,7 @@ const UserDashboard = () => {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post('/api/bookings/user');
+      const { data } = await axios.get('/api/bookings/user');
 
       if (data.success) {
         setBookings(data.bookings || []);

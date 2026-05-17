@@ -2,6 +2,8 @@ import React from "react";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 import { X, Mail, Lock, User } from "lucide-react";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 
 const Login = () => {
   const { setShowLogin, axios, setToken, navigate, fetchUser } =
@@ -47,8 +49,34 @@ const Login = () => {
   };
 
   // Google Login
-  const handleGoogleLogin = () => {
-    toast.success("Google Login Coming Soon 🚀");
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      
+      const payload = {
+        name: user.displayName,
+        email: user.email,
+        image: user.photoURL
+      };
+
+      const { data } = await axios.post('/api/user/google-auth', payload);
+      
+      if (data.success) {
+        axios.defaults.headers.common["Authorization"] = data.token;
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        const loggedInUser = await fetchUser();
+        toast.success(data.message || "Logged in successfully!");
+        navigate(loggedInUser?.role === "owner" ? "/owner" : "/dashboard");
+        setShowLogin(false);
+      } else {
+        toast.error(data.message || "Something went wrong with Google Login!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message || "Failed to login with Google");
+    }
   };
 
   return (
