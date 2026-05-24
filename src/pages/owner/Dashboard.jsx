@@ -23,25 +23,25 @@ const Dashboard = () => {
       title: 'Total Cars',
       value: data.totalCars,
       icon: assets.carIconColored,
-      bg: 'bg-blue-50',
+      bg: 'bg-blue-950/40 text-blue-400 border border-blue-500/20',
     },
     {
       title: 'Total Bookings',
       value: data.totalBookings,
       icon: assets.listIconColored,
-      bg: 'bg-orange-50',
+      bg: 'bg-orange-950/40 text-orange-400 border border-orange-500/20',
     },
     {
       title: 'Pending',
       value: data.pendingBooking,
       icon: assets.cautionIconColored,
-      bg: 'bg-yellow-50',
+      bg: 'bg-yellow-950/40 text-yellow-400 border border-yellow-500/20',
     },
     {
       title: 'Confirmed',
       value: data.completedBookings,
       icon: assets.listIconColored,
-      bg: 'bg-green-50',
+      bg: 'bg-green-950/40 text-green-400 border border-green-500/20',
     },
   ];
 
@@ -78,13 +78,13 @@ const Dashboard = () => {
   }, [token]);
 
   return (
-    <div className="flex-1 bg-[#f8fafc] min-h-screen px-4 md:px-8 py-8">
+    <div className="flex-1 bg-background min-h-screen px-4 md:px-8 py-8 text-text-primary">
 
       {loading ? (
         <div className="flex items-center justify-center h-[70vh]">
           <div className="flex flex-col items-center gap-3">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-500 font-medium">
+            <p className="text-text-secondary font-medium">
               Loading dashboard...
             </p>
           </div>
@@ -97,8 +97,8 @@ const Dashboard = () => {
               subTitle="Track bookings, cars, revenue, and customer activities in real-time."
             />
 
-            <div className="bg-white shadow-sm border border-gray-100 rounded-2xl px-5 py-3">
-              <p className="text-sm text-gray-500">
+            <div className="bg-card shadow border border-border rounded-2xl px-5 py-3">
+              <p className="text-sm text-text-secondary">
                 Monthly Revenue
               </p>
 
@@ -112,16 +112,16 @@ const Dashboard = () => {
             {DashboardCards.map((card, index) => (
               <div
                 key={index}
-                className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
+                className="bg-card rounded-3xl p-6 shadow hover:shadow-xl transition-all duration-300 border border-border"
               >
                 <div className="flex items-center justify-between">
 
                   <div>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-text-secondary">
                       {card.title}
                     </p>
 
-                    <h1 className="text-3xl font-bold text-gray-800 mt-2">
+                    <h1 className="text-3xl font-bold text-text-primary mt-2">
                       {card.value}
                     </h1>
                   </div>
@@ -140,16 +140,16 @@ const Dashboard = () => {
             ))}
           </div>
 
-          {/* Main Section */}
           <div className="grid lg:grid-cols-3 gap-6 mt-8">
-            <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
+
+            <div className="lg:col-span-2 bg-card rounded-3xl shadow border border-border p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h1 className="text-xl font-semibold text-gray-800">
+                  <h1 className="text-xl font-semibold text-text-primary">
                     Recent Bookings
                   </h1>
 
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-text-secondary mt-1">
                     Latest customer bookings and activities
                   </p>
                 </div>
@@ -164,7 +164,7 @@ const Dashboard = () => {
                 {data.recentBookings.map((booking, index) => (
                   <div
                     key={index}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 rounded-2xl border border-gray-100 hover:bg-gray-50 transition-all"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 rounded-2xl border border-border hover:bg-surface/50 transition-all"
                   >
 
                     <div className="flex items-center gap-4">
@@ -178,11 +178,11 @@ const Dashboard = () => {
                       </div>
 
                       <div>
-                        <h1 className="font-semibold text-gray-800">
+                        <h1 className="font-semibold text-text-primary">
                           {booking.car.brand} {booking.car.model}
                         </h1>
 
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="text-sm text-text-secondary mt-1">
                           Booked on {booking.createdAt.split('T')[0]}
                         </p>
                       </div>
@@ -190,16 +190,16 @@ const Dashboard = () => {
 
                     <div className="flex items-center gap-3">
 
-                      <p className="font-semibold text-gray-700">
+                      <p className="font-semibold text-text-secondary">
                         {currency}{booking.price}
                       </p>
 
                       <span
-                        className={`px-4 py-1 rounded-full text-xs font-medium
+                        className={`px-4 py-1 rounded-full text-xs font-semibold
                         ${
                           booking.status === 'confirmed'
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-yellow-100 text-yellow-700'
+                            ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                            : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
                         }`}
                       >
                         {booking.status}
@@ -212,7 +212,7 @@ const Dashboard = () => {
             </div>
 
             {/* Revenue Card */}
-            <div className="bg-gradient-to-br from-primary to-orange-500 rounded-3xl p-8 text-white shadow-lg">
+            <div className="bg-gradient-to-br from-primary to-indigo-700 rounded-3xl p-8 text-white shadow-lg">
               <p className="text-sm opacity-80">
                 Current Month Revenue
               </p>

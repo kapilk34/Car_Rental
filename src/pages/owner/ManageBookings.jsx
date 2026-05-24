@@ -64,16 +64,16 @@ const ManageBookings = () => {
 
       {loading ? (
         <div className="text-center py-10">
-          <p className="text-gray-500">Loading bookings...</p>
+          <p className="text-text-secondary">Loading bookings...</p>
         </div>
       ) : bookings.length === 0 ? (
         <div className="text-center py-10">
-          <p className="text-gray-500">No bookings yet. Your bookings will appear here.</p>
+          <p className="text-text-secondary">No bookings yet. Your bookings will appear here.</p>
         </div>
       ) : (
-        <div className="max-w-3xl w-full rounded-md overflow-hidden border border-borderColor mt-6">
-          <table className="w-full border-collapse text-left text-sm text-gray-600">
-            <thead className="text-gray-500 bg-gray-50">
+        <div className="max-w-3xl w-full rounded-xl overflow-hidden border border-border mt-6">
+          <table className="w-full border-collapse text-left text-sm text-text-secondary">
+            <thead className="text-text-secondary bg-surface">
               <tr>
                 <th className="p-3 font-medium">Car</th>
                 <th className="p-3 font-medium max-md:hidden">Date Range</th>
@@ -84,21 +84,21 @@ const ManageBookings = () => {
             </thead>
             <tbody>
               {bookings.map((booking) => (
-                <tr key={booking._id} className="border-t border-borderColor hover:bg-gray-50">
+                <tr key={booking._id} className="border-t border-border hover:bg-card transition-colors">
                   
                   <td className='p-3 flex items-center gap-3'>
                     <img src={booking.car?.image} alt='' className='h-12 w-12 aspect-square rounded-md object-cover'/>
-                    <p className='font-medium max-md:hidden'>{booking.car?.brand} {booking.car?.model}</p>
+                    <p className='font-medium max-md:hidden text-text-primary'>{booking.car?.brand} {booking.car?.model}</p>
                   </td>
 
                   <td className='p-3 max-md:hidden'>
                     {new Date(booking.pickupDate).toLocaleDateString()} to {new Date(booking.returnDate).toLocaleDateString()}
                   </td>
 
-                  <td className='p-3'>{currency} {booking.price}</td>
+                  <td className='p-3 text-text-primary'>{currency} {booking.price}</td>
 
                   <td className='p-3 max-md:hidden'>
-                    <span className='bg-gray-100 px-3 py-1 rounded-full text-xs'>offline</span>
+                    <span className='bg-surface border border-border px-3 py-1 rounded-full text-xs text-text-secondary'>offline</span>
                   </td>
 
                   <td className='p-3'>
@@ -107,14 +107,14 @@ const ManageBookings = () => {
                         value={booking.status} 
                         onChange={(e) => handleStatusChange(booking._id, e.target.value)}
                         disabled={updatingId === booking._id}
-                        className='px-2 py-1.5 text-gray-500 border border-borderColor rounded-md outline-none disabled:opacity-50'
+                        className='px-2 py-1.5 text-text-secondary bg-surface border border-border rounded-md outline-none focus:border-primary disabled:opacity-50'
                       >
                         <option value="pending">Pending</option>
                         <option value="cancelled">Cancelled</option>
                         <option value="confirmed">Confirmed</option>
                       </select>
                     ) : (
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${booking.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${booking.status === 'confirmed' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
                         {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                       </span>
                     )}

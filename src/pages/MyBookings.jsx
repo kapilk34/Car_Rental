@@ -27,56 +27,56 @@ const MyBookings = () => {
   useEffect(()=>{
     fetchMyBookings()
   },[])
+
   return (
-    <div className='px-4 md:px-8 py-8 text-sm max-w-7xl'>
+    <div className='px-4 md:px-8 py-8 text-sm max-w-7xl text-text-primary'>
       <Title title='My Bookings' subtitle='View and manage all your car bookings.' align='left'/>
 
       <div>
         {bookings.length === 0 && (
-          <div className='mt-8 rounded-lg border border-borderColor bg-white px-6 py-16 text-center text-gray-500'>
+          <div className='mt-8 rounded-lg border border-border bg-card px-6 py-16 text-center text-text-secondary'>
             No bookings yet.
           </div>
         )}
 
         {bookings.map((booking, index)=>(
-          <div key={booking._id} className='grid grid-cols-1 md:grid-cols-4 gap-6 p-6 border border-borderColor rounded-lg mt-5 first:mt-12'>
+          <div key={booking._id} className='grid grid-cols-1 md:grid-cols-4 gap-6 p-6 border border-border bg-card rounded-lg mt-5 first:mt-12'>
             {/* Car Image + Info */}
             <div className='md:col-span-1'>
               <div className='rounded-md overflow-hidden mb-3'>
                 <img src={booking.car?.image} alt=" " className='w-full h-auto aspect-video object-cover'/>
               </div>
-              <p className='text-lg font-medium mt-2'>{booking.car?.brand} {booking.car?.model}</p>
-
-              <p className='text-gray-500'>{booking.car?.year} . {booking.car?.category} . {booking.car?.location}</p>
+              <p className='text-lg font-medium mt-2 text-text-primary'>{booking.car?.brand} {booking.car?.model}</p>
+              <p className='text-text-secondary'>{booking.car?.year} . {booking.car?.category} . {booking.car?.location}</p>
             </div>
 
             {/* Booking Info*/}
             <div className='md:col-span-2'>
               <div className='flex items-center gap-2'>
-                <p className='px-3 py-1.5 bg-light rounded'>Booking #{index+1}</p>
-                <p className={`px-3 py-1 text-xs rounded-r-full ${booking.status === 'confirmed' ? 'bg-green-400/15 text-green-600' : 'bg-red-400/15 text-red-600'}`}>{booking.status}</p>
+                <p className='px-3 py-1.5 bg-surface border border-border rounded text-text-secondary'>Booking #{index+1}</p>
+                <p className={`px-3 py-1 text-xs rounded-r-full ${booking.status === 'confirmed' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}`}>{booking.status}</p>
               </div>
 
               <div className='flex items-start gap-2 mt-3'>
                 <img src={assets.calendar_icon_colored} alt='' className='w-4 h-4 mt-1'/>
                 <div>
-                  <p className='text-gray-500'>Rental Period</p>
-                  <p>{booking.pickupDate?.split('T')[0]} To {booking.returnDate?.split('T')[0]}</p>
+                  <p className='text-text-secondary'>Rental Period</p>
+                  <p className='text-text-primary'>{booking.pickupDate?.split('T')[0]} To {booking.returnDate?.split('T')[0]}</p>
                 </div>
               </div>
 
               <div className='flex items-start gap-2 mt-3'>
                 <img src={assets.location_icon_colored} alt='' className='w-4 h-4 mt-1'/>
                 <div>
-                  <p className='text-gray-500'>Pick-up Location</p>
-                  <p>{booking.car?.location}</p>
+                  <p className='text-text-secondary'>Pick-up Location</p>
+                  <p className='text-text-primary'>{booking.car?.location}</p>
                 </div>
               </div>
             </div>
 
             {/* Price */}
-            <div className='md:col-span-1 flex flex-col fustify-between gap-6'>
-              <div className='text-sm text-gray-500 text-right'>
+            <div className='md:col-span-1 flex flex-col justify-between gap-6'>
+              <div className='text-sm text-text-secondary text-right'>
                 <p>Total Price</p>
                 <h1 className='text-2xl font-semibold text-primary'>{currency} {booking.price}</h1>
                 <p>Booked on {booking.createdAt?.split('T')[0]}</p>

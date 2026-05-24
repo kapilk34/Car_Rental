@@ -39,7 +39,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm">
+    <div className="relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-border bg-surface text-text-primary text-sm">
       <div className="group relative">
         <label htmlFor="image">
           <img
@@ -48,7 +48,7 @@ const Sidebar = () => {
               'https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
             }
             alt="profile"
-            className="rounded-full w-24 h-24 object-cover"
+            className="rounded-full w-24 h-24 object-cover border border-border"
           />
           <input
             type="file"
@@ -66,23 +66,23 @@ const Sidebar = () => {
       {image && (
         <button
           onClick={updateImage}
-          className="absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer"
+          className="absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer rounded"
         >
           Save <img src={assets.check_icon} width={13} alt="check" />
         </button>
       )}
 
-      <p className="mt-2 text-base max-md:hidden">{user?.name}</p>
+      <p className="mt-2 text-base font-semibold text-text-primary max-md:hidden">{user?.name}</p>
 
       <div className="w-full">
         {ownerMenuLinks.map((link, index) => (
           <NavLink
             key={index}
             to={link.path}
-            className={`relative flex items-center gap-2 w-full py-3 pl-4 first:mt-6 ${
+            className={`relative flex items-center gap-2 w-full py-3 pl-4 first:mt-6 transition ${
               link.path === location.pathname
-                ? 'bg-primary/10 text-primary'
-                : 'text-gray-600'
+                ? 'bg-primary/10 text-primary font-semibold'
+                : 'text-text-secondary hover:bg-card hover:text-text-primary'
             }`}
           >
             <img
@@ -90,12 +90,13 @@ const Sidebar = () => {
                 link.path === location.pathname ? link.coloredIcon : link.icon
               }
               alt="menu icon"
+              className="w-5 h-5 object-contain"
             />
             <span className="max-md:hidden">{link.name}</span>
             <div
               className={`${
                 link.path === location.pathname && 'bg-primary'
-              } w-1.5 h-8 rounded-l`}
+              } w-1.5 h-8 rounded-l absolute right-0`}
             ></div>
           </NavLink>
         ))}

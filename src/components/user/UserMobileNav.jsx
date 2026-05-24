@@ -15,14 +15,14 @@ const UserMobileNav = () => {
   const { logout } = useAppContext();
 
   return (
-    <div className="md:hidden sticky top-0 z-40 border-b border-borderColor bg-white px-4 py-3">
+    <div className="md:hidden sticky top-0 z-40 border-b border-border bg-surface px-4 py-3 text-text-primary">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-lg font-bold text-gray-900">
+        <p className="text-lg font-bold text-text-primary">
           Drive<span className="text-primary">Sphere</span>
         </p>
         <button
           onClick={logout}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-borderColor text-gray-600"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border text-text-secondary hover:text-text-primary transition"
           aria-label="Logout"
         >
           <LogOut size={17} />
@@ -36,8 +36,8 @@ const UserMobileNav = () => {
             to={path}
             end={end}
             className={({ isActive }) =>
-              `inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium ${
-                isActive ? 'bg-primary/10 text-primary' : 'bg-light text-gray-600'
+              `inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                isActive ? 'bg-primary/10 text-primary font-semibold' : 'bg-card text-text-secondary hover:text-text-primary'
               }`
             }
           >

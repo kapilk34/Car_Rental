@@ -24,8 +24,8 @@ const ProtectedRoute = ({ children, ownerOnly = false, userOnly = false }) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen w-full">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-orange-500"></div>
+      <div className="flex justify-center items-center h-screen w-full" style={{ backgroundColor: "#0F0F0F" }}>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2" style={{ borderTopColor: "#E63946", borderBottomColor: "#E63946", borderLeftColor: "#F4A261", borderRightColor: "transparent" }}></div>
       </div>
     )
   }

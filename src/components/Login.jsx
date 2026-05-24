@@ -82,17 +82,23 @@ const Login = () => {
   return (
     <div
       onClick={() => setShowLogin(false)}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-sm px-4"
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
     >
       <form
         onSubmit={onSubmitHandler}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl border border-gray-100 overflow-hidden animate-fadeIn"
+        className="relative w-full max-w-md rounded-3xl shadow-2xl border overflow-hidden animate-fadeIn"
+        style={{
+          backgroundColor: "#1C1C1C",
+          borderColor: "#2F2F2F"
+        }}
       >
         <button
           type="button"
           onClick={() => setShowLogin(false)}
-          className="absolute top-4 right-4 text-gray-400 hover:text-black transition"
+          className="absolute top-4 right-4 transition"
+          style={{ color: "#B3B3B3" }}
         >
           <X size={22} />
         </button>
@@ -100,11 +106,11 @@ const Login = () => {
         <div className="px-8 py-10">
           {/* Heading */}
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800">
+            <h2 className="text-3xl font-bold text-text-primary">
               {state === "login" ? "Welcome Back" : "Create Account"}
             </h2>
 
-            <p className="text-gray-500 mt-2 text-sm leading-relaxed">
+            <p className="text-text-secondary mt-2 text-sm leading-relaxed">
               {state === "login"
                 ? "Login to continue your journey with us"
                 : "Create your account and get started today"}
@@ -114,19 +120,31 @@ const Login = () => {
           {/* Name */}
           {state === "register" && (
             <div className="mb-5">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-text-primary">
                 Full Name
               </label>
 
-              <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-100 transition-all">
-                <User size={18} className="text-gray-400" />
+              <div className="flex items-center mt-2 border rounded-xl px-4 py-3 transition-all" style={{
+                borderColor: "#2F2F2F",
+                backgroundColor: "#242424"
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = "#E63946";
+                e.currentTarget.style.boxShadow = "0 0 0 3px rgba(230, 57, 70, 0.1)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = "#2F2F2F";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+              >
+                <User size={18} style={{ color: "#B3B3B3" }} />
 
                 <input
                   type="text"
                   placeholder="Enter your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full ml-3 outline-none bg-transparent text-gray-700 placeholder:text-gray-400"
+                  className="w-full ml-3 outline-none bg-transparent text-text-primary placeholder-text-secondary"
                   required
                 />
               </div>
@@ -135,19 +153,31 @@ const Login = () => {
 
           {/* Email */}
           <div className="mb-5">
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-text-primary">
               Email Address
             </label>
 
-            <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-100 transition-all">
-              <Mail size={18} className="text-gray-400" />
+            <div className="flex items-center mt-2 border rounded-xl px-4 py-3 transition-all" style={{
+              borderColor: "#2F2F2F",
+              backgroundColor: "#242424"
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = "#E63946";
+              e.currentTarget.style.boxShadow = "0 0 0 3px rgba(230, 57, 70, 0.1)";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = "#2F2F2F";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+            >
+              <Mail size={18} style={{ color: "#B3B3B3" }} />
 
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full ml-3 outline-none bg-transparent text-gray-700 placeholder:text-gray-400"
+                className="w-full ml-3 outline-none bg-transparent text-text-primary placeholder-text-secondary"
                 required
               />
             </div>
@@ -155,19 +185,31 @@ const Login = () => {
 
           {/* Password */}
           <div className="mb-3">
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-text-primary">
               Password
             </label>
 
-            <div className="flex items-center mt-2 border border-gray-200 rounded-xl px-4 py-3 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-100 transition-all">
-              <Lock size={18} className="text-gray-400" />
+            <div className="flex items-center mt-2 border rounded-xl px-4 py-3 transition-all" style={{
+              borderColor: "#2F2F2F",
+              backgroundColor: "#242424"
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = "#E63946";
+              e.currentTarget.style.boxShadow = "0 0 0 3px rgba(230, 57, 70, 0.1)";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = "#2F2F2F";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+            >
+              <Lock size={18} style={{ color: "#B3B3B3" }} />
 
               <input
                 type="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full ml-3 outline-none bg-transparent text-gray-700 placeholder:text-gray-400"
+                className="w-full ml-3 outline-none bg-transparent text-text-primary placeholder-text-secondary"
                 required
               />
             </div>
@@ -178,7 +220,8 @@ const Login = () => {
             <div className="flex justify-end mb-6">
               <button
                 type="button"
-                className="text-sm text-orange-600 hover:text-orange-800 transition font-medium"
+                className="text-sm transition font-medium"
+                style={{ color: "#F4A261" }}
               >
                 Forgot Password?
               </button>
@@ -188,25 +231,49 @@ const Login = () => {
           {/* Main Button */}
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-sm shadow-lg hover:scale-[1.02] hover:shadow-orange-200 transition-all duration-300"
+            className="w-full py-3 rounded-xl text-white font-semibold text-sm shadow-lg transition-all duration-300"
+            style={{
+              background: "#E63946",
+              boxShadow: "0 20px 25px rgba(230, 57, 70, 0.3)"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = "0 25px 30px rgba(230, 57, 70, 0.5)";
+              e.currentTarget.style.transform = "scale(1.02)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = "0 20px 25px rgba(230, 57, 70, 0.3)";
+              e.currentTarget.style.transform = "scale(1)";
+            }}
           >
             {state === "register" ? "Create Account" : "Login"}
           </button>
 
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
-            <div className="flex-1 h-px bg-gray-200"></div>
+            <div className="flex-1 h-px" style={{ backgroundColor: "#2F2F2F" }}></div>
 
-            <p className="text-sm text-gray-400 font-medium">OR</p>
+            <p className="text-sm font-medium" style={{ color: "#B3B3B3" }}>OR</p>
 
-            <div className="flex-1 h-px bg-gray-200"></div>
+            <div className="flex-1 h-px" style={{ backgroundColor: "#2F2F2F" }}></div>
           </div>
 
           {/* Google Login */}
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 border border-gray-200 py-3 rounded-xl bg-white hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 shadow-sm hover:shadow-md"
+            className="w-full flex items-center justify-center gap-3 border py-3 rounded-xl transition-all duration-300 shadow-sm"
+            style={{
+              borderColor: "#2F2F2F",
+              backgroundColor: "#242424"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#2F2F2F";
+              e.currentTarget.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.5)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#242424";
+              e.currentTarget.style.boxShadow = "none";
+            }}
           >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -214,13 +281,13 @@ const Login = () => {
               className="w-5 h-5"
             />
 
-            <span className="font-medium text-gray-700">
+            <span className="font-medium text-text-primary">
               Continue with Google
             </span>
           </button>
 
           {/* Bottom Switch */}
-          <p className="text-center text-sm text-gray-500 mt-7">
+          <p className="text-center text-sm mt-7" style={{ color: "#B3B3B3" }}>
             {state === "login"
               ? "Don't have an account?"
               : "Already have an account?"}
@@ -229,7 +296,8 @@ const Login = () => {
               onClick={() =>
                 setState(state === "login" ? "register" : "login")
               }
-              className="ml-2 text-orange-600 font-semibold cursor-pointer hover:text-orange-800 transition"
+              className="ml-2 font-semibold cursor-pointer transition"
+              style={{ color: "#F4A261" }}
             >
               {state === "login" ? "Sign Up" : "Login"}
             </span>

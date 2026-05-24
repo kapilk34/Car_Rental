@@ -74,11 +74,11 @@ const UserDashboard = () => {
             { label: 'Pending Requests', value: pendingBookings, icon: WalletCards },
             { label: 'Wishlist Cars', value: wishlistCars.length, icon: Heart },
           ].map(({ label, value, icon: Icon }) => (
-            <div key={label} className="bg-white border border-borderColor rounded-lg p-5 shadow-sm">
+            <div key={label} className="bg-card border border-border rounded-lg p-5 shadow">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm text-gray-500">{label}</p>
-                  <h2 className="text-3xl font-bold text-gray-900 mt-2">{value}</h2>
+                  <p className="text-sm text-text-secondary">{label}</p>
+                  <h2 className="text-3xl font-bold text-text-primary mt-2">{value}</h2>
                 </div>
                 <div className="h-12 w-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
                   <Icon size={22} />
@@ -89,29 +89,29 @@ const UserDashboard = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 mt-8">
-          <section className="lg:col-span-2 bg-white border border-borderColor rounded-lg p-5 shadow-sm">
+          <section className="lg:col-span-2 bg-card border border-border rounded-lg p-5 shadow">
             <div className="flex items-center justify-between gap-4 mb-5">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">Your Bookings</h2>
-                <p className="text-sm text-gray-500 mt-1">Review current and previous reservations.</p>
+                <h2 className="text-xl font-semibold text-text-primary">Your Bookings</h2>
+                <p className="text-sm text-text-secondary mt-1">Review current and previous reservations.</p>
               </div>
               <p className="text-sm font-semibold text-primary">{currency}{totalSpent}</p>
             </div>
 
             {loading ? (
-              <div className="py-16 text-center text-gray-500">Loading bookings...</div>
+              <div className="py-16 text-center text-text-secondary">Loading bookings...</div>
             ) : bookings.length === 0 ? (
-              <div className="py-16 text-center text-gray-500">No bookings yet.</div>
+              <div className="py-16 text-center text-text-secondary">No bookings yet.</div>
             ) : (
               <div className="space-y-4">
                 {bookings.map((booking) => (
-                  <div key={booking._id} className="flex flex-col sm:flex-row sm:items-center gap-4 border border-borderColor rounded-lg p-4">
-                    <img src={booking.car?.image} alt="" className="h-24 sm:h-20 sm:w-28 rounded-md object-cover" />
+                  <div key={booking._id} className="flex flex-col sm:flex-row sm:items-center gap-4 border border-border bg-surface rounded-lg p-4">
+                    <img src={booking.car?.image} alt="" className="h-24 sm:h-20 sm:w-28 rounded-md object-cover border border-border" />
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">
+                      <h3 className="font-semibold text-text-primary">
                         {booking.car?.brand} {booking.car?.model}
                       </h3>
-                      <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-500 mt-2">
+                      <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-secondary mt-2">
                         <span className="inline-flex items-center gap-1">
                           <CalendarDays size={15} />
                           {booking.pickupDate?.split('T')[0]} to {booking.returnDate?.split('T')[0]}
@@ -123,13 +123,13 @@ const UserDashboard = () => {
                       </div>
                     </div>
                     <div className="sm:text-right">
-                      <p className="font-semibold text-gray-900">{currency}{booking.price}</p>
-                      <span className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-medium ${
+                      <p className="font-semibold text-text-primary">{currency}{booking.price}</p>
+                      <span className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-semibold ${
                         booking.status === 'confirmed'
-                          ? 'bg-green-100 text-green-700'
+                          ? 'bg-green-500/10 text-green-400 border border-green-500/20'
                           : booking.status === 'cancelled'
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-yellow-100 text-yellow-700'
+                            ? 'bg-red-500/10 text-red-400 border border-red-500/20'
+                            : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
                       }`}>
                         {booking.status}
                       </span>
@@ -140,11 +140,11 @@ const UserDashboard = () => {
             )}
           </section>
 
-          <section className="bg-white border border-borderColor rounded-lg p-5 shadow-sm">
+          <section className="bg-card border border-border rounded-lg p-5 shadow">
             <div className="flex items-center justify-between gap-4 mb-5">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">Wishlist</h2>
-                <p className="text-sm text-gray-500 mt-1">Cars saved for later.</p>
+                <h2 className="text-xl font-semibold text-text-primary">Wishlist</h2>
+                <p className="text-sm text-text-secondary mt-1">Cars saved for later.</p>
               </div>
               <button
                 onClick={() => navigate('/dashboard/wishlist')}
@@ -155,30 +155,30 @@ const UserDashboard = () => {
             </div>
 
             {wishlistCars.length === 0 ? (
-              <div className="py-14 text-center text-gray-500">Your wishlist is empty.</div>
+              <div className="py-14 text-center text-text-secondary">Your wishlist is empty.</div>
             ) : (
               <div className="space-y-4">
                 {wishlistCars.slice(0, 3).map((car) => (
-                  <div key={car._id} className="border border-borderColor rounded-lg overflow-hidden">
+                  <div key={car._id} className="border border-border bg-surface rounded-lg overflow-hidden">
                     <img src={car.image} alt="" className="h-36 w-full object-cover" />
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <h3 className="font-semibold text-gray-900">{car.brand} {car.model}</h3>
-                          <p className="text-sm text-gray-500 mt-1">{car.location}</p>
+                          <h3 className="font-semibold text-text-primary">{car.brand} {car.model}</h3>
+                          <p className="text-sm text-text-secondary mt-1">{car.location}</p>
                         </div>
                         <p className="text-sm font-semibold text-primary">{currency}{car.pricePerDay}/day</p>
                       </div>
                       <div className="grid grid-cols-2 gap-2 mt-4">
                         <button
                           onClick={() => navigate(`/car-details/${car._id}`)}
-                          className="rounded-lg bg-primary px-3 py-2 text-sm font-medium text-white hover:bg-primary-dark transition"
+                          className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-white hover:bg-primary-dark transition"
                         >
                           Book
                         </button>
                         <button
                           onClick={() => navigate('/dashboard/wishlist')}
-                          className="rounded-lg border border-borderColor px-3 py-2 text-sm font-medium text-gray-700 hover:border-primary hover:text-primary transition"
+                          className="rounded-lg border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:border-primary hover:text-primary transition"
                         >
                           Manage
                         </button>
