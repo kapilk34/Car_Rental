@@ -102,7 +102,6 @@ const FeaturedSection = () => {
                         align="center"
                         className="max-w-4xl"
                     />
-                    <div className='mt-5 w-24 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent' />
                 </div>
 
                 {/* Feature Cards */}

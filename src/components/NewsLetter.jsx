@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import Title from './Title'
 
 const NewsLetter = () => {
     const [email, setEmail] = useState('')
@@ -53,37 +54,13 @@ const NewsLetter = () => {
             <div className="relative z-10 max-w-3xl mx-auto text-center">
                 {!isSubmitted ? (
                     <>
-                        {/* Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/10 mb-5">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                            </span>
-                            <span className="text-sm font-medium text-accent tracking-wide uppercase">Stay Updated</span>
+                        <div className="mb-6">
+                            <Title
+                                title="Never Miss a Deal!"
+                                subtitle="Subscribe to get the latest offers, new arrivals, and exclusive discounts delivered straight to your inbox."
+                                align="center"
+                            />
                         </div>
-
-                        {/* Heading */}
-                        <h2 className="text-3xl md:text-5xl font-bold text-text-primary mb-4 leading-tight">
-                            Never Miss a{' '}
-                            <span className="relative inline-block">
-                                <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                                    Deal!
-                                </span>
-                                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                                    <path d="M2 8C50 2 150 2 198 8" stroke="url(#nl-gradient)" strokeWidth="3" strokeLinecap="round"/>
-                                    <defs>
-                                        <linearGradient id="nl-gradient" x1="0" y1="0" x2="200" y2="0">
-                                            <stop stopColor="#1A56DB"/>
-                                            <stop offset="1" stopColor="#38BDF8"/>
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </span>
-                        </h2>
-
-                        <p className="text-base md:text-lg text-text-secondary max-w-xl mx-auto mb-6 leading-relaxed">
-                            Subscribe to get the latest offers, new arrivals, and exclusive discounts delivered straight to your inbox.
-                        </p>
 
                         {/* Form */}
                         <form

@@ -1,4 +1,5 @@
 import React from 'react';
+import Title from './Title';
 
 const cardsData = [
     {
@@ -72,7 +73,14 @@ const Testimonials = () => {
                 }
             `}</style>
 
-            <div className="py-6 bg-surface">
+            <div className="py-14 md:py-20 bg-surface">
+                <div className="flex flex-col items-center text-center mb-10">
+                    <Title
+                        title="What Our Customers Say"
+                        subtitle="Thousands of happy drivers trust DriveSphere for their journeys. Here's what they have to say."
+                        align="center"
+                    />
+                </div>
                 <div className="marquee-row w-full mx-auto max-w-7xl overflow-hidden relative">
                     <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none"
                         style={{ background: "linear-gradient(to right, #111827, transparent)" }}></div>
