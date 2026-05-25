@@ -78,16 +78,16 @@ const ManageCars = () => {
 
       {loading ? (
         <div className="text-center py-10">
-          <p className="text-gray-500">Loading cars...</p>
+          <p className="text-text-secondary">Loading cars...</p>
         </div>
       ) : cars.length === 0 ? (
         <div className="text-center py-10">
-          <p className="text-gray-500">No cars listed yet. Add your first car to get started!</p>
+          <p className="text-text-secondary">No cars listed yet. Add your first car to get started!</p>
         </div>
       ) : (
-        <div className="max-w-3xl w-full rounded-md overflow-hidden border border-borderColor mt-6">
-          <table className="w-full border-collapse text-left text-sm text-gray-600">
-            <thead className="text-gray-500 bg-gray-50">
+        <div className="max-w-3xl w-full rounded-xl overflow-hidden border border-border mt-6">
+          <table className="w-full border-collapse text-left text-sm text-text-secondary">
+            <thead className="text-text-secondary bg-surface">
               <tr>
                 <th className="p-3 font-medium">Car</th>
                 <th className="p-3 font-medium max-md:hidden">Category</th>
@@ -98,46 +98,34 @@ const ManageCars = () => {
             </thead>
             <tbody>
               {cars.map((car) => (
-                <tr key={car._id} className="border-t border-borderColor hover:bg-gray-50">
+                <tr key={car._id} className="border-t border-border hover:bg-card transition-colors">
                   <td className="p-3 flex items-center gap-3">
-                    <img
-                      src={car.image}
-                      alt={car.model}
-                      className="h-12 w-12 aspect-square rounded-md object-cover"
-                    />
+                    <img src={car.image} alt={car.model} className="h-12 w-12 aspect-square rounded-md object-cover" />
                     <div className="max-md:hidden">
-                      <p className="font-medium">
-                        {car.brand} {car.model}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {car.seating_capacity} seats · {car.transmission}
-                      </p>
+                      <p className="font-medium text-text-primary">{car.brand} {car.model}</p>
+                      <p className="text-xs text-text-secondary">{car.seating_capacity} seats · {car.transmission}</p>
                     </div>
                   </td>
-
                   <td className="p-3 max-md:hidden">{car.category}</td>
-                  <td className="p-3">{currency}{car.pricePerDay} /day</td>
+                  <td className="p-3 text-text-primary">{currency}{car.pricePerDay} /day</td>
                   <td className="p-3 max-md:hidden">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${car.isAvaliable ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} `}>
-                      {car.isAvaliable ? "Available" : "Unavailable"}
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      car.isAvaliable
+                        ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                        : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                    }`}>
+                      {car.isAvaliable ? 'Available' : 'Unavailable'}
                     </span>
                   </td>
                   <td className="p-3 flex items-center gap-2">
-                    <img 
-                      src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} 
-                      alt="toggle" 
+                    <img src={car.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt="toggle"
                       className='cursor-pointer hover:opacity-70'
                       onClick={() => handleToggleAvailability(car._id, car.isAvaliable)}
-                      title={car.isAvaliable ? 'Mark as unavailable' : 'Mark as available'}
-                    />
-                    <img 
-                      src={assets.delete_icon} 
-                      alt='delete' 
+                      title={car.isAvaliable ? 'Mark as unavailable' : 'Mark as available'} />
+                    <img src={assets.delete_icon} alt='delete'
                       className='cursor-pointer hover:opacity-70'
                       onClick={() => handleDeleteCar(car._id)}
-                      title='Delete car'
-                    />
+                      title='Delete car' />
                   </td>
                 </tr>
               ))}

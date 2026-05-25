@@ -1,333 +1,251 @@
 import React, { useState } from 'react'
 import Title from "../../components/owners/Title"
-import { FiUpload, FiCheck, FiImage, FiInfo, FiSettings, FiDollarSign, FiMapPin } from "react-icons/fi"
+import { FiUpload, FiCheck, FiCamera } from "react-icons/fi"
+import { Car, MapPin, Calendar, Users, Zap, Droplets, AlignLeft, DollarSign, Tag } from "lucide-react"
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
+const LOCATIONS = ['Delhi', 'Mumbai', 'Bangalore', 'Chandigarh', 'Pune', 'Hyderabad', 'Jaipur', 'Kolkata', 'Chennai', 'Ahmedabad']
+const CATEGORIES = ['Maruti Suzuki', 'Tata Motors', 'Mahindra', 'Hyundai', 'Kia', 'Honda', 'Toyota', 'MG Motors', 'Skoda', 'Volkswagen']
+
+const inputStyle = {
+  backgroundColor: 'var(--color-surface)',
+  border: '1px solid var(--color-border)',
+  color: 'var(--color-text-primary)',
+}
+const optionStyle = { backgroundColor: 'var(--color-card)' }
+const onFocus = (e) => { e.target.style.borderColor = 'var(--color-primary)'; e.target.style.boxShadow = '0 0 0 3px rgba(37,99,235,0.15)' }
+const onBlur  = (e) => { e.target.style.borderColor = 'var(--color-border)';  e.target.style.boxShadow = 'none' }
+
+const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all duration-200"
+
+const Field = ({ label, icon: Icon, children }) => (
+  <div className="flex flex-col gap-1.5">
+    <label className="text-sm font-medium text-text-secondary flex items-center gap-1.5">
+      {Icon && <Icon size={14} className="text-primary" />}
+      {label}
+    </label>
+    {children}
+  </div>
+)
+
+const SectionTitle = ({ icon: Icon, title }) => (
+  <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
+    <div className="h-8 w-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+      <Icon size={16} />
+    </div>
+    <h2 className="font-semibold text-text-primary">{title}</h2>
+  </div>
+)
+
 const AddCar = () => {
   const currency = import.meta.env.VITE_CURRENCY || '₹'
-
   const [image, setImage] = useState(null)
   const [loading, setLoading] = useState(false)
   const [car, setCar] = useState({
-    brand: '',
-    model: '',
-    year: '',
-    pricePerDay: '',
-    category: '',
-    transmission: '',
-    fuel_type: '',
-    seating_capacity: '',
-    location: '',
-    description: '',
+    brand: '', model: '', year: '', pricePerDay: '',
+    category: '', transmission: '', fuel_type: '',
+    seating_capacity: '', location: '', description: '',
   })
+
+  const set = (key) => (e) => setCar(prev => ({ ...prev, [key]: e.target.value }))
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
-
-    if (!image) {
-      toast.error("Please upload a car image")
-      return
-    }
-
+    if (!image) { toast.error("Please upload a car image"); return }
     try {
       setLoading(true)
       const formData = new FormData()
       formData.append('image', image)
       formData.append('carData', JSON.stringify(car))
-
       const { data } = await axios.post('api/owner/add-car', formData)
-
       if (data.success) {
-        toast.success('Car added successfully!')
+        toast.success('Car listed successfully!')
         setImage(null)
-        setCar({
-          brand: '',
-          model: '',
-          year: '',
-          pricePerDay: '',
-          category: '',
-          transmission: '',
-          fuel_type: '',
-          seating_capacity: '',
-          location: '',
-          description: '',
-        })
+        setCar({ brand: '', model: '', year: '', pricePerDay: '', category: '', transmission: '', fuel_type: '', seating_capacity: '', location: '', description: '' })
       } else {
         toast.error(data.message || 'Failed to add car')
       }
     } catch (error) {
-      console.error('Error:', error)
       toast.error(error.response?.data?.message || 'Error adding car')
     } finally {
       setLoading(false)
     }
   }
 
-  const InputWrapper = ({ label, icon: Icon, children }) => (
-    <div className="flex flex-col w-full">
-      <label className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-        {Icon && <Icon className="text-orange-500" />}
-        {label}
-      </label>
-      <div className="relative group">
-        {children}
-        <div className="absolute inset-0 rounded-xl bg-orange-500/5 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none -m-1"></div>
-      </div>
-    </div>
-  )
-
-  const commonInputClass = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-orange-400 focus:ring-4 focus:ring-orange-100 transition-all duration-300 text-slate-700 placeholder:text-slate-400"
-
   return (
     <div className="max-w-5xl mx-auto w-full pb-10">
-      
-      {/* Header Area */}
-      <div className="mb-8">
-        <Title
-          title="Add New Vehicle"
-          subTitle="List your car for booking. Provide accurate details to attract more renters."
-        />
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+        <Title title="Add New Vehicle" subTitle="Fill in the details below to list your car for rental." />
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-semibold self-start">
+          <Car size={14} />
+          New Listing
+        </div>
       </div>
 
-      <form onSubmit={onSubmitHandler} className="space-y-8">
-        
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          {/* Left Column - Image & Basic Details */}
-          <div className="lg:col-span-4 space-y-6">
-            
-            {/* Image Upload Card */}
-            <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(251,146,60,0.06)] transition-all duration-500">
-              <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <FiImage className="text-orange-500" /> Vehicle Image
-              </h3>
-              
-              <div className="relative w-full aspect-square rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 overflow-hidden group hover:border-orange-300 transition-colors cursor-pointer flex flex-col items-center justify-center">
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-                
-                {image ? (
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt="car preview"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                ) : (
-                  <div className="text-center p-6">
-                    <div className="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm text-orange-500 mb-4 group-hover:-translate-y-1 transition-transform">
-                      <FiUpload className="text-2xl" />
+      <form onSubmit={onSubmitHandler}>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          {/* ── Left Column ── */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
+
+            {/* Image Upload */}
+            <div className="bg-card border border-border rounded-lg p-5 shadow">
+              <SectionTitle icon={FiCamera} title="Vehicle Photo" />
+              <label className="block cursor-pointer">
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => setImage(e.target.files[0])} />
+                <div className={`relative w-full aspect-[4/3] rounded-lg overflow-hidden flex flex-col items-center justify-center group transition-all duration-300 border-2 border-dashed ${image ? 'border-primary' : 'border-border'} bg-surface`}>
+                  {image ? (
+                    <>
+                      <img src={URL.createObjectURL(image)} alt="preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                        <FiCamera size={22} className="text-white" />
+                        <span className="text-white text-xs font-semibold">Change Photo</span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center gap-3 p-6 text-center">
+                      <div className="h-12 w-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300">
+                        <FiUpload size={20} />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-text-primary">Click to upload</p>
+                        <p className="text-xs text-text-secondary mt-1">PNG, JPG or WEBP · max 5MB</p>
+                      </div>
+                      <span className="px-4 py-1.5 rounded-lg text-xs font-semibold text-white bg-primary">
+                        Browse Files
+                      </span>
                     </div>
-                    <p className="text-sm font-semibold text-slate-700">Click to upload</p>
-                    <p className="text-xs text-slate-500 mt-2">SVG, PNG, JPG or GIF (max. 5MB)</p>
-                  </div>
-                )}
-                
-                {image && (
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">Change Image</span>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              </label>
+              {image && (
+                <p className="mt-2 text-xs text-text-secondary text-center truncate">✓ {image.name}</p>
+              )}
             </div>
 
-            {/* Pricing Card */}
-            <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(251,146,60,0.06)] transition-all duration-500">
-              <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <FiDollarSign className="text-orange-500" /> Pricing & Location
-              </h3>
-              
-              <div className="space-y-5">
-                <InputWrapper label={`Daily Price (${currency})`}>
-                  <input
-                    type="number"
-                    placeholder="e.g. 2499"
-                    required
-                    min="0"
-                    className={commonInputClass}
-                    value={car.pricePerDay}
-                    onChange={(e) => setCar({ ...car, pricePerDay: e.target.value })}
-                  />
-                </InputWrapper>
-
-                <InputWrapper label="Location">
-                  <select
-                    required
-                    className={commonInputClass}
-                    value={car.location}
-                    onChange={(e) => setCar({ ...car, location: e.target.value })}
-                  >
-                    <option value="" disabled>Select a Location</option>
-                    {['Delhi', 'Mumbai', 'Bangalore', 'Chandigarh', 'Pune', 'Hyderabad', 'Jaipur', 'Kolkata', 'Chennai', 'Ahmedabad'].map(loc => (
-                      <option key={loc} value={loc}>{loc}</option>
-                    ))}
+            {/* Pricing & Location */}
+            <div className="bg-card border border-border rounded-lg p-5 shadow">
+              <SectionTitle icon={DollarSign} title="Pricing & Location" />
+              <div className="flex flex-col gap-4">
+                <Field label={`Daily Rate (${currency})`} icon={DollarSign}>
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-primary">{currency}</span>
+                    <input type="number" placeholder="2499" required min="0"
+                      className={inputCls} style={{ ...inputStyle, paddingLeft: '1.75rem' }}
+                      onFocus={onFocus} onBlur={onBlur}
+                      value={car.pricePerDay} onChange={set('pricePerDay')} />
+                  </div>
+                </Field>
+                <Field label="City / Location" icon={MapPin}>
+                  <select required className={inputCls} style={inputStyle}
+                    onFocus={onFocus} onBlur={onBlur}
+                    value={car.location} onChange={set('location')}>
+                    <option value="" disabled style={optionStyle}>Select city</option>
+                    {LOCATIONS.map(l => <option key={l} value={l} style={optionStyle}>{l}</option>)}
                   </select>
-                </InputWrapper>
+                </Field>
               </div>
             </div>
 
           </div>
 
-          {/* Right Column - Form Details */}
-          <div className="lg:col-span-8">
-            <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-              
-              <div className="mb-8 border-b border-slate-100 pb-4">
-                <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                  <FiInfo className="text-orange-500" /> Vehicle Information
-                </h3>
+          {/* ── Right Column ── */}
+          <div className="lg:col-span-8 flex flex-col gap-6">
+
+            {/* Vehicle Info */}
+            <div className="bg-card border border-border rounded-lg p-5 shadow">
+              <SectionTitle icon={Tag} title="Vehicle Information" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <Field label="Brand" icon={Tag}>
+                  <input type="text" placeholder="e.g. Hyundai, Tata..." required
+                    className={inputCls} style={inputStyle} onFocus={onFocus} onBlur={onBlur}
+                    value={car.brand} onChange={set('brand')} />
+                </Field>
+                <Field label="Model" icon={Tag}>
+                  <input type="text" placeholder="e.g. Creta, Nexon..." required
+                    className={inputCls} style={inputStyle} onFocus={onFocus} onBlur={onBlur}
+                    value={car.model} onChange={set('model')} />
+                </Field>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <InputWrapper label="Brand">
-                  <input
-                    type="text"
-                    placeholder="e.g. BMW, Mercedes..."
-                    required
-                    className={commonInputClass}
-                    value={car.brand}
-                    onChange={(e) => setCar({ ...car, brand: e.target.value })}
-                  />
-                </InputWrapper>
-
-                <InputWrapper label="Model">
-                  <input
-                    type="text"
-                    placeholder="e.g. X5, C-Class..."
-                    required
-                    className={commonInputClass}
-                    value={car.model}
-                    onChange={(e) => setCar({ ...car, model: e.target.value })}
-                  />
-                </InputWrapper>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
-                <InputWrapper label="Year">
-                  <input
-                    type="number"
-                    placeholder="e.g. 2024"
-                    required
-                    className={commonInputClass}
-                    value={car.year}
-                    onChange={(e) => setCar({ ...car, year: e.target.value })}
-                  />
-                </InputWrapper>
-
-                <InputWrapper label="Category">
-                  <select
-                    required
-                    className={commonInputClass}
-                    value={car.category}
-                    onChange={(e) => setCar({ ...car, category: e.target.value })}
-                  >
-                    <option value="" disabled>Select Category</option>
-                    {['Maruti Suzuki', 'Tata Motors', 'Mahindra', 'Hyundai', 'Kia', 'Honda', 'Toyota', 'MG Motors', 'Skoda', 'Volkswagen'].map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <Field label="Year" icon={Calendar}>
+                  <input type="number" placeholder="2024" required
+                    className={inputCls} style={inputStyle} onFocus={onFocus} onBlur={onBlur}
+                    value={car.year} onChange={set('year')} />
+                </Field>
+                <Field label="Category" icon={Tag}>
+                  <select required className={inputCls} style={inputStyle}
+                    onFocus={onFocus} onBlur={onBlur}
+                    value={car.category} onChange={set('category')}>
+                    <option value="" disabled style={optionStyle}>Select</option>
+                    {CATEGORIES.map(c => <option key={c} value={c} style={optionStyle}>{c}</option>)}
                   </select>
-                </InputWrapper>
-                
-                <InputWrapper label="Seats">
-                  <input
-                    type="number"
-                    placeholder="e.g. 4"
-                    required
-                    min="1"
-                    className={commonInputClass}
-                    value={car.seating_capacity}
-                    onChange={(e) => setCar({ ...car, seating_capacity: e.target.value })}
-                  />
-                </InputWrapper>
+                </Field>
+                <Field label="Seats" icon={Users}>
+                  <input type="number" placeholder="5" required min="1"
+                    className={inputCls} style={inputStyle} onFocus={onFocus} onBlur={onBlur}
+                    value={car.seating_capacity} onChange={set('seating_capacity')} />
+                </Field>
               </div>
-
-              <div className="mb-8 border-b border-slate-100 pb-4">
-                <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                  <FiSettings className="text-orange-500" /> Specifications
-                </h3>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                <InputWrapper label="Transmission">
-                  <select
-                    required
-                    className={commonInputClass}
-                    value={car.transmission}
-                    onChange={(e) => setCar({ ...car, transmission: e.target.value })}
-                  >
-                    <option value="" disabled>Select Transmission</option>
-                    <option value="Automatic">Automatic</option>
-                    <option value="Manual">Manual</option>
-                    <option value="Semi-Automatic">Semi-Automatic</option>
-                  </select>
-                </InputWrapper>
-
-                <InputWrapper label="Fuel Type">
-                  <select
-                    required
-                    className={commonInputClass}
-                    value={car.fuel_type}
-                    onChange={(e) => setCar({ ...car, fuel_type: e.target.value })}
-                  >
-                    <option value="" disabled>Select Fuel Type</option>
-                    <option value="Petrol">Petrol</option>
-                    <option value="Diesel">Diesel</option>
-                    <option value="Electric">Electric</option>
-                    <option value="Hybrid">Hybrid</option>
-                    <option value="Gas">Gas</option>
-                  </select>
-                </InputWrapper>
-              </div>
-
-              <div className="mb-8">
-                <InputWrapper label="Vehicle Description">
-                  <textarea
-                    rows={4}
-                    placeholder="Describe the vehicle's features, condition, and any special terms..."
-                    required
-                    className={`${commonInputClass} resize-none`}
-                    value={car.description}
-                    onChange={(e) => setCar({ ...car, description: e.target.value })}
-                  ></textarea>
-                </InputWrapper>
-              </div>
-
-              {/* Submit Action */}
-              <div className="flex justify-end pt-4 border-t border-slate-100">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-slate-900 text-white font-semibold text-lg shadow-xl hover:shadow-2xl hover:shadow-slate-900/20 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 overflow-hidden w-full sm:w-auto"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <span className="relative z-10 flex items-center gap-2">
-                    {loading ? (
-                      <>
-                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                        </svg>
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <FiCheck className="text-xl" />
-                        Publish Listing
-                      </>
-                    )}
-                  </span>
-                </button>
-              </div>
-
             </div>
-          </div>
 
+            {/* Specifications */}
+            <div className="bg-card border border-border rounded-lg p-5 shadow">
+              <SectionTitle icon={Zap} title="Specifications" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Field label="Transmission" icon={Zap}>
+                  <select required className={inputCls} style={inputStyle}
+                    onFocus={onFocus} onBlur={onBlur}
+                    value={car.transmission} onChange={set('transmission')}>
+                    <option value="" disabled style={optionStyle}>Select</option>
+                    {['Automatic', 'Manual', 'Semi-Automatic'].map(t => <option key={t} value={t} style={optionStyle}>{t}</option>)}
+                  </select>
+                </Field>
+                <Field label="Fuel Type" icon={Droplets}>
+                  <select required className={inputCls} style={inputStyle}
+                    onFocus={onFocus} onBlur={onBlur}
+                    value={car.fuel_type} onChange={set('fuel_type')}>
+                    <option value="" disabled style={optionStyle}>Select</option>
+                    {['Petrol', 'Diesel', 'Electric', 'Hybrid', 'CNG'].map(f => <option key={f} value={f} style={optionStyle}>{f}</option>)}
+                  </select>
+                </Field>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="bg-card border border-border rounded-lg p-5 shadow">
+              <SectionTitle icon={AlignLeft} title="Description" />
+              <Field label="Tell renters about this vehicle" icon={AlignLeft}>
+                <textarea rows={4} required placeholder="Describe the car's condition, features, and any rental terms..."
+                  className={`${inputCls} resize-none`} style={inputStyle}
+                  onFocus={onFocus} onBlur={onBlur}
+                  value={car.description} onChange={set('description')} />
+              </Field>
+            </div>
+
+            {/* Submit */}
+            <div className="bg-card border border-border rounded-lg p-5 shadow flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-sm text-text-secondary">All fields are required. Your listing goes live immediately.</p>
+              <button type="submit" disabled={loading}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary text-white font-semibold text-sm hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 whitespace-nowrap">
+                {loading ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Publishing...
+                  </>
+                ) : (
+                  <><FiCheck size={16} /> Publish Listing</>
+                )}
+              </button>
+            </div>
+
+          </div>
         </div>
       </form>
     </div>
