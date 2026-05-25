@@ -16,7 +16,7 @@ const Banner = () => {
         <p className='text-sm md:text-base mb-6 opacity-90 leading-relaxed'>
           Experience top-tier vehicles and unmatched comfort at prices that suit every traveler – perfect for business trips, vacations, or special occasions.
         </p>
-        <button className='px-8 py-3 bg-white text-primary hover:bg-white/90 transition-all duration-300 font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1'>
+        <button className='px-8 py-3 bg-blue-500 text-primary hover:bg-blue/90 transition-all duration-300 font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1'>
           List Your Car Now
         </button>
       </div>

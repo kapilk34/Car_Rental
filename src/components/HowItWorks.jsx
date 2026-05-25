@@ -107,7 +107,7 @@ const HowItWorks = () => {
     }, [])
 
     return (
-        <section ref={sectionRef} className="relative w-full py-15 md:py-28 px-4 md:px-8 lg:px-16 xl:px-20 bg-black-800 overflow-hidden">
+        <section ref={sectionRef} className="relative w-full py-15 md:py-15 px-4 md:px-8 lg:px-16 xl:px-20 bg-black-800 overflow-hidden mb-20">
             <div className="relative z-10 max-w-6xl mx-auto">
                 <div className={`flex flex-col items-center text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                     <Title

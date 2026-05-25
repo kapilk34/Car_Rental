@@ -1,89 +1,58 @@
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { assets } from '../assets/assets'
+
+const socials = [
+  { icon: assets.facebook_logo, label: 'Facebook', href: '#' },
+  { icon: assets.instagram_logo, label: 'Instagram', href: '#' },
+  { icon: assets.twitter_logo, label: 'Twitter', href: '#' },
+  { icon: assets.gmail_logo, label: 'Email', href: 'mailto:contact@carrental.com' },
+]
 
 const Footer = () => {
   return (
-    <footer className="bg-surface text-text-primary pt-16 pb-10 border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[var(--color-surface)] border-t border-[var(--color-border)]">
+      <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-5">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
-
-          {/* Company Info */}
-          <div>
-            <h3 className="text-2xl font-semibold mb-4 pb-1 border-b-2 border-accent inline-block">DriveSphere</h3>
-            <p className="text-sm text-text-secondary mb-4">
-              Your trusted partner for premium car rentals at affordable prices.
-            </p>
-            <div className="flex space-x-4">
-              {[FaFacebook, FaTwitter, FaInstagram, FaLinkedin].map((Icon, i) => (
-                <a key={i} href="#" aria-label="social link" className="text-text-secondary hover:text-accent transition duration-300">
-                  <Icon size={20} />
-                </a>
-              ))}
-            </div>
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="overflow-hidden rounded-xl">
+            <img
+              src="https://gvu57hqxi3.ufs.sh/f/FOd38ztMu1UwdyMcIgZp70jYMIdGQuW8qnyl5fzmKCVhtATS"
+              className="h-11 w-auto transition-transform duration-300 group-hover:scale-110"
+              alt="DriveSphere Logo"
+            />
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4 pb-1 border-b-2 border-accent inline-block">Quick Links</h3>
-            <ul className="space-y-2 text-sm text-text-secondary">
-              {['Home', 'Vehicles', 'About Us', 'FAQ', 'Contact'].map((text, i) => (
-                <li key={i}>
-                  <a href="#" className="hover:text-accent transition duration-300">{text}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <h1 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)]">
+            Drive<span className="text-[var(--color-accent)]">Sphere</span>
+          </h1>
+        </Link>
 
-          {/* Rental Info */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4 pb-1 border-b-2 border-accent inline-block">Rentals</h3>
-            <ul className="space-y-2 text-sm text-text-secondary">
-              {['Book a Car', 'Special Offers', 'Locations', 'Terms & Conditions', 'Privacy Policy'].map((text, i) => (
-                <li key={i}>
-                  <a href="#" className="hover:text-accent transition duration-300">{text}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4 pb-1 border-b-2 border-accent inline-block">Contact Us</h3>
-            <ul className="text-sm space-y-2 mb-5 text-text-secondary">
-              <li><span className="mr-2">📞</span> +1 (123) 456-7890</li>
-              <li><span className="mr-2">✉️</span> contact@drivesphere.com</li>
-              <li><span className="mr-2">📍</span> 123 Rental St, City, Country</li>
-            </ul>
-            <div>
-              <h4 className="text-base font-medium mb-2 text-text-primary">Newsletter</h4>
-              <form className="flex w-full max-w-xs">
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="w-full px-3 py-2 rounded-l text-sm bg-card border border-border text-text-primary placeholder-text-secondary focus:outline-none focus:border-primary transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="text-sm px-4 py-2 rounded-r text-white bg-primary hover:opacity-90 transition duration-300"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
+        {/* Social Icons */}
+        <div className="flex items-center gap-3">
+          {socials.map(({ icon, label, href }) => (
+            <a
+              key={label}
+              href={href}
+              aria-label={label}
+              className="w-10 h-10 flex items-center justify-center rounded-full 
+              bg-[var(--color-card)] border border-[var(--color-border)]
+              hover:border-[var(--color-accent)] hover:-translate-y-1
+              hover:shadow-md transition-all duration-300"
+            >
+              <img
+                src={icon}
+                alt={label}
+                className="w-4 h-4 opacity-80 group-hover:opacity-100"
+              />
+            </a>
+          ))}
         </div>
 
-        <div className="border-t border-border pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-text-secondary">
-          <p>© {new Date().getFullYear()} DriveSphere. All rights reserved.</p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
-            {['visa.png', 'mastercard.png', 'paypal.png'].map((src, i) => (
-              <img key={i} src={`/${src}`} alt={src.split('.')[0]} className="h-8 w-auto object-contain opacity-50" />
-            ))}
-          </div>
-        </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
