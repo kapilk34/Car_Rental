@@ -1,7 +1,6 @@
 import React from 'react'
-import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
-import { Heart } from 'lucide-react'
+import { Heart, Users, Fuel, Settings, MapPin, ArrowRight } from 'lucide-react'
 import { useAppContext } from '../context/AppContext'
 
 const CarCard = ({ car }) => {
@@ -10,70 +9,116 @@ const CarCard = ({ car }) => {
     const { wishlist, toggleWishlist } = useAppContext();
     const isWishlisted = wishlist.includes(car._id);
 
-
     return (
-        <div onClick={()=> {navigate(`/car-details/${car._id}`)}} className='group rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer card-elevated'>
-            <div className='relative h-48 overflow-hidden'>
-                <img src={car.image} alt='Car Image' className='w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105'/>
+        <div
+            onClick={() => navigate(`/car-details/${car._id}`)}
+            className='group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300'
+            style={{
+                backgroundColor: 'var(--color-card)',
+                border: '1px solid var(--color-border)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+            }}
+            onMouseEnter={e => e.currentTarget.style.boxShadow = '0 12px 40px rgba(37,99,235,0.18)'}
+            onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'}
+        >
+            {/* Image Section */}
+            <div className='relative h-52 overflow-hidden'>
+                <img
+                    src={car.image}
+                    alt={`${car.brand} ${car.model}`}
+                    className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
+                />
 
+                {/* Dark gradient overlay */}
+                <div className='absolute inset-0' style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)' }} />
+
+                {/* Available badge */}
                 {(car.isAvailable || car.isAvaliable) && (
-                    <p className='absolute top-4 left-4 text-white text-xs px-2.5 py-1 rounded-full font-semibold bg-primary'>
-                        Available Now
-                    </p>
+                    <span className='absolute top-3 left-3 text-white text-xs px-3 py-1 rounded-full font-semibold tracking-wide'
+                        style={{ background: 'linear-gradient(135deg, #2563EB, #4F46E5)' }}>
+                        Available
+                    </span>
                 )}
 
+                {/* Wishlist button */}
                 <button
                     type='button'
                     aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        toggleWishlist(car._id);
-                    }}
-                    className='absolute top-4 right-4 h-9 w-9 rounded-full text-white shadow flex items-center justify-center transition'
+                    onClick={e => { e.stopPropagation(); toggleWishlist(car._id); }}
+                    className='absolute top-3 right-3 h-9 w-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110'
                     style={{
-                        backgroundColor: "rgba(17, 24, 39, 0.85)",
-                        color: isWishlisted ? "#38BDF8" : "#94A3B8"
+                        backgroundColor: isWishlisted ? 'rgba(37,99,235,0.9)' : 'rgba(17,24,39,0.8)',
+                        backdropFilter: 'blur(6px)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: isWishlisted ? '#fff' : '#94A3B8',
                     }}
                 >
-                    <Heart size={18} fill={isWishlisted ? 'currentColor' : 'none'} />
+                    <Heart size={16} fill={isWishlisted ? 'currentColor' : 'none'} />
                 </button>
 
-                <div className='absolute bottom-4 right-4 backdrop-blur-sm text-white px-3 py-1 rounded-lg' style={{ backgroundColor: "rgba(10, 15, 30, 0.8)" }}>
-                    <span className='font-semibold text-accent'>
-                        {currency}{car.pricePerDay}
-                    </span>
-                    <span className='text-lg font-semibold'> / day</span>
+                {/* Price tag — bottom left over gradient */}
+                <div className='absolute bottom-3 left-4'>
+                    <span className='text-2xl font-bold text-white'>{currency}{car.pricePerDay}</span>
+                    <span className='text-xs text-gray-300 ml-1'>/ day</span>
                 </div>
+
+                {/* Category pill — bottom right */}
+                <span className='absolute bottom-3 right-4 text-xs px-2.5 py-1 rounded-full font-medium'
+                    style={{ backgroundColor: 'rgba(244,162,97,0.15)', color: 'var(--color-accent)', border: '1px solid rgba(244,162,97,0.3)' }}>
+                    {car.category}
+                </span>
             </div>
 
-            <div className='p-4 sm:p-5 bg-card'>
-                <div className='flex justify-between items-start mb-2'>
-                    <h3 className='text-lg font-medium text-text-primary'>
+            {/* Content Section */}
+            <div className='p-5'>
+                {/* Title row */}
+                <div className='flex justify-between items-center mb-1'>
+                    <h3 className='text-base font-bold tracking-tight' style={{ color: 'var(--color-text-primary)' }}>
                         {car.brand} {car.model}
                     </h3>
-                    <p className='text-text-secondary text-sm'>
-                        {car.category} . {car.year}
-                    </p>
+                    <span className='text-xs font-medium px-2 py-0.5 rounded'
+                        style={{ backgroundColor: 'var(--color-surface)', color: 'var(--color-text-secondary)' }}>
+                        {car.year}
+                    </span>
                 </div>
 
-                <div className='mt-4 grid grid-cols-2 gap-y-2'>
-                    <div className='flex items-center text-sm text-text-secondary'>
-                        <img src={assets.users_icon} alt='' className='h-4 mr-2' style={{ filter: "brightness(0.7)" }} />
-                        <span>{car.seating_capacity} Seats</span>
-                    </div>
-                    <div className='flex items-center text-sm text-text-secondary'>
-                        <img src={assets.fuel_icon} alt='' className='h-4 mr-2' style={{ filter: "brightness(0.7)" }} />
-                        <span>{car.fuel_type}</span>
-                    </div>
-                    <div className='flex items-center text-sm text-text-secondary'>
-                        <img src={assets.car_icon} alt='' className='h-4 mr-2' style={{ filter: "brightness(0.7)" }} />
-                        <span>{car.transmission}</span>
-                    </div>
-                    <div className='flex items-center text-sm text-text-secondary'>
-                        <img src={assets.location_icon} alt='' className='h-4 mr-2' style={{ filter: "brightness(0.7)" }} />
-                        <span>{car.location}</span>
-                    </div>
+                {/* Location */}
+                <div className='flex items-center gap-1 mb-4' style={{ color: 'var(--color-text-secondary)' }}>
+                    <MapPin size={12} />
+                    <span className='text-xs'>{car.location}</span>
                 </div>
+
+                {/* Divider */}
+                <div className='mb-4' style={{ height: '1px', backgroundColor: 'var(--color-border)' }} />
+
+                {/* Specs row */}
+                <div className='flex items-center justify-between mb-5'>
+                    {[
+                        { icon: <Users size={13} />, label: `${car.seating_capacity} Seats` },
+                        { icon: <Fuel size={13} />, label: car.fuel_type },
+                        { icon: <Settings size={13} />, label: car.transmission },
+                    ].map(({ icon, label }) => (
+                        <div key={label} className='flex items-center gap-1.5 text-xs'
+                            style={{ color: 'var(--color-text-secondary)' }}>
+                            {icon}
+                            <span>{label}</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* CTA Button */}
+                <button
+                    className='w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group/btn'
+                    style={{
+                        background: 'linear-gradient(135deg, #2563EB, #4F46E5)',
+                        color: '#fff',
+                        boxShadow: '0 4px 14px rgba(37,99,235,0.3)',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.boxShadow = '0 6px 20px rgba(37,99,235,0.5)'}
+                    onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 14px rgba(37,99,235,0.3)'}
+                >
+                    Rent Now
+                </button>
             </div>
         </div>
     )
