@@ -3,6 +3,8 @@ import { CalendarDays, Car, Heart, MapPin, WalletCards } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Title from '../components/Title';
 import { useAppContext } from '../context/AppContext';
+import { useBookingSocket } from '../context/BookingSocketContext';
+import BookingStatusBadge from '../components/BookingStatusBadge';
 
 const UserDashboard = () => {
   const {
@@ -14,6 +16,7 @@ const UserDashboard = () => {
     wishlist,
   } = useAppContext();
   const currency = import.meta.env.VITE_CURRENCY;
+  const { joinSocket, bookingUpdates, notifications, setNotifications } = useBookingSocket();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,10 +46,43 @@ const UserDashboard = () => {
     }
   };
 
+  // Join socket when component mounts
   useEffect(() => {
+    if (user?._id) {
+      joinSocket(user._id, 'user');
+    }
     fetchCars();
     fetchBookings();
-  }, []);
+  }, [user]);
+
+  // Listen for real-time booking status updates
+  useEffect(() => {
+    if (bookingUpdates.length > 0) {
+      const latestUpdate = bookingUpdates[bookingUpdates.length - 1];
+      setBookings(prev =>
+        prev.map(booking =>
+          booking._id === latestUpdate.bookingId
+            ? { ...booking, status: latestUpdate.status }
+            : booking
+        )
+      );
+    }
+  }, [bookingUpdates]);
+
+  // Show notifications
+  useEffect(() => {
+    notifications.forEach(notification => {
+      if (notification.type === 'bookingCreated') {
+        toast.success('✓ Booking created! Waiting for approval...');
+      } else if (notification.type === 'statusUpdate') {
+        if (notification.status === 'confirmed') {
+          toast.success('✓ Your booking has been confirmed!');
+        } else if (notification.status === 'cancelled') {
+          toast.error('Your booking has been cancelled');
+        }
+      }
+    });
+  }, [notifications]);
 
   return (
     <div className="px-4 md:px-8 py-8">
@@ -124,15 +160,9 @@ const UserDashboard = () => {
                     </div>
                     <div className="sm:text-right">
                       <p className="font-semibold text-text-primary">{currency}{booking.price}</p>
-                      <span className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-semibold ${
-                        booking.status === 'confirmed'
-                          ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                          : booking.status === 'cancelled'
-                            ? 'bg-red-500/10 text-red-400 border border-red-500/20'
-                            : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                      }`}>
-                        {booking.status}
-                      </span>
+                      <div className="mt-2">
+                        <BookingStatusBadge status={booking.status} isLive={true} />
+                      </div>
                     </div>
                   </div>
                 ))}

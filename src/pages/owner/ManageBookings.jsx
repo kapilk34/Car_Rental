@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Title from '../../components/owners/Title';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useAppContext } from '../../context/AppContext';
+import { useBookingSocket } from '../../context/BookingSocketContext';
+import BookingStatusBadge from '../../components/BookingStatusBadge';
 
 const ManageBookings = () => {
 
   const currency = import.meta.env.VITE_CURRENCY
+  const { user } = useAppContext()
+  const { joinSocket, adminBookings, setAdminBookings, updateBookingStatus, requestAllBookings } = useBookingSocket()
   const [ bookings, setBookings] = useState([])
   const [ loading, setLoading] = useState(false)
   const [ updatingId, setUpdatingId] = useState(null)
@@ -13,7 +18,7 @@ const ManageBookings = () => {
   const fetchOwnerBookingsData = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.get('api/bookings/owner')
+      const { data } = await axios.get('/api/bookings/owner')
 
       if (data.success) {
         setBookings(data.bookings)
@@ -33,13 +38,16 @@ const ManageBookings = () => {
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
       setUpdatingId(bookingId)
-      const { data } = await axios.post('api/bookings/change-status', 
+      const { data } = await axios.post('/api/bookings/change-status', 
         { bookingId, status: newStatus }
       )
 
       if (data.success) {
         toast.success(data.message || 'Booking status updated successfully')
-        fetchOwnerBookingsData()
+        // Emit socket event for real-time update
+        updateBookingStatus(bookingId, newStatus)
+        // Update local bookings
+        setBookings(prev => prev.map(b => b._id === bookingId ? {...b, status: newStatus} : b))
       } else {
         toast.error(data.message || 'Failed to update booking status')
       }
@@ -51,9 +59,31 @@ const ManageBookings = () => {
     }
   }
 
-  useEffect(()=>{
-    fetchOwnerBookingsData()
-  },[])
+  // Join socket when component mounts
+  useEffect(() => {
+    if (user?._id) {
+      joinSocket(user._id, 'owner')
+      fetchOwnerBookingsData()
+    }
+  }, [user])
+
+  // Listen for new bookings from socket
+  useEffect(() => {
+    if (adminBookings.length > 0 && bookings.length > 0) {
+      // Check if there are new bookings not in current list
+      const existingIds = new Set(bookings.map(b => b._id))
+      const newBookingsToAdd = adminBookings.filter(b => !existingIds.has(b.bookingId))
+      
+      if (newBookingsToAdd.length > 0) {
+        // Add new bookings from socket
+        setBookings(prev => [...newBookingsToAdd, ...prev])
+        // Show toast notification for new bookings
+        newBookingsToAdd.forEach(b => {
+          toast.success(`New booking from ${b.user?.name || 'Customer'}!`)
+        })
+      }
+    }
+  }, [adminBookings])
 
   return (
     <div className="px-4 pt-10 md:px-10 w-full">
@@ -114,9 +144,7 @@ const ManageBookings = () => {
                         <option value="confirmed">Confirmed</option>
                       </select>
                     ) : (
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${booking.status === 'confirmed' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                        {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
-                      </span>
+                      <BookingStatusBadge status={booking.status} isLive={false} />
                     )}
                   </td>
                 </tr>

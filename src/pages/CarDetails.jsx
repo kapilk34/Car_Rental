@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import Loader from '../components/Loader'
 import { useAppContext } from '../context/AppContext'
+import { useBookingSocket } from '../context/BookingSocketContext'
 import toast from 'react-hot-toast'
 import { Heart } from 'lucide-react'
 
@@ -12,7 +13,8 @@ const CarDetails = () => {
   const [car, setCar] = useState(null)
   const [pickupDate, setPickupDate] = useState('')
   const [returnDate, setReturnDate] = useState('')
-  const { axios, cars, fetchCars, token, setShowLogin, wishlist, toggleWishlist } = useAppContext()
+  const { axios, cars, fetchCars, token, setShowLogin, wishlist, toggleWishlist, user } = useAppContext()
+  const { emitNewBooking } = useBookingSocket()
   const currency = import.meta.env.VITE_CURRENCY
   const isWishlisted = wishlist.includes(id)
 
@@ -32,6 +34,9 @@ const CarDetails = () => {
       })
 
       if (data.success) {
+        // Emit socket event for real-time notification to admin
+        emitNewBooking({ bookingId: data.bookingId })
+        
         toast.success(data.message || 'Booking created successfully')
         navigate('/dashboard')
       } else {

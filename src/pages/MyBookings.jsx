@@ -2,13 +2,16 @@ import React, { useState, useEffect} from 'react'
 import { assets } from '../assets/assets'
 import Title from '../components/Title'
 import { useAppContext } from '../context/AppContext'
+import { useBookingSocket } from '../context/BookingSocketContext'
+import BookingStatusBadge from '../components/BookingStatusBadge'
 import toast from 'react-hot-toast'
 
 const MyBookings = () => {
 
   const [bookings, setBookings] = useState([])
   const currency = import.meta.env.VITE_CURRENCY
-  const { axios } = useAppContext()
+  const { axios, user } = useAppContext()
+  const { joinSocket, userBookings, bookingUpdates } = useBookingSocket()
 
   const fetchMyBookings = async () =>{
     try {
@@ -24,9 +27,27 @@ const MyBookings = () => {
     }
   }
 
-  useEffect(()=>{
-    fetchMyBookings()
-  },[])
+  // Join socket when component mounts
+  useEffect(() => {
+    if (user?._id) {
+      joinSocket(user._id, 'user')
+      fetchMyBookings()
+    }
+  }, [user])
+
+  // Listen for booking updates from socket
+  useEffect(() => {
+    if (bookingUpdates.length > 0) {
+      // Update local bookings with new status
+      setBookings(prev =>
+        prev.map(booking =>
+          bookingUpdates.some(update => update.bookingId === booking._id)
+            ? { ...booking, status: bookingUpdates.find(u => u.bookingId === booking._id)?.status }
+            : booking
+        )
+      )
+    }
+  }, [bookingUpdates])
 
   return (
     <div className='px-4 md:px-8 py-8 text-sm max-w-7xl text-text-primary'>
@@ -54,7 +75,7 @@ const MyBookings = () => {
             <div className='md:col-span-2'>
               <div className='flex items-center gap-2'>
                 <p className='px-3 py-1.5 bg-surface border border-border rounded text-text-secondary'>Booking #{index+1}</p>
-                <p className={`px-3 py-1 text-xs rounded-r-full ${booking.status === 'confirmed' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}`}>{booking.status}</p>
+                <BookingStatusBadge status={booking.status} isLive={true} />
               </div>
 
               <div className='flex items-start gap-2 mt-3'>
