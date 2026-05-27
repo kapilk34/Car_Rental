@@ -18,6 +18,7 @@ import AddCar from './pages/owner/AddCar'
 import ManageBookings from './pages/owner/ManageBookings'
 import ManageCars from './pages/owner/ManageCars'
 import { useAppContext } from './context/AppContext'
+import ChatBot from './components/ChatBot'
 
 const ProtectedRoute = ({ children, ownerOnly = false, userOnly = false }) => {
   const { token, user, isOwner, isLoading } = useAppContext()
@@ -70,6 +71,7 @@ const App = () => {
       </Routes>
 
     {!isOwnerPath && !isDashboardPath && <Footer/>}
+    {!isOwnerPath && !isDashboardPath && <ChatBot/>}
     </>
   )
 }
