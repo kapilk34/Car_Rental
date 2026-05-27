@@ -21,7 +21,6 @@ const CarCard = ({ car }) => {
             onMouseEnter={e => e.currentTarget.style.boxShadow = '0 12px 40px rgba(37,99,235,0.18)'}
             onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'}
         >
-            {/* Image Section */}
             <div className='relative h-52 overflow-hidden'>
                 <img
                     src={car.image}
@@ -29,7 +28,6 @@ const CarCard = ({ car }) => {
                     className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
                 />
 
-                {/* Dark gradient overlay */}
                 <div className='absolute inset-0' style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)' }} />
 
                 {/* Available badge */}
@@ -40,7 +38,6 @@ const CarCard = ({ car }) => {
                     </span>
                 )}
 
-                {/* Wishlist button */}
                 <button
                     type='button'
                     aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
@@ -56,22 +53,18 @@ const CarCard = ({ car }) => {
                     <Heart size={16} fill={isWishlisted ? 'currentColor' : 'none'} />
                 </button>
 
-                {/* Price tag — bottom left over gradient */}
                 <div className='absolute bottom-3 left-4'>
                     <span className='text-2xl font-bold text-white'>{currency}{car.pricePerDay}</span>
                     <span className='text-xs text-gray-300 ml-1'>/ day</span>
                 </div>
 
-                {/* Category pill — bottom right */}
                 <span className='absolute bottom-3 right-4 text-xs px-2.5 py-1 rounded-full font-medium'
                     style={{ backgroundColor: 'rgba(244,162,97,0.15)', color: 'var(--color-accent)', border: '1px solid rgba(244,162,97,0.3)' }}>
                     {car.category}
                 </span>
             </div>
 
-            {/* Content Section */}
             <div className='p-5'>
-                {/* Title row */}
                 <div className='flex justify-between items-center mb-1'>
                     <h3 className='text-base font-bold tracking-tight' style={{ color: 'var(--color-text-primary)' }}>
                         {car.brand} {car.model}
@@ -82,16 +75,13 @@ const CarCard = ({ car }) => {
                     </span>
                 </div>
 
-                {/* Location */}
                 <div className='flex items-center gap-1 mb-4' style={{ color: 'var(--color-text-secondary)' }}>
                     <MapPin size={12} />
                     <span className='text-xs'>{car.location}</span>
                 </div>
 
-                {/* Divider */}
                 <div className='mb-4' style={{ height: '1px', backgroundColor: 'var(--color-border)' }} />
 
-                {/* Specs row */}
                 <div className='flex items-center justify-between mb-5'>
                     {[
                         { icon: <Users size={13} />, label: `${car.seating_capacity} Seats` },
@@ -106,7 +96,6 @@ const CarCard = ({ car }) => {
                     ))}
                 </div>
 
-                {/* CTA Button */}
                 <button
                     className='w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group/btn'
                     style={{

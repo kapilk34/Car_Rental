@@ -16,7 +16,6 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
-  // Login / Register
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
@@ -50,7 +49,6 @@ const Login = () => {
     }
   };
 
-  // Google Login
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -93,7 +91,6 @@ const Login = () => {
         className="relative w-full max-w-sm rounded-2xl shadow-2xl border animate-fadeIn"
         style={{ backgroundColor: "#1C1C1C", borderColor: "#2F2F2F" }}
       >
-        {/* Header strip */}
         <div className="px-6 pt-6 pb-4 border-b" style={{ borderColor: "#2F2F2F" }}>
           <button
             type="button"
@@ -113,7 +110,6 @@ const Login = () => {
 
         <div className="px-6 py-5 flex flex-col gap-3">
 
-          {/* Name */}
           {state === "register" && (
             <div>
               <label className="text-xs font-medium text-white block mb-1.5">Full Name</label>
@@ -131,7 +127,6 @@ const Login = () => {
             </div>
           )}
 
-          {/* Email */}
           <div>
             <label className="text-xs font-medium text-white block mb-1.5">Email Address</label>
             <div className="flex items-center border rounded-xl px-3 py-2.5 transition-all"
@@ -147,7 +142,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Password */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-medium text-white">Password</label>
@@ -183,14 +177,12 @@ const Login = () => {
             {state === "register" ? "Create Account" : "Login"}
           </button>
 
-          {/* Divider */}
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px" style={{ backgroundColor: "#2F2F2F" }} />
             <span className="text-xs" style={{ color: "#B3B3B3" }}>OR</span>
             <div className="flex-1 h-px" style={{ backgroundColor: "#2F2F2F" }} />
           </div>
 
-          {/* Google */}
           <button type="button" onClick={handleGoogleLogin}
             className="w-full flex items-center justify-center gap-2.5 border py-2.5 rounded-xl transition-all duration-300 text-sm font-medium text-white"
             style={{ borderColor: "#2F2F2F", backgroundColor: "#242424" }}
@@ -201,7 +193,6 @@ const Login = () => {
             Continue with Google
           </button>
 
-          {/* Switch */}
           <p className="text-center text-xs" style={{ color: "#B3B3B3" }}>
             {state === "login" ? "Don't have an account?" : "Already have an account?"}
             <span

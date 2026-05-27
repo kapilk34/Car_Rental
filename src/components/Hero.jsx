@@ -22,7 +22,6 @@ const Hero = () => {
               Hello, Ready To
               <br />
               Drive Your
-              {/* <br /> */}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-white">
                 {" "}Dream Car?
               </span>

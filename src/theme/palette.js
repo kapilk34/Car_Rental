@@ -1,16 +1,15 @@
 export const palette = {
-  primary: "#2563EB",      // Professional Blue
-  secondary: "#111111",    // Deep black
+  primary: "#2563EB",
+  secondary: "#111111",
   background: "#0F0F0F",
   surface: "#1C1C1C",
   card: "#242424",
   textPrimary: "#FFFFFF",
   textSecondary: "#B3B3B3",
-  accent: "#F4A261",       // Premium gold touch
+  accent: "#F4A261",
   border: "#2F2F2F",
 };
 
-// Utility function to get colors with opacity
 export const withOpacity = (color, opacity) => {
   const hex = color.replace("#", "");
   const r = parseInt(hex.substring(0, 2), 16);
@@ -19,7 +18,6 @@ export const withOpacity = (color, opacity) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 
-// Shadow utilities for premium feel
 export const shadows = {
   sm: "0 1px 2px rgba(0, 0, 0, 0.3)",
   md: "0 4px 6px rgba(0, 0, 0, 0.4)",

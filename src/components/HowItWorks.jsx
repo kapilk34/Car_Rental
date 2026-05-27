@@ -38,14 +38,12 @@ const StepCard = ({ step, idx, isVisible }) => {
             className={`relative transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             style={{ transitionDelay: `${idx * 160}ms` }}
         >
-            {/* Arrow connector */}
             {idx < steps.length - 1 && (
                 <div className="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card border border-border items-center justify-center shadow-lg">
                     <ArrowRight size={16} className="text-text-secondary" />
                 </div>
             )}
 
-            {/* Card */}
             <div
                 className="group relative h-full rounded-3xl bg-card border border-border overflow-hidden hover:-translate-y-2 transition-all duration-500 hover:border-opacity-60"
                 style={{ '--glow': step.glowColor }}
@@ -58,7 +56,6 @@ const StepCard = ({ step, idx, isVisible }) => {
 
                 <div className="relative p-7 flex flex-col h-full">
 
-                    {/* Tag + big number */}
                     <div className="flex items-center justify-between mb-5">
                         <span
                             className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border"
@@ -78,11 +75,9 @@ const StepCard = ({ step, idx, isVisible }) => {
                         </span>
                     </div>
 
-                    {/* Text */}
                     <h3 className="text-lg font-bold text-text-primary mb-2">{step.title}</h3>
                     <p className="text-text-secondary text-sm leading-relaxed flex-1">{step.description}</p>
 
-                    {/* Hover CTA */}
                     <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         style={{ color: step.gradientFrom }}>
                         Get started <ArrowRight size={12} />

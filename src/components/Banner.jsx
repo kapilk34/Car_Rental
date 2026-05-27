@@ -9,7 +9,6 @@ const Banner = () => {
         boxShadow: "0 20px 40px rgba(26, 86, 219, 0.35)"
       }}
     >
-      {/* Content */}
       <div className='text-white z-10 md:w-1/2 mb-8 md:mb-0'>
         <h2 className='text-3xl md:text-4xl font-bold mb-4'>Own a Luxury Car?</h2>
         <p className='text-lg font-medium mb-4'>Monetize your vehicle effortlessly by listing it on DriveSphere</p>
@@ -21,7 +20,6 @@ const Banner = () => {
         </button>
       </div>
 
-      {/* Image */}
       <div className='relative z-10 w-full md:w-1/2 flex justify-center'>
         <img
           src={assets.banner_car_image}
@@ -30,7 +28,6 @@ const Banner = () => {
         />
       </div>
 
-      {/* Decorative elements */}
       <div className='absolute inset-0 bg-gradient-to-t from-black/10 to-transparent z-0'></div>
       <div className='absolute -right-20 -top-20 w-64 h-64 rounded-full bg-white/5'></div>
       <div className='absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-white/5'></div>
