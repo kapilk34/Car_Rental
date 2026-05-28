@@ -42,15 +42,19 @@ const CarDetails = () => {
       return
     }
     try {
+      toast.loading('Creating booking...')
       const { data } = await axios.post('/api/bookings/create', { car: id, pickupDate, returnDate })
       if (data.success) {
-        emitNewBooking({ bookingId: data.bookingId })
-        toast.success(data.message || 'Booking created successfully')
-        navigate('/dashboard')
+        toast.dismiss()
+        toast.success('Proceeding to payment')
+        // Navigate to payment page with booking ID
+        navigate(`/checkout?bookingId=${data.bookingId}`)
       } else {
+        toast.dismiss()
         toast.error(data.message || 'Unable to create booking')
       }
     } catch (error) {
+      toast.dismiss()
       toast.error(error.response?.data?.message || 'Unable to create booking')
     }
   }
@@ -276,7 +280,6 @@ const CarDetails = () => {
                   />
                 </div>
 
-                {/* Total summary */}
                 {totalDays && (
                   <div className='rounded-xl p-4 space-y-2'
                     style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>

@@ -11,6 +11,7 @@ import MyBookings from './pages/MyBookings'
 import UserDashboard from './pages/UserDashboard'
 import UserLayout from './pages/user/Layout'
 import UserWishlist from './pages/user/Wishlist'
+import StripeCheckout from './components/StripeCheckout'
 import Footer from './components/Footer'
 import Layout from './pages/owner/Layout'
 import Dashboard from './pages/owner/Dashboard'
@@ -43,17 +44,19 @@ const App = () => {
   const pathname = useLocation().pathname
   const isOwnerPath = pathname.startsWith('/owner')
   const isDashboardPath = pathname.startsWith('/dashboard')
+  const isCheckoutPath = pathname.startsWith('/checkout')
 
   return (
     <>
       <Toaster />
       {showLogin && <Login/>}
-      {!isOwnerPath && !isDashboardPath && <NavBar/>}
+      {!isOwnerPath && !isDashboardPath && !isCheckoutPath && <NavBar/>}
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/car-details/:id" element={<CarDetails />} />
         <Route path="/cars" element={<Cars />} />
+        <Route path="/checkout" element={<ProtectedRoute><StripeCheckout /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute userOnly><UserLayout /></ProtectedRoute>}>
           <Route index element={<UserDashboard />} />
           <Route path="bookings" element={<MyBookings />} />
@@ -70,8 +73,8 @@ const App = () => {
         </Route>
       </Routes>
 
-    {!isOwnerPath && !isDashboardPath && <Footer/>}
-    {!isOwnerPath && !isDashboardPath && <ChatBot/>}
+    {!isOwnerPath && !isDashboardPath && !isCheckoutPath && <Footer/>}
+    {!isOwnerPath && !isDashboardPath && !isCheckoutPath && <ChatBot/>}
     </>
   )
 }
