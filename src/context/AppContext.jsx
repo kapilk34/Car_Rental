@@ -21,7 +21,6 @@ export const AppProvider = ({ children }) => {
   const [cars, setCars] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
-  // Function to check the user is logged in
   const fetchUser = async () => {
     setIsLoading(true);
     try {
@@ -46,7 +45,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // Function to fetch all cars from the server
   const fetchCars = async () => {
     try {
       const { data } = await axios.get('api/user/cars');
@@ -62,7 +60,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // Function to log out the user
   const logout = () => {
     localStorage.removeItem('token');
     setToken(null);
@@ -91,14 +88,12 @@ export const AppProvider = ({ children }) => {
     });
   };
 
-  // useEffect to retrieve the token from localStorage
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
     fetchCars();
   }, []);
 
-  // useEffect to fetch user data when token is available
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

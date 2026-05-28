@@ -59,7 +59,6 @@ const suggestCars = (message, cars) => {
     applyRequiredFilter(c => c.transmission?.toLowerCase().includes('manual'))
   }
 
-  // Seats / passengers
   const seatMatch = msg.match(/(\d+)\s*(seat|person|people|passenger|member)/)
   if (seatMatch) {
     const seats = parseInt(seatMatch[1])
@@ -69,7 +68,6 @@ const suggestCars = (message, cars) => {
     applyRequiredFilter(c => c.seating_capacity >= 5)
   }
 
-  // Brand
   const brands = ['toyota', 'honda', 'bmw', 'mercedes', 'ford', 'hyundai', 'kia', 'audi', 'tesla', 'nissan', 'chevrolet', 'volkswagen', 'mazda', 'subaru', 'jeep', 'lexus']
   brands.forEach(brand => {
     if (msg.includes(brand)) {
@@ -77,7 +75,6 @@ const suggestCars = (message, cars) => {
     }
   })
 
-  // Year / new
   if (/new|latest|recent|2024|2025/.test(msg)) {
     filtered = [...filtered].sort((a, b) => b.year - a.year)
   }

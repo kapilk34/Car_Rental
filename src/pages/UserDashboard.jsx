@@ -46,7 +46,6 @@ const UserDashboard = () => {
     }
   };
 
-  // Join socket when component mounts
   useEffect(() => {
     if (user?._id) {
       joinSocket(user._id, 'user');
@@ -55,7 +54,6 @@ const UserDashboard = () => {
     fetchBookings();
   }, [user]);
 
-  // Listen for real-time booking status updates
   useEffect(() => {
     if (bookingUpdates.length > 0) {
       const latestUpdate = bookingUpdates[bookingUpdates.length - 1];
@@ -69,7 +67,6 @@ const UserDashboard = () => {
     }
   }, [bookingUpdates]);
 
-  // Show notifications
   useEffect(() => {
     notifications.forEach(notification => {
       if (notification.type === 'bookingCreated') {

@@ -51,7 +51,6 @@ export const BookingSocketProvider = ({ children }) => {
         };
     }, []);
 
-    // User joins socket with their ID and type
     const joinSocket = useCallback((userId, userType = 'user') => {
         if (socket && isConnected) {
             socket.emit('userJoined', userId, userType);
@@ -59,7 +58,6 @@ export const BookingSocketProvider = ({ children }) => {
         }
     }, [socket, isConnected]);
 
-    // Listen for new booking (for admin/owners)
     useEffect(() => {
         if (!socket) return;
 
@@ -67,8 +65,6 @@ export const BookingSocketProvider = ({ children }) => {
             console.log('New booking received:', booking);
             setNewBookings((prev) => [booking, ...prev]);
             setAdminBookings((prev) => [booking, ...prev]);
-            
-            // Add notification
             setNotifications((prev) => [...prev, {
                 id: Date.now(),
                 type: 'newBooking',
@@ -83,15 +79,12 @@ export const BookingSocketProvider = ({ children }) => {
         };
     }, [socket]);
 
-    // Listen for booking status update (for user)
     useEffect(() => {
         if (!socket) return;
 
         socket.on('bookingStatusUpdated', (data) => {
             console.log('Booking status updated:', data);
             setBookingUpdates((prev) => [data, ...prev]);
-            
-            // Update user bookings
             setUserBookings((prev) =>
                 prev.map((booking) =>
                     booking.bookingId === data.bookingId
@@ -99,8 +92,6 @@ export const BookingSocketProvider = ({ children }) => {
                         : booking
                 )
             );
-
-            // Add notification
             setNotifications((prev) => [...prev, {
                 id: Date.now(),
                 type: 'statusUpdate',
@@ -115,14 +106,11 @@ export const BookingSocketProvider = ({ children }) => {
         };
     }, [socket]);
 
-    // Listen for booking status change (for admin)
     useEffect(() => {
         if (!socket) return;
 
         socket.on('bookingStatusChanged', (data) => {
             console.log('Booking status changed:', data);
-            
-            // Update admin bookings
             setAdminBookings((prev) =>
                 prev.map((booking) =>
                     booking.bookingId === data.bookingId
@@ -137,7 +125,6 @@ export const BookingSocketProvider = ({ children }) => {
         };
     }, [socket]);
 
-    // Listen for booking creation confirmation (for user)
     useEffect(() => {
         if (!socket) return;
 
@@ -158,7 +145,6 @@ export const BookingSocketProvider = ({ children }) => {
         };
     }, [socket]);
 
-    // Listen for all bookings (admin gets initial data)
     useEffect(() => {
         if (!socket) return;
 
@@ -172,7 +158,6 @@ export const BookingSocketProvider = ({ children }) => {
         };
     }, [socket]);
 
-    // Listen for user bookings
     useEffect(() => {
         if (!socket) return;
 
@@ -186,28 +171,24 @@ export const BookingSocketProvider = ({ children }) => {
         };
     }, [socket]);
 
-    // Update booking status (emit from admin)
     const updateBookingStatus = useCallback((bookingId, newStatus) => {
         if (socket && isConnected) {
             socket.emit('updateBookingStatus', { bookingId, newStatus });
         }
     }, [socket, isConnected]);
 
-    // Request all bookings (admin)
     const requestAllBookings = useCallback((ownerId) => {
         if (socket && isConnected) {
             socket.emit('requestAllBookings', ownerId);
         }
     }, [socket, isConnected]);
 
-    // Request user bookings
     const requestUserBookings = useCallback((userId) => {
         if (socket && isConnected) {
             socket.emit('requestUserBookings', userId);
         }
     }, [socket, isConnected]);
 
-    // Emit new booking event (from user creating booking)
     const emitNewBooking = useCallback((bookingData) => {
         if (socket && isConnected) {
             socket.emit('newBookingCreated', bookingData);

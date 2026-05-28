@@ -8,7 +8,6 @@ const Sidebar = () => {
   const { user, axios, fetchUser } = useAppContext();
   const location = useLocation();
 
-  // store both the file and preview URL
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(user?.image);
 

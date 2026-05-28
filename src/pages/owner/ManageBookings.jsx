@@ -44,9 +44,7 @@ const ManageBookings = () => {
 
       if (data.success) {
         toast.success(data.message || 'Booking status updated successfully')
-        // Emit socket event for real-time update
         updateBookingStatus(bookingId, newStatus)
-        // Update local bookings
         setBookings(prev => prev.map(b => b._id === bookingId ? {...b, status: newStatus} : b))
       } else {
         toast.error(data.message || 'Failed to update booking status')
@@ -59,7 +57,6 @@ const ManageBookings = () => {
     }
   }
 
-  // Join socket when component mounts
   useEffect(() => {
     if (user?._id) {
       joinSocket(user._id, 'owner')
@@ -67,17 +64,13 @@ const ManageBookings = () => {
     }
   }, [user])
 
-  // Listen for new bookings from socket
   useEffect(() => {
     if (adminBookings.length > 0 && bookings.length > 0) {
-      // Check if there are new bookings not in current list
       const existingIds = new Set(bookings.map(b => b._id))
       const newBookingsToAdd = adminBookings.filter(b => !existingIds.has(b.bookingId))
       
       if (newBookingsToAdd.length > 0) {
-        // Add new bookings from socket
         setBookings(prev => [...newBookingsToAdd, ...prev])
-        // Show toast notification for new bookings
         newBookingsToAdd.forEach(b => {
           toast.success(`New booking from ${b.user?.name || 'Customer'}!`)
         })

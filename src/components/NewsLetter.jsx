@@ -34,7 +34,6 @@ const NewsLetter = () => {
             <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full blur-3xl"
                 style={{ background: "radial-gradient(circle, rgba(56,189,248,0.08), transparent)" }} />
 
-            {/* Floating particles */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 {[...Array(12)].map((_, i) => (
                     <div
@@ -62,7 +61,6 @@ const NewsLetter = () => {
                             />
                         </div>
 
-                        {/* Form */}
                         <form
                             onSubmit={handleSubmit}
                             className={`relative flex flex-col sm:flex-row items-center gap-3 max-w-xl mx-auto transition-all duration-500 ${isFocused ? 'scale-[1.02]' : 'scale-100'}`}
@@ -124,7 +122,6 @@ const NewsLetter = () => {
                             </button>
                         </form>
 
-                        {/* Trust indicators */}
                         <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-text-secondary">
                             {[
                                 { text: "No spam, ever", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },

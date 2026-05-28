@@ -27,7 +27,6 @@ const MyBookings = () => {
     }
   }
 
-  // Join socket when component mounts
   useEffect(() => {
     if (user?._id) {
       joinSocket(user._id, 'user')
@@ -35,10 +34,8 @@ const MyBookings = () => {
     }
   }, [user])
 
-  // Listen for booking updates from socket
   useEffect(() => {
     if (bookingUpdates.length > 0) {
-      // Update local bookings with new status
       setBookings(prev =>
         prev.map(booking =>
           bookingUpdates.some(update => update.bookingId === booking._id)

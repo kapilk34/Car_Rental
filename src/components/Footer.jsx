@@ -14,7 +14,6 @@ const Footer = () => {
     <footer className="bg-[var(--color-surface)] border-t border-[var(--color-border)]">
       <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-5">
 
-        {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="overflow-hidden rounded-xl">
             <img
@@ -29,7 +28,6 @@ const Footer = () => {
           </h1>
         </Link>
 
-        {/* Social Icons */}
         <div className="flex items-center gap-3">
           {socials.map(({ icon, label, href }) => (
             <a

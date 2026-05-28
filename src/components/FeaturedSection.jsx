@@ -58,7 +58,6 @@ const FeaturedSection = () => {
             onMouseLeave={() => setIsHovering(false)}
             className='relative overflow-hidden w-full py-14 md:py-16 px-1 md:px-8 lg:px-16 xl:px-20 bg-background'
         >
-            {/* Ambient cursor glow */}
             <div
                 className='pointer-events-none absolute w-[600px] h-[600px] rounded-full blur-[120px] transition-opacity duration-700'
                 style={{
@@ -69,7 +68,6 @@ const FeaturedSection = () => {
                 }}
             />
 
-            {/* Background orbs */}
             <div className='absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[100px] animate-pulse'
                 style={{ background: 'radial-gradient(circle, rgba(26,86,219,0.12) 0%, transparent 70%)' }} />
             <div className='absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] animate-pulse'
@@ -104,7 +102,6 @@ const FeaturedSection = () => {
                     />
                 </div>
 
-                {/* Feature Cards */}
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 w-full'>
                     {features.map((feature, idx) => {
                         const cardRef = useRef(null)
@@ -152,7 +149,6 @@ const FeaturedSection = () => {
                     })}
                 </div>
 
-                {/* CTA */}
                 <div className='mt-10 text-center'>
                     <button
                         onClick={scrollToCars}

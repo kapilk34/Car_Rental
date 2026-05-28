@@ -76,7 +76,6 @@ const NavBar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       <div
         className={`lg:hidden fixed top-[73px] right-0 h-screen w-full bg-surface transition-all duration-300 ease-in-out ${
           open ? "translate-x-0" : "translate-x-full"
