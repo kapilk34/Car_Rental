@@ -32,17 +32,6 @@ const Hero = () => {
               affordable pricing, and premium comfort for every journey you take.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-2">
-              <button className="group inline-flex items-center gap-3 rounded-2xl px-7 py-3 text-white font-semibold bg-primary shadow-lg shadow-primary/30 hover:opacity-90 hover:-translate-y-0.5 transition-all duration-300">
-                Explore Cars
-              </button>
-
-              <button className="inline-flex items-center gap-3 rounded-2xl border border-border bg-surface/70 px-6 py-3 text-text-primary font-semibold hover:border-accent/50 hover:bg-card transition-all duration-300">
-                <FaPlayCircle className="text-3xl text-white" />
-                Watch Video
-              </button>
-            </div>
-
             <div className="grid grid-cols-3 gap-5 pt-4">
               <div className="rounded-2xl border border-border bg-card/60 p-4">
                 <h2 className="text-2xl font-bold text-text-primary">500+</h2>
