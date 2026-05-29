@@ -6,14 +6,27 @@ import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 import { ArrowLeft, AlertCircle, Lock } from 'lucide-react'
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+const stripePromise = (() => {
+  if (!stripePublishableKey?.startsWith('pk_')) {
+    return null
+  }
 
-const CheckoutForm = ({ bookingId, amount, onSuccess }) => {
+  if (globalThis.__carRentalStripeKey !== stripePublishableKey) {
+    globalThis.__carRentalStripeKey = stripePublishableKey
+    globalThis.__carRentalStripePromise = loadStripe(stripePublishableKey)
+  }
+
+  return globalThis.__carRentalStripePromise
+})()
+
+const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
   const stripe = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [cardComplete, setCardComplete] = useState(false)
+  const [paymentType, setPaymentType] = useState("now") // "now" or "at_pickup"
   const navigate = useNavigate()
   const { axios, token } = useAppContext()
 
@@ -26,66 +39,96 @@ const CheckoutForm = ({ bookingId, amount, onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!stripe || !elements || !cardComplete) {
-      setError('Please enter valid card details')
-      return
+    // Validation based on payment type
+    if (paymentType === 'now') {
+      if (!stripeConfigured) {
+        setError('Stripe is not properly configured. Please check VITE_STRIPE_PUBLISHABLE_KEY.')
+        return
+      }
+
+      if (!stripe || !elements || !cardComplete) {
+        setError('Please enter valid card details')
+        return
+      }
     }
 
     setLoading(true)
     setError(null)
 
     try {
-      // Step 1: Create payment intent on backend
-      const { data: intentData } = await axios.post(
-        '/api/bookings/create-payment-intent',
-        { bookingId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+      // If paying now, process with Stripe
+      if (paymentType === 'now') {
+        // Step 1: Create payment intent on backend
+        const { data: intentData } = await axios.post(
+          '/api/bookings/create-payment-intent',
+          { bookingId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
 
-      if (!intentData.success) {
-        throw new Error(intentData.message || 'Failed to create payment intent')
-      }
+        if (!intentData.success) {
+          throw new Error(intentData.message || 'Failed to create payment intent')
+        }
 
-      // Step 2: Confirm payment with Stripe
-      const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
-        intentData.clientSecret,
-        {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: 'User'
+        // Step 2: Confirm payment with Stripe
+        const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
+          intentData.clientSecret,
+          {
+            payment_method: {
+              card: elements.getElement(CardElement),
+              billing_details: {
+                name: 'User'
+              }
             }
           }
+        )
+
+        if (stripeError) {
+          throw new Error(stripeError.message || 'Payment failed')
         }
-      )
 
-      if (stripeError) {
-        throw new Error(stripeError.message || 'Payment failed')
-      }
+        if (paymentIntent.status === 'succeeded') {
+          // Step 3: Confirm payment on backend with payment type
+          const { data: confirmData } = await axios.post(
+            '/api/bookings/confirm-payment',
+            {
+              bookingId,
+              paymentIntentId: paymentIntent.id,
+              paymentType
+            },
+            { headers: { Authorization: `Bearer ${token}` } }
+          )
 
-      if (paymentIntent.status === 'succeeded') {
-        // Step 3: Confirm payment on backend
+          if (confirmData.success) {
+            toast.success('✅ Payment successful! Booking pending admin confirmation.')
+            onSuccess()
+          } else {
+            throw new Error(confirmData.message || 'Failed to confirm payment')
+          }
+        } else {
+          throw new Error('Payment was not completed. Status: ' + paymentIntent.status)
+        }
+      } else if (paymentType === 'at_pickup') {
+        // If paying at pickup, skip Stripe and just confirm the booking
         const { data: confirmData } = await axios.post(
           '/api/bookings/confirm-payment',
           {
             bookingId,
-            paymentIntentId: paymentIntent.id
+            paymentIntentId: null,
+            paymentType: 'at_pickup'
           },
           { headers: { Authorization: `Bearer ${token}` } }
         )
 
         if (confirmData.success) {
-          toast.success('✅ Payment successful! Booking confirmed.')
+          toast.success('✅ Booking request sent! You will pay when picking up the car.')
           onSuccess()
         } else {
-          throw new Error(confirmData.message || 'Failed to confirm payment')
+          throw new Error(confirmData.message || 'Failed to create booking')
         }
-      } else {
-        throw new Error('Payment was not completed. Status: ' + paymentIntent.status)
       }
     } catch (err) {
       console.error('Payment error:', err)
-      const errorMessage = err.message || 'Payment failed. Please try again.'
+      const errorMessage = err.message || 'Request failed. Please try again.'
       setError(errorMessage)
       toast.error(errorMessage)
     } finally {
@@ -93,7 +136,7 @@ const CheckoutForm = ({ bookingId, amount, onSuccess }) => {
     }
   }
 
-  if (!stripe) {
+  if (!stripeConfigured) {
     return (
       <div className='p-6 rounded-xl text-center' style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
         <AlertCircle size={32} style={{ color: '#ef4444', margin: '0 auto 12px' }} />
@@ -106,70 +149,117 @@ const CheckoutForm = ({ bookingId, amount, onSuccess }) => {
 
   return (
     <form onSubmit={handleSubmit} className='space-y-6'>
-      {/* Card Input */}
-      <div className='rounded-xl p-6'
-        style={{ backgroundColor: 'var(--color-surface)', border: '2px solid var(--color-border)' }}>
-        <label className='text-sm font-semibold block mb-4' style={{ color: 'var(--color-text-primary)' }}>
-          <Lock size={14} style={{ display: 'inline', marginRight: '6px' }} />
-          Card Details
+      {/* Payment Type Selection */}
+      <div className='space-y-3'>
+        <label className='text-sm font-semibold block' style={{ color: 'var(--color-text-primary)' }}>
+          Payment Method
         </label>
-        <CardElement
-          onChange={handleCardChange}
-          options={{
-            style: {
-              base: {
-                fontSize: '16px',
-                color: '#ffffff',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                '::placeholder': {
-                  color: '#6B7280',
-                  fontSize: '15px'
-                }
-              },
-              invalid: {
-                color: '#fa755a',
-              },
-              complete: {
-                color: '#10b981'
-              }
-            },
-            hidePostalCode: false
-          }}
-        />
+        <div className='grid grid-cols-2 gap-3'>
+          <button
+            type='button'
+            onClick={() => setPaymentType('now')}
+            className='p-4 rounded-xl border-2 transition-all duration-200'
+            style={{
+              borderColor: paymentType === 'now' ? 'var(--color-primary)' : 'var(--color-border)',
+              backgroundColor: paymentType === 'now' ? 'rgba(37, 99, 235, 0.1)' : 'var(--color-surface)'
+            }}
+          >
+            <div className='font-semibold text-sm' style={{ color: 'var(--color-text-primary)' }}>
+              💳 Pay Now
+            </div>
+            <div className='text-xs mt-1' style={{ color: 'var(--color-text-secondary)' }}>
+              Complete payment now
+            </div>
+          </button>
+
+          <button
+            type='button'
+            onClick={() => setPaymentType('at_pickup')}
+            className='p-4 rounded-xl border-2 transition-all duration-200'
+            style={{
+              borderColor: paymentType === 'at_pickup' ? 'var(--color-primary)' : 'var(--color-border)',
+              backgroundColor: paymentType === 'at_pickup' ? 'rgba(37, 99, 235, 0.1)' : 'var(--color-surface)'
+            }}
+          >
+            <div className='font-semibold text-sm' style={{ color: 'var(--color-text-primary)' }}>
+              🕐 Pay at Pickup
+            </div>
+            <div className='text-xs mt-1' style={{ color: 'var(--color-text-secondary)' }}>
+              Pay during pickup
+            </div>
+          </button>
+        </div>
       </div>
 
-      {/* Error Message */}
-      {error && (
-        <div className='flex gap-3 p-4 rounded-xl'
-          style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-          <AlertCircle size={20} style={{ color: '#ef4444', flexShrink: 0, marginTop: '2px' }} />
-          <p style={{ color: '#ef4444', fontSize: '13px' }}>{error}</p>
-        </div>
+      {/* Show card form only if paying now */}
+      {paymentType === 'now' && (
+        <>
+          {/* Card Input */}
+          <div className='rounded-xl p-6'
+            style={{ backgroundColor: 'var(--color-surface)', border: '2px solid var(--color-border)' }}>
+            <label className='text-sm font-semibold block mb-4' style={{ color: 'var(--color-text-primary)' }}>
+              <Lock size={14} style={{ display: 'inline', marginRight: '6px' }} />
+              Card Details
+            </label>
+            <CardElement
+              onChange={handleCardChange}
+              options={{
+                style: {
+                  base: {
+                    fontSize: '16px',
+                    color: '#ffffff',
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    '::placeholder': {
+                      color: '#6B7280',
+                      fontSize: '15px'
+                    }
+                  },
+                  invalid: {
+                    color: '#fa755a',
+                  },
+                  complete: {
+                    color: '#10b981'
+                  }
+                },
+                hidePostalCode: false
+              }}
+            />
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className='flex gap-3 p-4 rounded-xl'
+              style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+              <AlertCircle size={20} style={{ color: '#ef4444', flexShrink: 0, marginTop: '2px' }} />
+              <p style={{ color: '#ef4444', fontSize: '13px' }}>{error}</p>
+            </div>
+          )}
+        </>
       )}
 
       {/* Submit Button */}
       <button
         type='submit'
-        disabled={!cardComplete || loading}
+        disabled={paymentType === 'now' && (!cardComplete || loading) || (paymentType === 'at_pickup' && loading)}
         className='w-full py-3 rounded-xl font-semibold text-white text-sm transition-all duration-300'
         style={{
-          background: !cardComplete || loading 
-            ? 'rgba(37, 99, 235, 0.4)' 
+          background: (paymentType === 'now' && !cardComplete) || loading
+            ? 'rgba(37, 99, 235, 0.4)'
             : 'linear-gradient(135deg, #2563EB, #4F46E5)',
-          boxShadow: !cardComplete || loading 
-            ? 'none' 
+          boxShadow: (paymentType === 'now' && !cardComplete) || loading
+            ? 'none'
             : '0 4px 14px rgba(37, 99, 235, 0.35)',
-          cursor: !cardComplete || loading ? 'not-allowed' : 'pointer',
-          opacity: !cardComplete || loading ? 0.6 : 1
+          cursor: (paymentType === 'now' && !cardComplete) || loading ? 'not-allowed' : 'pointer',
+          opacity: (paymentType === 'now' && !cardComplete) || loading ? 0.6 : 1
         }}
         onMouseEnter={e => {
-          if (cardComplete && !loading) {
+          if ((paymentType === 'now' && cardComplete || paymentType === 'at_pickup') && !loading) {
             e.currentTarget.style.boxShadow = '0 6px 20px rgba(37, 99, 235, 0.55)'
             e.currentTarget.style.transform = 'translateY(-2px)'
           }
         }}
         onMouseLeave={e => {
-          if (cardComplete && !loading) {
+          if ((paymentType === 'now' && cardComplete || paymentType === 'at_pickup') && !loading) {
             e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 99, 235, 0.35)'
             e.currentTarget.style.transform = 'translateY(0)'
           }
@@ -178,21 +268,14 @@ const CheckoutForm = ({ bookingId, amount, onSuccess }) => {
         {loading ? (
           <span className='flex items-center justify-center gap-2'>
             <span className='animate-spin'>⏳</span>
-            Processing Payment...
+            Processing...
           </span>
-        ) : cardComplete ? (
-          `Pay ${amount}`
+        ) : paymentType === 'now' ? (
+          cardComplete ? `Pay ${amount}` : 'Enter card details to continue'
         ) : (
-          'Enter card details to continue'
+          `Request Booking - ${amount}`
         )}
       </button>
-
-      {/* Security Info */}
-      <div className='p-3 rounded-lg text-xs flex items-center gap-2'
-        style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
-        <Lock size={14} />
-        Payments are secured by Stripe. Your card details are never stored on our servers.
-      </div>
     </form>
   )
 }
@@ -251,7 +334,7 @@ const StripeCheckout = () => {
   }, [bookingId, token])
 
   const handlePaymentSuccess = () => {
-    toast.success('Redirecting to dashboard...')
+    toast.success('✅ Booking request sent! Waiting for admin confirmation.')
     setTimeout(() => {
       navigate('/dashboard')
     }, 2000)
@@ -314,18 +397,19 @@ const StripeCheckout = () => {
               style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }}>
               <div className='mb-8'>
                 <h1 className='text-3xl font-bold mb-2' style={{ color: 'var(--color-text-primary)' }}>
-                  Complete Your Payment
+                  Secure Your Booking
                 </h1>
                 <p style={{ color: 'var(--color-text-secondary)' }}>
-                  Enter your card details below to confirm your booking securely
+                  Select your payment method. Your booking will be confirmed after admin verification.
                 </p>
               </div>
 
-              <Elements stripe={stripePromise}>
+              <Elements key={stripePublishableKey || 'stripe-not-configured'} stripe={stripePromise}>
                 <CheckoutForm
                   bookingId={bookingId}
                   amount={`${currency}${booking.price}`}
                   onSuccess={handlePaymentSuccess}
+                  stripeConfigured={Boolean(stripePromise)}
                 />
               </Elements>
             </div>
@@ -383,15 +467,6 @@ const StripeCheckout = () => {
                       <span style={{ color: 'var(--color-primary)' }}>{currency}{booking.price}</span>
                     </div>
                   </div>
-                </div>
-
-                {/* Test Card Info */}
-                <div className='p-4 rounded-xl text-xs space-y-2'
-                  style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', color: '#3b82f6' }}>
-                  <p className='font-semibold'>🧪 Test Mode</p>
-                  <p>Card: <strong>4242 4242 4242 4242</strong></p>
-                  <p>Exp: Any future date</p>
-                  <p>CVC: Any 3 digits</p>
                 </div>
               </div>
             </div>

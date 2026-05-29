@@ -35,8 +35,9 @@ const CreateCard = ({ card }) => (
             <div className="flex flex-col">
                 <div className="flex items-center gap-1">
                     <p className="font-medium text-text-primary">{card.name}</p>
-                    <svg className="mt-0.5" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M4.555.72..." fill="#38BDF8" />
+                    <svg className="mt-0.5" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="6" cy="6" r="5" fill="#38BDF8" />
+                        <path d="M3.75 6.15L5.25 7.65L8.45 4.35" stroke="white" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
                 <span className="text-xs text-text-secondary">{card.handle}</span>

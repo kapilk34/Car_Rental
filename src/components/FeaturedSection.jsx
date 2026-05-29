@@ -166,7 +166,7 @@ const FeaturedSection = () => {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 @keyframes float {
                     0%, 100% { transform: translateY(0px) translateX(0px); }
                     25% { transform: translateY(-20px) translateX(10px); }
