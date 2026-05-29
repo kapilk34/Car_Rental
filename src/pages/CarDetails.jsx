@@ -47,7 +47,6 @@ const CarDetails = () => {
       if (data.success) {
         toast.dismiss()
         toast.success('Proceeding to payment')
-        // Navigate to payment page with booking ID
         navigate(`/checkout?bookingId=${data.bookingId}`)
       } else {
         toast.dismiss()
@@ -72,8 +71,6 @@ const CarDetails = () => {
   return (
     <div className='min-h-screen' style={{ backgroundColor: 'var(--color-background)' }}>
       <div className='px-6 md:px-16 lg:px-24 xl:px-32 pt-8 pb-20'>
-
-        {/* Back button */}
         <button
           onClick={() => navigate(-1)}
           className='flex items-center gap-2 mb-8 text-sm font-medium transition-all duration-200 hover:gap-3'
@@ -86,11 +83,8 @@ const CarDetails = () => {
         </button>
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-10'>
-
-          {/* ── LEFT COLUMN ── */}
           <div className='lg:col-span-2 space-y-8'>
 
-            {/* Hero image */}
             <div className='relative rounded-2xl overflow-hidden'
               style={{ border: '1px solid var(--color-border)' }}>
               <img
@@ -99,11 +93,9 @@ const CarDetails = () => {
                 className='w-full object-cover'
                 style={{ maxHeight: '420px' }}
               />
-              {/* gradient overlay */}
               <div className='absolute inset-0 pointer-events-none'
                 style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)' }} />
 
-              {/* Available badge */}
               {(car.isAvailable || car.isAvaliable) && (
                 <span className='absolute top-4 left-4 text-white text-xs px-3 py-1.5 rounded-full font-semibold tracking-wide flex items-center gap-1.5'
                   style={{ background: 'linear-gradient(135deg,#2563EB,#4F46E5)' }}>
@@ -112,7 +104,6 @@ const CarDetails = () => {
                 </span>
               )}
 
-              {/* Wishlist */}
               <button
                 type='button'
                 onClick={() => toggleWishlist(car._id)}
@@ -127,13 +118,11 @@ const CarDetails = () => {
                 <Heart size={18} fill={isWishlisted ? 'currentColor' : 'none'} />
               </button>
 
-              {/* Price overlay */}
               <div className='absolute bottom-4 left-5'>
                 <span className='text-3xl font-bold text-white'>{currency}{car.pricePerDay}</span>
                 <span className='text-sm text-gray-300 ml-1'>/ day</span>
               </div>
 
-              {/* Category + year */}
               <div className='absolute bottom-4 right-5 flex items-center gap-2'>
                 <span className='text-xs px-2.5 py-1 rounded-full font-medium'
                   style={{ backgroundColor: 'rgba(244,162,97,0.15)', color: 'var(--color-accent)', border: '1px solid rgba(244,162,97,0.3)' }}>
@@ -146,7 +135,6 @@ const CarDetails = () => {
               </div>
             </div>
 
-            {/* Title + rating row */}
             <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3'>
               <div>
                 <h1 className='text-3xl font-bold tracking-tight' style={{ color: 'var(--color-text-primary)' }}>
@@ -166,7 +154,6 @@ const CarDetails = () => {
               </div>
             </div>
 
-            {/* Spec cards */}
             <div className='grid grid-cols-2 sm:grid-cols-4 gap-3'>
               {[
                 { icon: <Users size={18} />, label: 'Seats', value: `${car.seating_capacity} People` },
@@ -183,14 +170,12 @@ const CarDetails = () => {
               ))}
             </div>
 
-            {/* Description */}
             <div className='rounded-2xl p-6 space-y-3'
               style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
               <h2 className='text-lg font-semibold' style={{ color: 'var(--color-text-primary)' }}>About this car</h2>
               <p className='text-sm leading-relaxed' style={{ color: 'var(--color-text-secondary)' }}>{car.description}</p>
             </div>
 
-            {/* Features */}
             <div className='rounded-2xl p-6 space-y-4'
               style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
               <h2 className='text-lg font-semibold' style={{ color: 'var(--color-text-primary)' }}>Features & Amenities</h2>
@@ -210,14 +195,12 @@ const CarDetails = () => {
 
           </div>
 
-          {/* ── RIGHT COLUMN — Booking Form ── */}
           <div className='lg:col-span-1'>
             <form
               onSubmit={handleSubmit}
               className='sticky top-20 rounded-2xl overflow-hidden'
               style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
             >
-              {/* Form header */}
               <div className='p-6' style={{ borderBottom: '1px solid var(--color-border)' }}>
                 <div className='flex items-end justify-between'>
                   <div>
@@ -236,7 +219,6 @@ const CarDetails = () => {
               </div>
 
               <div className='p-6 space-y-5'>
-                {/* Pickup date */}
                 <div className='space-y-1.5'>
                   <label className='flex items-center gap-2 text-sm font-medium' style={{ color: 'var(--color-text-secondary)' }}>
                     <CalendarDays size={14} /> Pickup Date
@@ -258,7 +240,6 @@ const CarDetails = () => {
                   />
                 </div>
 
-                {/* Return date */}
                 <div className='space-y-1.5'>
                   <label className='flex items-center gap-2 text-sm font-medium' style={{ color: 'var(--color-text-secondary)' }}>
                     <CalendarDays size={14} /> Return Date
@@ -300,7 +281,6 @@ const CarDetails = () => {
                   </div>
                 )}
 
-                {/* Submit */}
                 <button
                   type='submit'
                   className='w-full py-3 rounded-xl font-semibold text-white text-sm transition-all duration-200'
@@ -314,7 +294,6 @@ const CarDetails = () => {
                   Book Now
                 </button>
 
-                {/* Trust badges */}
                 <div className='grid grid-cols-2 gap-2 pt-1'>
                   {[
                     { icon: <ShieldCheck size={13} />, text: 'Secure booking' },

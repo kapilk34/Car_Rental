@@ -26,7 +26,6 @@ const NewsLetter = () => {
 
     return (
         <div className="relative w-full overflow-hidden py-14 md:py-16 px-4 bg-background">
-            {/* Background decorative elements */}
             <div className="absolute inset-0 opacity-60"
                 style={{ background: "linear-gradient(135deg, rgba(26,86,219,0.08) 0%, rgba(56,189,248,0.04) 100%)" }} />
             <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl"

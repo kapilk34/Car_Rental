@@ -29,7 +29,6 @@ const Field = ({ label, icon: Icon, children }) => (
   </div>
 );
 
-/* ─── Edit Modal ─────────────────────────────────────────────── */
 const EditModal = ({ car, onClose, onSaved }) => {
   const currency = import.meta.env.VITE_CURRENCY || '₹';
   const [newImage, setNewImage] = useState(null);
@@ -80,7 +79,6 @@ const EditModal = ({ car, onClose, onSaved }) => {
         style={{ backgroundColor: 'var(--color-card)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-border rounded-t-2xl"
           style={{ backgroundColor: 'var(--color-card)' }}>
           <div className="flex items-center gap-3">
@@ -100,7 +98,6 @@ const EditModal = ({ car, onClose, onSaved }) => {
 
         <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-6">
 
-          {/* Image Picker */}
           <div>
             <p className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-2 flex items-center gap-1.5">
               <FiCamera size={12} className="text-primary" /> Vehicle Photo
@@ -123,7 +120,6 @@ const EditModal = ({ car, onClose, onSaved }) => {
             </label>
           </div>
 
-          {/* Vehicle Info */}
           <div>
             <p className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-3 pb-2 border-b border-border">
               Vehicle Information
@@ -164,7 +160,6 @@ const EditModal = ({ car, onClose, onSaved }) => {
             </div>
           </div>
 
-          {/* Pricing */}
           <div>
             <p className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-3 pb-2 border-b border-border">
               Pricing
@@ -178,7 +173,6 @@ const EditModal = ({ car, onClose, onSaved }) => {
             </Field>
           </div>
 
-          {/* Description */}
           <div>
             <p className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-3 pb-2 border-b border-border">
               Description
@@ -189,7 +183,6 @@ const EditModal = ({ car, onClose, onSaved }) => {
             </Field>
           </div>
 
-          {/* Actions */}
           <div className="flex justify-end gap-3 pt-1">
             <button type="button" onClick={onClose}
               className="px-5 py-2.5 rounded-xl text-sm font-semibold text-text-secondary border border-border hover:bg-surface hover:text-text-primary transition-all">
@@ -212,16 +205,13 @@ const EditModal = ({ car, onClose, onSaved }) => {
   );
 };
 
-/* ─── Car Card ───────────────────────────────────────────────── */
 const CarCard = ({ car, currency, onEdit, onToggle, onDelete }) => (
   <div className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/40 hover:shadow-lg transition-all duration-300">
 
-    {/* Image */}
     <div className="relative h-44 overflow-hidden bg-surface">
       <img src={car.image} alt={`${car.brand} ${car.model}`}
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
 
-      {/* Status badge */}
       <div className="absolute top-3 left-3">
         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-sm ${
           car.isAvaliable
@@ -233,14 +223,12 @@ const CarCard = ({ car, currency, onEdit, onToggle, onDelete }) => (
         </span>
       </div>
 
-      {/* Price badge */}
       <div className="absolute top-3 right-3">
         <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-black/60 text-white backdrop-blur-sm border border-white/10">
           {currency}{car.pricePerDay}/day
         </span>
       </div>
 
-      {/* Hover action overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4 gap-3">
         <button onClick={() => onEdit(car)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-colors">
@@ -258,7 +246,6 @@ const CarCard = ({ car, currency, onEdit, onToggle, onDelete }) => (
       </div>
     </div>
 
-    {/* Card Body */}
     <div className="p-4">
       <div className="flex items-start justify-between gap-2 mb-3">
         <div>
@@ -267,7 +254,6 @@ const CarCard = ({ car, currency, onEdit, onToggle, onDelete }) => (
         </div>
       </div>
 
-      {/* Specs row */}
       <div className="grid grid-cols-3 gap-2 mb-4">
         {[
           { icon: Users, label: `${car.seating_capacity} Seats` },
@@ -281,14 +267,12 @@ const CarCard = ({ car, currency, onEdit, onToggle, onDelete }) => (
         ))}
       </div>
 
-      {/* Location */}
       <div className="flex items-center gap-1.5 text-xs text-text-secondary">
         <MapPin size={12} className="text-primary shrink-0" />
         <span>{car.location}</span>
       </div>
     </div>
 
-    {/* Card Footer */}
     <div className="px-4 pb-4 flex items-center justify-between gap-2 border-t border-border pt-3">
       <button onClick={() => onEdit(car)}
         className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold text-primary border border-primary/30 hover:bg-primary/10 transition-all">
@@ -308,7 +292,6 @@ const CarCard = ({ car, currency, onEdit, onToggle, onDelete }) => (
   </div>
 );
 
-/* ─── Main Page ──────────────────────────────────────────────── */
 const ManageCars = () => {
   const currency = import.meta.env.VITE_CURRENCY;
   const [cars, setCars] = useState([]);
@@ -358,7 +341,6 @@ const ManageCars = () => {
   return (
     <div className="px-4 pt-10 md:px-10 w-full pb-12">
 
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
         <Title
           title="Manage Cars"
@@ -377,7 +359,6 @@ const ManageCars = () => {
         </div>
       </div>
 
-      {/* Content */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />

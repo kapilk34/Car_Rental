@@ -59,7 +59,6 @@ const MyBookings = () => {
 
         {bookings.map((booking, index)=>(
           <div key={booking._id} className='grid grid-cols-1 md:grid-cols-4 gap-6 p-6 border border-border bg-card rounded-lg mt-5 first:mt-12'>
-            {/* Car Image + Info */}
             <div className='md:col-span-1'>
               <div className='rounded-md overflow-hidden mb-3'>
                 <img src={booking.car?.image} alt=" " className='w-full h-auto aspect-video object-cover'/>
@@ -68,7 +67,6 @@ const MyBookings = () => {
               <p className='text-text-secondary'>{booking.car?.year} . {booking.car?.category} . {booking.car?.location}</p>
             </div>
 
-            {/* Booking Info*/}
             <div className='md:col-span-2'>
               <div className='flex items-center gap-2'>
                 <p className='px-3 py-1.5 bg-surface border border-border rounded text-text-secondary'>Booking #{index+1}</p>
@@ -92,7 +90,6 @@ const MyBookings = () => {
               </div>
             </div>
 
-            {/* Price */}
             <div className='md:col-span-1 flex flex-col justify-between gap-6'>
               <div className='text-sm text-text-secondary text-right'>
                 <p>Total Price</p>

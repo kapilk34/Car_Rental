@@ -76,7 +76,6 @@ const AddCar = () => {
   return (
     <div className="max-w-5xl mx-auto w-full pb-10">
 
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
         <Title title="Add New Vehicle" subTitle="Fill in the details below to list your car for rental." />
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-semibold self-start">
@@ -88,10 +87,8 @@ const AddCar = () => {
       <form onSubmit={onSubmitHandler}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-          {/* ── Left Column ── */}
           <div className="lg:col-span-4 flex flex-col gap-6">
 
-            {/* Image Upload */}
             <div className="bg-card border border-border rounded-lg p-5 shadow">
               <SectionTitle icon={FiCamera} title="Vehicle Photo" />
               <label className="block cursor-pointer">
@@ -126,7 +123,6 @@ const AddCar = () => {
               )}
             </div>
 
-            {/* Pricing & Location */}
             <div className="bg-card border border-border rounded-lg p-5 shadow">
               <SectionTitle icon={DollarSign} title="Pricing & Location" />
               <div className="flex flex-col gap-4">
@@ -152,10 +148,8 @@ const AddCar = () => {
 
           </div>
 
-          {/* ── Right Column ── */}
           <div className="lg:col-span-8 flex flex-col gap-6">
 
-            {/* Vehicle Info */}
             <div className="bg-card border border-border rounded-lg p-5 shadow">
               <SectionTitle icon={Tag} title="Vehicle Information" />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -192,7 +186,6 @@ const AddCar = () => {
               </div>
             </div>
 
-            {/* Specifications */}
             <div className="bg-card border border-border rounded-lg p-5 shadow">
               <SectionTitle icon={Zap} title="Specifications" />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -215,7 +208,6 @@ const AddCar = () => {
               </div>
             </div>
 
-            {/* Description */}
             <div className="bg-card border border-border rounded-lg p-5 shadow">
               <SectionTitle icon={AlignLeft} title="Description" />
               <Field label="Tell renters about this vehicle" icon={AlignLeft}>
@@ -226,7 +218,6 @@ const AddCar = () => {
               </Field>
             </div>
 
-            {/* Submit */}
             <div className="bg-card border border-border rounded-lg p-5 shadow flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-sm text-text-secondary">All fields are required. Your listing goes live immediately.</p>
               <button type="submit" disabled={loading}

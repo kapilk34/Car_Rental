@@ -30,7 +30,6 @@ const CarCard = ({ car }) => {
 
                 <div className='absolute inset-0' style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)' }} />
 
-                {/* Available badge */}
                 {(car.isAvailable || car.isAvaliable) && (
                     <span className='absolute top-3 left-3 text-white text-xs px-3 py-1 rounded-full font-semibold tracking-wide'
                         style={{ background: 'linear-gradient(135deg, #2563EB, #4F46E5)' }}>

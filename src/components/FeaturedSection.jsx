@@ -73,7 +73,6 @@ const FeaturedSection = () => {
             <div className='absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] animate-pulse'
                 style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%)', animationDelay: '1s' }} />
 
-            {/* Floating particles */}
             <div className='absolute inset-0 overflow-hidden pointer-events-none'>
                 {[...Array(30)].map((_, i) => (
                     <div
@@ -123,7 +122,6 @@ const FeaturedSection = () => {
                                         e.currentTarget.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
                                     }}
                                 >
-                                    {/* Cursor spotlight */}
                                     <div
                                         className='pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500'
                                         style={{ background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(26,86,219,0.07), transparent 40%)` }}

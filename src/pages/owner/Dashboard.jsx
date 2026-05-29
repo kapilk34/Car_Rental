@@ -211,7 +211,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Revenue Card */}
             <div className="bg-gradient-to-br from-primary to-indigo-700 rounded-3xl p-8 text-white shadow-lg">
               <p className="text-sm opacity-80">
                 Current Month Revenue

@@ -34,7 +34,6 @@ const Cars = () => {
           subTitles="Browse our selection of premium vehicles available for your next adventure"
         />
 
-        {/* Search Bar */}
         <div className="flex items-center bg-card border border-border px-5 mt-8 max-w-2xl w-full h-14 rounded-full shadow-lg hover:shadow-xl hover:border-primary/40 transition-all duration-300">
           <img src={assets.search_icon} alt="search" className="w-5 h-5 mr-3 opacity-50"/>
           <input

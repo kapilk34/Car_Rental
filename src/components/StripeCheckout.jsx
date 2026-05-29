@@ -26,11 +26,10 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [cardComplete, setCardComplete] = useState(false)
-  const [paymentType, setPaymentType] = useState("now") // "now" or "at_pickup"
+  const [paymentType, setPaymentType] = useState("now")
   const navigate = useNavigate()
   const { axios, token } = useAppContext()
 
-  // Handle card element changes
   const handleCardChange = (event) => {
     setError(event.error ? event.error.message : null)
     setCardComplete(event.complete)
@@ -39,7 +38,6 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Validation based on payment type
     if (paymentType === 'now') {
       if (!stripeConfigured) {
         setError('Stripe is not properly configured. Please check VITE_STRIPE_PUBLISHABLE_KEY.')
@@ -56,9 +54,7 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
     setError(null)
 
     try {
-      // If paying now, process with Stripe
       if (paymentType === 'now') {
-        // Step 1: Create payment intent on backend
         const { data: intentData } = await axios.post(
           '/api/bookings/create-payment-intent',
           { bookingId },
@@ -69,7 +65,6 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
           throw new Error(intentData.message || 'Failed to create payment intent')
         }
 
-        // Step 2: Confirm payment with Stripe
         const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
           intentData.clientSecret,
           {
@@ -87,7 +82,6 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
         }
 
         if (paymentIntent.status === 'succeeded') {
-          // Step 3: Confirm payment on backend with payment type
           const { data: confirmData } = await axios.post(
             '/api/bookings/confirm-payment',
             {
@@ -108,7 +102,6 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
           throw new Error('Payment was not completed. Status: ' + paymentIntent.status)
         }
       } else if (paymentType === 'at_pickup') {
-        // If paying at pickup, skip Stripe and just confirm the booking
         const { data: confirmData } = await axios.post(
           '/api/bookings/confirm-payment',
           {
@@ -149,7 +142,6 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
 
   return (
     <form onSubmit={handleSubmit} className='space-y-6'>
-      {/* Payment Type Selection */}
       <div className='space-y-3'>
         <label className='text-sm font-semibold block' style={{ color: 'var(--color-text-primary)' }}>
           Payment Method
@@ -191,10 +183,8 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
         </div>
       </div>
 
-      {/* Show card form only if paying now */}
       {paymentType === 'now' && (
         <>
-          {/* Card Input */}
           <div className='rounded-xl p-6'
             style={{ backgroundColor: 'var(--color-surface)', border: '2px solid var(--color-border)' }}>
             <label className='text-sm font-semibold block mb-4' style={{ color: 'var(--color-text-primary)' }}>
@@ -226,7 +216,6 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
             />
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className='flex gap-3 p-4 rounded-xl'
               style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
@@ -237,7 +226,6 @@ const CheckoutForm = ({ bookingId, amount, onSuccess, stripeConfigured }) => {
         </>
       )}
 
-      {/* Submit Button */}
       <button
         type='submit'
         disabled={paymentType === 'now' && (!cardComplete || loading) || (paymentType === 'at_pickup' && loading)}
@@ -305,7 +293,6 @@ const StripeCheckout = () => {
           return
         }
 
-        // Get booking details
         const { data } = await axios.get('/api/bookings/user', {
           headers: { Authorization: `Bearer ${token}` }
         })
@@ -378,7 +365,6 @@ const StripeCheckout = () => {
   return (
     <div className='min-h-screen' style={{ backgroundColor: 'var(--color-background)' }}>
       <div className='px-4 sm:px-6 md:px-16 lg:px-24 xl:px-32 pt-8 pb-20'>
-        {/* Back button */}
         <button
           onClick={() => navigate(-1)}
           className='flex items-center gap-2 mb-8 text-sm font-medium transition-all duration-200 hover:gap-3'
@@ -391,7 +377,6 @@ const StripeCheckout = () => {
         </button>
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl'>
-          {/* Payment Form */}
           <div className='lg:col-span-2'>
             <div className='rounded-2xl p-8'
               style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)' }}>
@@ -415,7 +400,6 @@ const StripeCheckout = () => {
             </div>
           </div>
 
-          {/* Booking Summary */}
           <div className='lg:col-span-1'>
             <div className='sticky top-20 rounded-2xl overflow-hidden'
               style={{ backgroundColor: 'var(--color-card)', border: '1px solid var(--color-border)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
@@ -426,7 +410,6 @@ const StripeCheckout = () => {
               </div>
 
               <div className='p-6 space-y-6'>
-                {/* Car Info */}
                 <div>
                   <p className='text-xs font-medium mb-2' style={{ color: 'var(--color-text-secondary)' }}>CAR</p>
                   <p className='text-base font-semibold' style={{ color: 'var(--color-text-primary)' }}>
@@ -434,7 +417,6 @@ const StripeCheckout = () => {
                   </p>
                 </div>
 
-                {/* Dates */}
                 <div className='grid grid-cols-2 gap-4'>
                   <div>
                     <p className='text-xs font-medium mb-2' style={{ color: 'var(--color-text-secondary)' }}>PICKUP</p>
@@ -450,7 +432,6 @@ const StripeCheckout = () => {
                   </div>
                 </div>
 
-                {/* Price Breakdown */}
                 <div className='rounded-xl p-4 space-y-3'
                   style={{ backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
                   <div className='flex justify-between text-sm' style={{ color: 'var(--color-text-secondary)' }}>

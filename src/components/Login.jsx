@@ -167,7 +167,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Submit */}
           <button type="submit"
             className="w-full py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-300 mt-1"
             style={{ background: "linear-gradient(135deg, #2563EB, #4F46E5)", boxShadow: "0 8px 20px rgba(37,99,235,0.35)" }}
