@@ -61,12 +61,12 @@ const Hero = () => {
               </div>
 
               <div className="absolute -bottom-6 left-1/2 w-[calc(100%-24px)] -translate-x-1/2 sm:w-auto">
-                <div className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card/95 px-5 py-4 shadow-xl backdrop-blur">
+                <div className="flex items-center justify-between gap-2 rounded-2xl border border-border bg-card/95 px-5 py-4 shadow-xl backdrop-blur">
                   <div>
                     <p className="text-sm text-text-secondary">Starting From</p>
                     <h3 className="text-2xl font-bold text-primary">₹2,499/day</h3>
                   </div>
-                  <button className="px-5 py-3 text-white font-semibold bg-primary hover:opacity-90 transition-all duration-300 rounded-xl">
+                  <button className="px-3 py-3 text-white font-semibold bg-primary hover:opacity-90 transition-all duration-300 rounded-xl">
                     Book Now
                   </button>
                 </div>
