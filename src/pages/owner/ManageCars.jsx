@@ -228,22 +228,6 @@ const CarCard = ({ car, currency, onEdit, onToggle, onDelete }) => (
           {currency}{car.pricePerDay}/day
         </span>
       </div>
-
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4 gap-3">
-        <button onClick={() => onEdit(car)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-colors">
-          <FiEdit2 size={12} /> Edit
-        </button>
-        <button onClick={() => onToggle(car._id)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 text-white text-xs font-semibold hover:bg-white/20 border border-white/20 transition-colors">
-          {car.isAvaliable ? <FiEyeOff size={12} /> : <FiEye size={12} />}
-          {car.isAvaliable ? 'Hide' : 'Show'}
-        </button>
-        <button onClick={() => onDelete(car._id)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-xs font-semibold hover:bg-red-500/30 border border-red-500/30 transition-colors">
-          <FiTrash2 size={12} /> Delete
-        </button>
-      </div>
     </div>
 
     <div className="p-4">
