@@ -79,7 +79,7 @@ const suggestCars = (message, cars) => {
     filtered = [...filtered].sort((a, b) => b.year - a.year)
   }
 
-  return { cars: filtered.slice(0, 3), exactMatch }
+  return { cars: filtered.slice(0, 10), exactMatch }
 }
 
 
@@ -109,7 +109,7 @@ const getBotReply = (message, cars, currency) => {
 
   if (!exactMatch || suggested.length === 0) {
     const available = cars.filter(c => c.isAvaliable || c.isAvailable)
-    const fallback = [...available].sort((a, b) => a.pricePerDay - b.pricePerDay).slice(0, 3)
+    const fallback = [...available].sort((a, b) => a.pricePerDay - b.pricePerDay).slice(0, 10)
     return {
       text: "Sorry, I couldn't find a car that satisfies your exact need.\n\nHere are some available recommendations for you:",
       cars: fallback
