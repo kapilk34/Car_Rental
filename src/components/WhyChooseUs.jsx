@@ -22,7 +22,7 @@ const WhyChooseUs = () => {
                 style={{ backgroundImage: 'linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
             <div className='relative z-10 max-w-7xl mx-auto'>
-                <div className='flex flex-col items-center text-center mb-16'>
+                <div className='flex flex-col items-center text-center mb-5'>
                     <Title
                         title='Built Around Your Journey'
                         subtitle='We go beyond just renting cars. Every detail is crafted to give you a seamless, premium experience from start to finish.'

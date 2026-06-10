@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Title from "../components/Title";
 import CarCard from "../components/CarCard";
 import { assets } from "../assets/assets";
 import { useAppContext } from '../context/AppContext';
 
 const Cars = () => {
-  const [input, setInput] = useState("");
+  const [searchParams] = useSearchParams();
+  const queryParam = searchParams.get('search') || '';
+  const [input, setInput] = useState(queryParam);
   const { cars, fetchCars } = useAppContext();
   const [filteredCars, setFilteredCars] = useState([]);
 
   useEffect(() => {
     fetchCars();
   }, []);
+
+  useEffect(() => {
+    setInput(queryParam);
+  }, [queryParam]);
 
   useEffect(() => {
     if (input === "") {
