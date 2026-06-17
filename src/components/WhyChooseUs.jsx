@@ -65,7 +65,6 @@ const WhyChooseUs = () => {
                                 transformStyle: 'preserve-3d'
                             }}
                         >
-                            {/* 3D Card */}
                             <div 
                                 className="relative flex flex-col gap-4 p-7 md:p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]/80 backdrop-blur-sm transition-all duration-500 ease-out overflow-hidden"
                                 style={{
@@ -91,7 +90,6 @@ const WhyChooseUs = () => {
                                     card.style.boxShadow = '0 4px 24px -4px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)';
                                 }}
                             >
-                                {/* Shimmer overlay */}
                                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                                     style={{
                                         background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 55%, transparent 60%)',
@@ -109,8 +107,6 @@ const WhyChooseUs = () => {
                                         {description}
                                     </p>
                                 </div>
-
-                                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-primary)]/0 via-[var(--color-primary)]/40 to-[var(--color-primary)]/0 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-b-2xl" />
                             </div>
                         </div>
                     ))}
