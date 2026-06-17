@@ -77,11 +77,6 @@ const StepCard = ({ step, idx, isVisible }) => {
 
                     <h3 className="text-lg font-bold text-text-primary mb-2">{step.title}</h3>
                     <p className="text-text-secondary text-sm leading-relaxed flex-1">{step.description}</p>
-
-                    <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{ color: step.gradientFrom }}>
-                        Get started <ArrowRight size={12} />
-                    </div>
                 </div>
             </div>
         </div>
