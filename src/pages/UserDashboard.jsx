@@ -136,7 +136,7 @@ const UserDashboard = () => {
             ) : bookings.length === 0 ? (
               <div className="py-16 text-center text-text-secondary">No bookings yet.</div>
             ) : (
-              <div className="space-y-4">
+              <div className={`space-y-4 ${bookings.length > 2 ? "max-h-[290px] overflow-y-auto pr-2" : ""}`}>
                 {bookings.map((booking) => (
                   <div key={booking._id} className="flex flex-col sm:flex-row sm:items-center gap-4 border border-border bg-surface rounded-lg p-4">
                     <img src={booking.car?.image} alt="" className="h-24 sm:h-20 sm:w-28 rounded-md object-cover border border-border" />
@@ -184,7 +184,7 @@ const UserDashboard = () => {
             {wishlistCars.length === 0 ? (
               <div className="py-14 text-center text-text-secondary">Your wishlist is empty.</div>
             ) : (
-              <div className="space-y-4">
+              <div className={`space-y-4 ${wishlistCars.length > 2 ? "max-h-[290px] overflow-y-auto pr-2" : ""}`}>
                 {wishlistCars.slice(0, 3).map((car) => (
                   <div key={car._id} className="border border-border bg-surface rounded-lg overflow-hidden">
                     <img src={car.image} alt="" className="h-36 w-full object-cover" />

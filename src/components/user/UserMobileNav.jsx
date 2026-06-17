@@ -18,7 +18,7 @@ const UserMobileNav = () => {
     <div className="md:hidden sticky top-0 z-40 border-b border-border bg-surface px-4 py-3 text-text-primary">
       <div className="flex items-center justify-between gap-3">
         <p className="text-lg font-bold text-text-primary">
-          Drive<span className="text-primary">Sphere</span>
+          Drive<span className="text-orange-300">Sphere</span>
         </p>
         <button
           onClick={logout}

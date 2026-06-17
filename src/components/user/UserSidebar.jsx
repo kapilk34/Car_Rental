@@ -2,7 +2,6 @@ import React from 'react';
 import { CalendarDays, Car, Heart, Home, LayoutDashboard, LogOut } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
-import { assets } from '../../assets/assets';
 
 const userLinks = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, end: true },
@@ -13,7 +12,7 @@ const userLinks = [
 ];
 
 const UserSidebar = () => {
-  const { user, logout } = useAppContext();
+  const { logout } = useAppContext();
   const navigate = useNavigate();
 
   return (
@@ -22,23 +21,11 @@ const UserSidebar = () => {
         <img src="https://gvu57hqxi3.ufs.sh/f/FOd38ztMu1UwdyMcIgZp70jYMIdGQuW8qnyl5fzmKCVhtATS" alt="DriveSphere" className="h-10 w-10" />
         <div>
           <p className="text-lg font-bold text-text-primary">
-            Drive<span className="text-primary">Sphere</span>
+            Drive<span className="text-orange-300">Sphere</span>
           </p>
           <p className="text-xs text-text-secondary">User dashboard</p>
         </div>
       </button>
-
-      <div className="mt-8 flex items-center gap-3 rounded-lg border border-border bg-card p-3">
-        <img
-          src={user?.image || assets.user_profile}
-          alt=""
-          className="h-11 w-11 rounded-full object-cover border border-border"
-        />
-        <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-text-primary">{user?.name || 'User'}</p>
-          <p className="truncate text-xs text-text-secondary">{user?.email}</p>
-        </div>
-      </div>
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">
         {userLinks.map(({ name, path, icon: Icon, end }) => (
