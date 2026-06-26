@@ -21,7 +21,7 @@ export const BookingSocketProvider = ({ children }) => {
     const [adminBookings, setAdminBookings] = useState([]);
 
     useEffect(() => {
-    const socketUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000';
+    const socketUrl = import.meta.env.VITE_SERVER_URL || 'https://car-rental-backend-vq0h.onrender.com';
         
         const newSocket = io(socketUrl, {
             reconnection: true,
