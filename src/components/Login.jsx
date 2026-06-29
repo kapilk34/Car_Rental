@@ -45,7 +45,7 @@ const Login = () => {
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Server error, please try again."
+        "Server error, please try again."
       );
     } finally {
       setLoading(false);
@@ -57,7 +57,7 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      
+
       const payload = {
         name: user.displayName,
         email: user.email,
@@ -65,7 +65,7 @@ const Login = () => {
       };
 
       const { data } = await axios.post('/api/user/google-auth', payload);
-      
+
       if (data.success) {
         axios.defaults.headers.common["Authorization"] = data.token;
         localStorage.setItem("token", data.token);
@@ -107,7 +107,7 @@ const Login = () => {
             <X size={18} />
           </button>
           <h2 className="text-xl font-bold text-white">
-            {state === "login" ? "Welcome Back 👋" : "Create Account"}
+            {state === "login" ? "Welcome Back" : "Create Account"}
           </h2>
           <p className="text-xs mt-1" style={{ color: "#B3B3B3" }}>
             {state === "login" ? "Login to continue your journey" : "Sign up and get started today"}
@@ -141,10 +141,14 @@ const Login = () => {
               onBlur={e => { e.currentTarget.style.borderColor = "#2F2F2F"; }}
             >
               <Mail size={15} style={{ color: "#B3B3B3" }} />
-              <input type="email" placeholder="you@email.com" value={email}
+              <input
+                type="email"
+                placeholder="you@email.com"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full ml-2.5 outline-none bg-transparent text-sm text-white placeholder-[#B3B3B3]"
-                required />
+                className="w-full ml-2.5 bg-transparent text-sm text-white placeholder-[#B3B3B3] border-none outline-none focus:outline-none focus:ring-0 focus:border-none shadow-none"
+                required
+              />
             </div>
           </div>
 
@@ -152,9 +156,7 @@ const Login = () => {
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-medium text-white">Password</label>
               {state === "login" && (
-                <button type="button" className="text-xs font-medium transition" style={{ color: "#F4A261" }}>
-                  Forgot password?
-                </button>
+                <button type="button" className="text-xs font-medium transition" style={{ color: "#F4A261" }}></button>
               )}
             </div>
             <div className="flex items-center border rounded-xl px-3 py-2.5 transition-all"
@@ -163,10 +165,14 @@ const Login = () => {
               onBlur={e => { e.currentTarget.style.borderColor = "#2F2F2F"; }}
             >
               <Lock size={15} style={{ color: "#B3B3B3" }} />
-              <input type={showPassword ? "text" : "password"} placeholder="••••••••" value={password}
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full ml-2.5 outline-none bg-transparent text-sm text-white placeholder-[#B3B3B3]"
-                required />
+                className="w-full ml-2.5 bg-transparent text-sm text-white placeholder-[#B3B3B3] appearance-none border-none outline-none focus:outline-none focus:ring-0 focus:border-none shadow-none"
+                required
+              />
               <button type="button" onClick={() => setShowPassword(p => !p)} className="ml-2 shrink-0" style={{ color: "#B3B3B3" }}>
                 {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
               </button>
