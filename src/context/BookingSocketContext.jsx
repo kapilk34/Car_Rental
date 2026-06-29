@@ -22,6 +22,7 @@ export const BookingSocketProvider = ({ children }) => {
 
     useEffect(() => {
     const socketUrl = import.meta.env.VITE_SERVER_URL || 'https://car-rental-backend-vq0h.onrender.com';
+    // const socketUrl = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000';
         
         const newSocket = io(socketUrl, {
             reconnection: true,

@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL || "https://car-rental-backend-vq0h.onrender.com";
+// axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
 
 export const AppContext = createContext();
 
@@ -20,6 +21,52 @@ export const AppProvider = ({ children }) => {
   const [returnDate, setReturnDate] = useState('');
   const [cars, setCars] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+
+  const [loginLoading, setLoginLoading] = useState(false);
+
+  const login = async (email, password) => {
+    setLoginLoading(true);
+    try {
+      const { data } = await axios.post('api/user/login', { email, password });
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+        setUser(data.user);
+        setIsOwner(data.user.role === 'owner');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+        toast.success('Login successful');
+        setShowLogin(false);
+      } else {
+        toast.error(data.message || 'Login failed');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message || 'Login failed');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const register = async (name, email, password, role = 'user') => {
+    setLoginLoading(true);
+    try {
+      const { data } = await axios.post('api/user/register', { name, email, password, role });
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+        setUser(data.user);
+        setIsOwner(data.user.role === 'owner');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+        toast.success('Registration successful');
+        setShowLogin(false);
+      } else {
+        toast.error(data.message || 'Registration failed');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message || 'Registration failed');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
 
   const fetchUser = async () => {
     setIsLoading(true);
@@ -138,6 +185,9 @@ export const AppProvider = ({ children }) => {
     setPickUpDate,
     returnDate,
     setReturnDate,
+    login,
+    register,
+    loginLoading,
   };
 
   return (
