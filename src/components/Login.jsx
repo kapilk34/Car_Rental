@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
-import { X, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { X, Mail, Lock, User, Eye, EyeOff, Loader2 } from "lucide-react";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 
@@ -13,11 +13,12 @@ const Login = () => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-
   const [showPassword, setShowPassword] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
       const payload =
@@ -46,10 +47,13 @@ const Login = () => {
         error.response?.data?.message ||
           "Server error, please try again."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    setLoading(true);
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
@@ -76,6 +80,8 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       toast.error(error.message || "Failed to login with Google");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -168,12 +174,20 @@ const Login = () => {
           </div>
 
           <button type="submit"
-            className="w-full py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-300 mt-1"
+            disabled={loading}
+            className="w-full py-2.5 rounded-xl text-white font-semibold text-sm transition-all duration-300 mt-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             style={{ background: "linear-gradient(135deg, #2563EB, #4F46E5)", boxShadow: "0 8px 20px rgba(37,99,235,0.35)" }}
             onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
             onMouseLeave={e => e.currentTarget.style.opacity = "1"}
           >
-            {state === "register" ? "Create Account" : "Login"}
+            {loading ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                {state === "register" ? "Creating Account..." : "Logging in..."}
+              </>
+            ) : (
+              state === "register" ? "Create Account" : "Login"
+            )}
           </button>
 
           <div className="flex items-center gap-3">
@@ -183,13 +197,14 @@ const Login = () => {
           </div>
 
           <button type="button" onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-2.5 border py-2.5 rounded-xl transition-all duration-300 text-sm font-medium text-white"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2.5 border py-2.5 rounded-xl transition-all duration-300 text-sm font-medium text-white disabled:opacity-70 disabled:cursor-not-allowed"
             style={{ borderColor: "#2F2F2F", backgroundColor: "#242424" }}
             onMouseEnter={e => e.currentTarget.style.backgroundColor = "#2F2F2F"}
             onMouseLeave={e => e.currentTarget.style.backgroundColor = "#242424"}
           >
             <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="google" className="w-4 h-4" />
-            Continue with Google
+            {loading ? "Please wait..." : "Continue with Google"}
           </button>
 
           <p className="text-center text-xs" style={{ color: "#B3B3B3" }}>
